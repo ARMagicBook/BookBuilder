@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DamienG.Security.Cryptography;
+using System.IO;
 
 namespace BookBuilder
 {
@@ -11,7 +10,7 @@ namespace BookBuilder
     {
 		private int pageNumber;
 
-		private string pageImageName;
+		private string pageImageFileName;
 		private string videoFileName;
 		private string audioFileName;
 		private int videoWidth;
@@ -21,7 +20,8 @@ namespace BookBuilder
 
 //For now we will pass this in with input.  When Ryan finished the CRC hash we will use that to generate these values.
 		private string videoCRC;
-		private string audioCRC; 
+		private string audioCRC;
+        private string imageCRC;
 
 		public int PageNumber
 		{
@@ -36,16 +36,16 @@ namespace BookBuilder
 			}
 		}
 
-		public string PageImageName
+		public string PageImageFileName
 		{
 			get
 			{
-				return pageImageName;
+				return pageImageFileName;
 			}
 
 			set
 			{
-				pageImageName = value;
+				pageImageFileName = value;
 			}
 		}
 
@@ -152,143 +152,175 @@ namespace BookBuilder
 			}
 		}
 
+        public string ImageCRC
+        {
+            get
+            {
+                return imageCRC;
+            }
+
+            set
+            {
+                imageCRC = value;
+            }
+        }
+
+        //Tries to open a file and returns its CRC32 hash value.
+        //See this: https://damieng.com/blog/2006/08/08/calculating_crc32_in_c_and_net
+        public static string getCRC32(String filename)
+        {
+            Crc32 crc32 = new Crc32();
+            String hash = "";
+            //Open the file, compute the hash
+            using (FileStream fs = File.Open(filename, FileMode.Open))
+            {
+                foreach (byte b in crc32.ComputeHash(fs))
+                {
+                    hash += b.ToString("x2").ToLower();
+                }
+            }
+            return hash;
+        }
     }
 
     //Book for the bookbuilder
     //Prefix so there's no confusion with the ARMB Book class.
     class BB_Book
     {
-		private List<BB_Page> pages;
-		private String title;
-		private List<String> authors;
-		private String creationDate;
-		private String description;
+        private List<BB_Page> pages;
+        private String title;
+        private List<String> authors;
+        private String creationDate;
+        private String description;
 
         //filename of the button_image
-		private String buttonImageName;
-		private String fileVersion;
+        private String buttonImageName;
+        private String fileVersion;
 
-		public BB_Book(){
-			pages = new List<BB_Page>();
-			authors = new List<String>();
-		}
+        public BB_Book() {
+            pages = new List<BB_Page>();
+            authors = new List<String>();
+        }
 
-		public List<BB_Page> Pages
-		{
-			get
-			{
-				return pages;
-			}
+        public List<BB_Page> Pages
+        {
+            get
+            {
+                return pages;
+            }
 
-			set
-			{
-				pages = value;
-			}
-		}
+            set
+            {
+                pages = value;
+            }
+        }
 
-		public string Title
-		{
-			get
-			{
-				return title;
-			}
+        public string Title
+        {
+            get
+            {
+                return title;
+            }
 
-			set
-			{
-				title = value;
-			}
-		}
+            set
+            {
+                title = value;
+            }
+        }
 
-		public List<string> Authors
-		{
-			get
-			{
-				return authors;
-			}
+        public List<string> Authors
+        {
+            get
+            {
+                return authors;
+            }
 
-			set
-			{
-				authors = value;
-			}
-		}
+            set
+            {
+                authors = value;
+            }
+        }
 
-		public string CreationDate
-		{
-			get
-			{
-				return creationDate;
-			}
+        public string CreationDate
+        {
+            get
+            {
+                return creationDate;
+            }
 
-			set
-			{
-				creationDate = value;
-			}
-		}
+            set
+            {
+                creationDate = value;
+            }
+        }
 
-		public string Description
-		{
-			get
-			{
-				return description;
-			}
+        public string Description
+        {
+            get
+            {
+                return description;
+            }
 
-			set
-			{
-				description = value;
-			}
-		}
+            set
+            {
+                description = value;
+            }
+        }
 
-		public string ButtonImageName
-		{
-			get
-			{
-				return buttonImageName;
-			}
+        public string ButtonImageName
+        {
+            get
+            {
+                return buttonImageName;
+            }
 
-			set
-			{
-				buttonImageName = value;
-			}
-		}
+            set
+            {
+                buttonImageName = value;
+            }
+        }
 
-		public string FileVersion
-		{
-			get
-			{
-				return fileVersion;
-			}
+        public string FileVersion
+        {
+            get
+            {
+                return fileVersion;
+            }
 
-			set
-			{
-				fileVersion = value;
-			}
-		}
+            set
+            {
+                fileVersion = value;
+            }
+        }
 
-		public override string ToString() {
-			string bookString = "";
-			bookString += "Title: " + Title + "\n";
+        public override string ToString() {
+            string bookString = "";
+            bookString += "Title: " + Title + "\n";
 
-			foreach (string author in authors) {
-				bookString += "Author: " + author + "\n";
-			}
+            foreach (string author in authors) {
+                bookString += "Author: " + author + "\n";
+            }
 
-			foreach (BB_Page page in pages) {
-				bookString += "Page Num: " + page.PageNumber + "\n";
-				bookString += "Page Image: " + page.PageImageName + "\n";
-				if (page.AudioFileName != null){
-					bookString += "Page Audio File " + page.AudioFileName + "\n";
-				}
-				if (page.VideoFileName != null){
-					bookString += "Page Video File " + page.VideoFileName + "\n";
-					bookString += "Page Video width " + page.VideoWidth + "\n";
-					bookString += "Page Video height " + page.VideoHeight + "\n";
-					bookString += "Page Video xcoord " + page.VideoX + "\n";
-					bookString += "Page Video ycoord " + page.VideoY + "\n";
-				}
-			}
+            foreach (BB_Page page in pages) {
+                bookString += "Page Num: " + page.PageNumber + "\n";
+                bookString += "Page Image: " + page.PageImageFileName + "\n";
+                if (page.AudioFileName != null) {
+                    bookString += "Page Audio File " + page.AudioFileName + "\n";
+                }
+                if (page.VideoFileName != null) {
+                    bookString += "Page Video File " + page.VideoFileName + "\n";
+                    bookString += "Page Video width " + page.VideoWidth + "\n";
+                    bookString += "Page Video height " + page.VideoHeight + "\n";
+                    bookString += "Page Video xcoord " + page.VideoX + "\n";
+                    bookString += "Page Video ycoord " + page.VideoY + "\n";
+                }
+            }
 
-			return bookString;
-		}
+            return bookString;
+        }
+        
+
+
     }
 
     class XMLGenerator
@@ -350,17 +382,47 @@ namespace BookBuilder
 					case "page":
 						page.PageNumber = pageNum;
 						pageNum++;
-						page.PageImageName = splitLine[1];
-						break;
+						page.PageImageFileName = splitLine[1];
+
+                        //Open file and set CRC. If file can't be opened, CRC is set to "".
+                        try
+                        {
+                            page.ImageCRC = BB_Page.getCRC32(splitLine[1]);
+                        }
+                        catch (System.IO.IOException e)
+                        {
+                            Console.WriteLine(e.Message);
+                            page.ImageCRC = "";
+                        }
+
+                        break;
 					case "audio_file":
 						page.AudioFileName = splitLine[1];
-						break;
+                        try
+                        {
+                            page.AudioCRC = BB_Page.getCRC32(splitLine[1]);
+                        }
+                        catch (System.IO.IOException e)
+                        {
+                            Console.WriteLine(e.Message);
+                            page.AudioCRC = "";
+                        }
+                        break;
 					case "crc-32_checksum_audio":
 						page.AudioCRC = splitLine[1];
 						break;
 					case "video_file":
 						page.VideoFileName = splitLine[1];
-						break;
+                        try
+                        {
+                            page.VideoCRC = BB_Page.getCRC32(splitLine[1]);
+                        }
+                        catch (System.IO.IOException e)
+                        {
+                            Console.WriteLine(e.Message);
+                            page.VideoCRC = "";
+                        }
+                        break;
 					case "crc-32_checksum_video":
 						page.VideoCRC = splitLine[1];
 						break;
@@ -408,7 +470,7 @@ namespace BookBuilder
 
 			foreach (BB_Page currentPage in book.Pages) {
 				outFile.WriteLine(tabs(2) + "<page num=\"" + currentPage.PageNumber + "\">");
-				outFile.WriteLine(tabs(3) + "<page_image>" + currentPage.PageImageName + "</page_image>");
+				outFile.WriteLine(tabs(3) + "<page_image>" + currentPage.PageImageFileName + "</page_image>");
 				if (currentPage.AudioFileName != null) {
 					outFile.WriteLine(tabs(3) + "<audio>");
 					outFile.WriteLine(tabs(4) + "<audio_file>" + currentPage.AudioFileName + "</audio_file>");
@@ -462,10 +524,11 @@ namespace BookBuilder
 
         static void Main(string[] args)
         {
-			XMLGenerator xmlGenerator = new XMLGenerator();
+            XMLGenerator xmlGenerator = new XMLGenerator();
 			xmlGenerator.parseInput();
 			xmlGenerator.generateXML();
 			Console.WriteLine(xmlGenerator.book);
+            
         }
     }
 }

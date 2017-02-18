@@ -14,14 +14,14 @@
 			<page_image>images/page01.png</page_image>
 			<audio>
 				<audio_file>audio/page01.mp3</audio_file>
-				<crc-32_checksum>07ea7d14</crc-32_checksum>
+				<crc-32_checksum></crc-32_checksum>
 			</audio>
 		</page>
 		<page num="2">
 			<page_image>image/page02.png</page_image>
 			<video>
 				<video_file>video/page02.mp4</video_file>
-				<crc-32_checksum>d174aab4</crc-32_checksum>
+				<crc-32_checksum></crc-32_checksum>
 				<size>
 					<width>400</width>
 					<height>300</height>
@@ -36,11 +36,11 @@
 			<page_image>images/page03.png</page_image>
 			<audio>
 				<audio_file>audio/page03.mp3</audio_file>
-				<crc-32_checksum>1234abcd</crc-32_checksum>
+				<crc-32_checksum></crc-32_checksum>
 			</audio>
 			<video>
 				<video_file>video/page03.mp4</video_file>
-				<crc-32_checksum>deadbeef</crc-32_checksum>
+				<crc-32_checksum></crc-32_checksum>
 				<size>
 					<width>500</width>
 					<height>350</height>
