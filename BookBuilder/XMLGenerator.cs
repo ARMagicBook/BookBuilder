@@ -8,163 +8,32 @@ namespace BookBuilder
 
     class BB_Page
     {
-		private int pageNumber;
+		public int PageNumber { get; set; }
 
-		private string pageImageFileName;
-		private string videoFileName;
-		private string audioFileName;
-		private int videoWidth;
-		private int videoHeight;
-		private int videoX;//x coord of video
-		private int videoY;//y coord of video
+		public string PageImageFileName { get; set; }
 
-//For now we will pass this in with input.  When Ryan finished the CRC hash we will use that to generate these values.
-		private string videoCRC;
-		private string audioCRC;
-        private string imageCRC;
+        public string VideoFileName { get; set; }
 
-		public int PageNumber
-		{
-			get
-			{
-				return pageNumber;
-			}
+        public string AudioFileName { get; set; }
 
-			set
-			{
-				pageNumber = value;
-			}
-		}
+        public int VideoWidth { get; set; }
 
-		public string PageImageFileName
-		{
-			get
-			{
-				return pageImageFileName;
-			}
+        public int VideoHeight { get; set; }
 
-			set
-			{
-				pageImageFileName = value;
-			}
-		}
+        //x coord of video
+        public int VideoX { get; set; }
 
-		public string VideoFileName
-		{
-			get
-			{
-				return videoFileName;
-			}
+        //y coord of video
+        public int VideoY { get; set; }
 
-			set
-			{
-				videoFileName = value;
-			}
-		}
+        // For now we will pass this in with input.  When Ryan finished the CRC hash we will use that
+        // to generate these values.
+        public string VideoCRC { get; set; }
 
-		public string AudioFileName
-		{
-			get
-			{
-				return audioFileName;
-			}
+        public string AudioCRC { get; set; }
 
-			set
-			{
-				audioFileName = value;
-			}
-		}
-
-		public int VideoWidth
-		{
-			get
-			{
-				return videoWidth;
-			}
-
-			set
-			{
-				videoWidth = value;
-			}
-		}
-
-		public int VideoHeight
-		{
-			get
-			{
-				return videoHeight;
-			}
-
-			set
-			{
-				videoHeight = value;
-			}
-		}
-
-		public int VideoX
-		{
-			get
-			{
-				return videoX;
-			}
-
-			set
-			{
-				videoX = value;
-			}
-		}
-
-		public int VideoY
-		{
-			get
-			{
-				return videoY;
-			}
-
-			set
-			{
-				videoY = value;
-			}
-		}
-		public string VideoCRC
-		{
-			get
-			{
-				return videoCRC;
-			}
-
-			set
-			{
-				videoCRC = value;
-			}
-		}
-
-		public string AudioCRC
-		{
-			get
-			{
-				return audioCRC;
-			}
-
-			set
-			{
-				audioCRC = value;
-			}
-		}
-
-        public string ImageCRC
-        {
-            get
-            {
-                return imageCRC;
-            }
-
-            set
-            {
-                imageCRC = value;
-            }
-        }
-
+        public string ImageCRC { get; set; }
+        
         //Tries to open a file and returns its CRC32 hash value.
         //See this: https://damieng.com/blog/2006/08/08/calculating_crc32_in_c_and_net
         public static string getCRC32(String filename)
@@ -187,121 +56,30 @@ namespace BookBuilder
     //Prefix so there's no confusion with the ARMB Book class.
     class BB_Book
     {
-        private List<BB_Page> pages;
-        private String title;
-        private List<String> authors;
-        private String creationDate;
-        private String description;
+        public List<BB_Page> Pages { get; } = new List<BB_Page>();
+
+        public List<string> Authors { get; } = new List<string>();
+
+        public string Title { get; set; }
+
+        public string CreationDate { get; set; }
+
+        public string Description { get; set; }
 
         //filename of the button_image
-        private String buttonImageName;
-        private String fileVersion;
+        public string ButtonImageName { get; set; }
 
-        public BB_Book() {
-            pages = new List<BB_Page>();
-            authors = new List<String>();
-        }
-
-        public List<BB_Page> Pages
-        {
-            get
-            {
-                return pages;
-            }
-
-            set
-            {
-                pages = value;
-            }
-        }
-
-        public string Title
-        {
-            get
-            {
-                return title;
-            }
-
-            set
-            {
-                title = value;
-            }
-        }
-
-        public List<string> Authors
-        {
-            get
-            {
-                return authors;
-            }
-
-            set
-            {
-                authors = value;
-            }
-        }
-
-        public string CreationDate
-        {
-            get
-            {
-                return creationDate;
-            }
-
-            set
-            {
-                creationDate = value;
-            }
-        }
-
-        public string Description
-        {
-            get
-            {
-                return description;
-            }
-
-            set
-            {
-                description = value;
-            }
-        }
-
-        public string ButtonImageName
-        {
-            get
-            {
-                return buttonImageName;
-            }
-
-            set
-            {
-                buttonImageName = value;
-            }
-        }
-
-        public string FileVersion
-        {
-            get
-            {
-                return fileVersion;
-            }
-
-            set
-            {
-                fileVersion = value;
-            }
-        }
+        public string FileVersion { get; set; }
 
         public override string ToString() {
             string bookString = "";
             bookString += "Title: " + Title + "\n";
 
-            foreach (string author in authors) {
+            foreach (string author in Authors) {
                 bookString += "Author: " + author + "\n";
             }
 
-            foreach (BB_Page page in pages) {
+            foreach (BB_Page page in Pages) {
                 bookString += "Page Num: " + page.PageNumber + "\n";
                 bookString += "Page Image: " + page.PageImageFileName + "\n";
                 if (page.AudioFileName != null) {
@@ -361,7 +139,7 @@ namespace BookBuilder
 						book.Title = splitLine[1];
 						break;
 					case "author":
-						//Authors are seperated by commas
+						//Authors are separated by commas
 						string[] authors = splitLine[1].Split(',');
 						foreach (string author in authors) {
 							book.Authors.Add(author);
