@@ -250,3 +250,6 @@ ModelManifest.xml
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Omit the output file
+config.xml
