@@ -235,69 +235,68 @@ namespace BookBuilder
 			//Leaving version and encoding hardcoded for now
 			outFile.WriteLine("<? version=\"1.0\" encoding=\"UTF-8\"?>");
 			outFile.WriteLine("<book file_version = \"" + book.FileVersion + "\">");
-			outFile.WriteLine(tabs(1) + "<title> " + book.Title + "</title>");
+			outFile.WriteLine(Tabs(1) + "<title> " + book.Title + "</title>");
 
 			foreach (string author in book.Authors){
-				outFile.WriteLine(tabs(1) + "<author>" + author + "</author>");
+				outFile.WriteLine(Tabs(1) + "<author>" + author + "</author>");
 			}
 
-			outFile.WriteLine(tabs(1) + "<creation_date>" + book.CreationDate + "</creation_date>");
-			outFile.WriteLine(tabs(1) + "<description>" + book.Description + "</description>");
-			outFile.WriteLine(tabs(1) + "<button_image>" + book.ButtonImageName + "</button_image>");
-			outFile.WriteLine(tabs(1) + "<pages>");
+			outFile.WriteLine(Tabs(1) + "<creation_date>" + book.CreationDate + "</creation_date>");
+			outFile.WriteLine(Tabs(1) + "<description>" + book.Description + "</description>");
+			outFile.WriteLine(Tabs(1) + "<button_image>" + book.ButtonImageName + "</button_image>");
+			outFile.WriteLine(Tabs(1) + "<pages>");
 
 			foreach (BB_Page currentPage in book.Pages) {
-				outFile.WriteLine(tabs(2) + "<page num=\"" + currentPage.PageNumber + "\">");
-				outFile.WriteLine(tabs(3) + "<page_image>" + currentPage.PageImageFileName + "</page_image>");
+				outFile.WriteLine(Tabs(2) + "<page num=\"" + currentPage.PageNumber + "\">");
+				outFile.WriteLine(Tabs(3) + "<page_image>" + currentPage.PageImageFileName + "</page_image>");
 				if (currentPage.AudioFileName != null) {
-					outFile.WriteLine(tabs(3) + "<audio>");
-					outFile.WriteLine(tabs(4) + "<audio_file>" + currentPage.AudioFileName + "</audio_file>");
-					outFile.WriteLine(tabs(4) + "<crc-32_checksum>" + currentPage.AudioCRC + "</crc-32_checksum>");
-					outFile.WriteLine(tabs(3) + "</audio>");
+					outFile.WriteLine(Tabs(3) + "<audio>");
+					outFile.WriteLine(Tabs(4) + "<audio_file>" + currentPage.AudioFileName + "</audio_file>");
+					outFile.WriteLine(Tabs(4) + "<crc-32_checksum>" + currentPage.AudioCRC + "</crc-32_checksum>");
+					outFile.WriteLine(Tabs(3) + "</audio>");
 				}
 				if (currentPage.VideoFileName != null) {
-					outFile.WriteLine(tabs(3) + "<video>");
-					outFile.WriteLine(tabs(4) + "<video_file>" + currentPage.VideoFileName + "</video_file>");
-					outFile.WriteLine(tabs(4) + "<crc-32_checksum>" + currentPage.VideoCRC + "</crc-32_checksum>");
+					outFile.WriteLine(Tabs(3) + "<video>");
+					outFile.WriteLine(Tabs(4) + "<video_file>" + currentPage.VideoFileName + "</video_file>");
+					outFile.WriteLine(Tabs(4) + "<crc-32_checksum>" + currentPage.VideoCRC + "</crc-32_checksum>");
 
-					outFile.WriteLine(tabs(4) + "<size>");
-					outFile.WriteLine(tabs(5) + "<width>" + currentPage.VideoWidth + "</width>");
-					outFile.WriteLine(tabs(5) + "<height>" + currentPage.VideoHeight + "</height>");
-					outFile.WriteLine(tabs(4) + "</size>");
+					outFile.WriteLine(Tabs(4) + "<size>");
+					outFile.WriteLine(Tabs(5) + "<width>" + currentPage.VideoWidth + "</width>");
+					outFile.WriteLine(Tabs(5) + "<height>" + currentPage.VideoHeight + "</height>");
+					outFile.WriteLine(Tabs(4) + "</size>");
 
-					outFile.WriteLine(tabs(4) + "<coord>");
-					outFile.WriteLine(tabs(5) + "<x>" + currentPage.VideoX + "</x>");
-					outFile.WriteLine(tabs(5) + "<y>" + currentPage.VideoY + "</y>");
-					outFile.WriteLine(tabs(4) + "</coord>");
+					outFile.WriteLine(Tabs(4) + "<coord>");
+					outFile.WriteLine(Tabs(5) + "<x>" + currentPage.VideoX + "</x>");
+					outFile.WriteLine(Tabs(5) + "<y>" + currentPage.VideoY + "</y>");
+					outFile.WriteLine(Tabs(4) + "</coord>");
 
-					outFile.WriteLine(tabs(3) + "</video>");
+					outFile.WriteLine(Tabs(3) + "</video>");
 				}
-				outFile.WriteLine(tabs(2) + "</page>");
+				outFile.WriteLine(Tabs(2) + "</page>");
 			}
 
 			//Done writing individual pages - close page tag
-			outFile.WriteLine(tabs(1) + "</pages>");
+			outFile.WriteLine(Tabs(1) + "</pages>");
 			outFile.WriteLine("</book>");
 
 			outFile.Close();
 
 		}
 
-		public string tabs(int numTabs) {
-			switch (numTabs) { 
-				case 1:
-					return "\t";
-				case 2:
-					return "\t\t";
-				case 3:
-					return "\t\t\t";
-				case 4:
-					return "\t\t\t\t";
-				case 5:
-					return "\t\t\t\t\t";
-				default:
-					return "";
-			}
+        /// <summary>Returns a string with the specified number of tabs.</summary>
+        /// <remarks>
+        /// This method supports an arbitrary number of tabs. Note that if the specified number of tabs is
+        /// negative, then the returned value will be the empty string. (This really should require a <c>uint</c>,
+        /// but the string constructor used won't accept them.)
+        /// </remarks>
+        /// <param name="numTabs">the number of tabs desired in the return string (must be positive)</param>
+        /// <returns>string containing the specified number of tabs</returns>
+		public static string Tabs(int numTabs)
+        {
+            if (numTabs < 0)
+                return "";
+            else
+                return new string('\t', numTabs);
 		}
 
         static void Main(string[] args)
