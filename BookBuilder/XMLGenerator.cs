@@ -101,9 +101,6 @@ namespace BookBuilder
 
             return bookString;
         }
-
-
-
     }
 
     class XMLGenerator
@@ -175,7 +172,9 @@ namespace BookBuilder
                         //Open file and set CRC. If file can't be opened, CRC is set to "".
                         try
                         {
-                            page.ImageCRC = BB_Page.GetCRC32(splitLine[1]);
+							//Default directory GetCRC32 searches for includes /bin/Debug so we need to back up 2 directories
+							string filePath = splitLine[1].Insert(0, "../../");
+                            page.ImageCRC = BB_Page.GetCRC32(filePath);
                         }
                         catch (System.IO.IOException e)
                         {
@@ -187,7 +186,8 @@ namespace BookBuilder
                         page.AudioFileName = splitLine[1];
                         try
                         {
-                            page.AudioCRC = BB_Page.GetCRC32(splitLine[1]);
+							string filePath = splitLine[1].Insert(0, "../../");
+                            page.AudioCRC = BB_Page.GetCRC32(filePath);
                         }
                         catch (System.IO.IOException e)
                         {
@@ -195,24 +195,19 @@ namespace BookBuilder
                             page.AudioCRC = "";
                         }
                         break;
-                    case "crc-32_checksum_audio":
-                        page.AudioCRC = splitLine[1];
-                        break;
                     case "video_file":
                         page.VideoFileName = splitLine[1];
                         try
                         {
-                            page.VideoCRC = BB_Page.GetCRC32(splitLine[1]);
+							string filePath = splitLine[1].Insert(0, "../../");
+							page.VideoCRC = BB_Page.GetCRC32(filePath);
                         }
                         catch (System.IO.IOException e)
                         {
                             Console.WriteLine(e.Message);
                             page.VideoCRC = "";
                         }
-                        break;
-                    case "crc-32_checksum_video":
-                        page.VideoCRC = splitLine[1];
-                        break;
+						break;
                     case "video_width":
                         page.VideoWidth = Convert.ToInt32(splitLine[1]);
                         break;
@@ -319,7 +314,6 @@ namespace BookBuilder
             xmlGenerator.ParseInput();
             xmlGenerator.GenerateXML();
             Console.WriteLine(xmlGenerator.book);
-
         }
     }
 }
