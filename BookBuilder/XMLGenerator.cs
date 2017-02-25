@@ -8,162 +8,31 @@ namespace BookBuilder
 
     class BB_Page
     {
-		private int pageNumber;
+        public int PageNumber { get; set; }
 
-		private string pageImageFileName;
-		private string videoFileName;
-		private string audioFileName;
-		private int videoWidth;
-		private int videoHeight;
-		private int videoX;//x coord of video
-		private int videoY;//y coord of video
+        public string PageImageFileName { get; set; }
 
-//For now we will pass this in with input.  When Ryan finished the CRC hash we will use that to generate these values.
-		private string videoCRC;
-		private string audioCRC;
-        private string imageCRC;
+        public string VideoFileName { get; set; }
 
-		public int PageNumber
-		{
-			get
-			{
-				return pageNumber;
-			}
+        public string AudioFileName { get; set; }
 
-			set
-			{
-				pageNumber = value;
-			}
-		}
+        public int VideoWidth { get; set; }
 
-		public string PageImageFileName
-		{
-			get
-			{
-				return pageImageFileName;
-			}
+        public int VideoHeight { get; set; }
 
-			set
-			{
-				pageImageFileName = value;
-			}
-		}
+        //x coord of video
+        public int VideoX { get; set; }
 
-		public string VideoFileName
-		{
-			get
-			{
-				return videoFileName;
-			}
+        //y coord of video
+        public int VideoY { get; set; }
 
-			set
-			{
-				videoFileName = value;
-			}
-		}
+        // For now we will pass this in with input.  When Ryan finished the CRC hash we will use that
+        // to generate these values.
+        public string VideoCRC { get; set; }
 
-		public string AudioFileName
-		{
-			get
-			{
-				return audioFileName;
-			}
+        public string AudioCRC { get; set; }
 
-			set
-			{
-				audioFileName = value;
-			}
-		}
-
-		public int VideoWidth
-		{
-			get
-			{
-				return videoWidth;
-			}
-
-			set
-			{
-				videoWidth = value;
-			}
-		}
-
-		public int VideoHeight
-		{
-			get
-			{
-				return videoHeight;
-			}
-
-			set
-			{
-				videoHeight = value;
-			}
-		}
-
-		public int VideoX
-		{
-			get
-			{
-				return videoX;
-			}
-
-			set
-			{
-				videoX = value;
-			}
-		}
-
-		public int VideoY
-		{
-			get
-			{
-				return videoY;
-			}
-
-			set
-			{
-				videoY = value;
-			}
-		}
-		public string VideoCRC
-		{
-			get
-			{
-				return videoCRC;
-			}
-
-			set
-			{
-				videoCRC = value;
-			}
-		}
-
-		public string AudioCRC
-		{
-			get
-			{
-				return audioCRC;
-			}
-
-			set
-			{
-				audioCRC = value;
-			}
-		}
-
-        public string ImageCRC
-        {
-            get
-            {
-                return imageCRC;
-            }
-
-            set
-            {
-                imageCRC = value;
-            }
-        }
+        public string ImageCRC { get; set; }
 
         //Tries to open a file and returns its CRC32 hash value.
         //See this: https://damieng.com/blog/2006/08/08/calculating_crc32_in_c_and_net
@@ -187,127 +56,41 @@ namespace BookBuilder
     //Prefix so there's no confusion with the ARMB Book class.
     class BB_Book
     {
-        private List<BB_Page> pages;
-        private String title;
-        private List<String> authors;
-        private String creationDate;
-        private String description;
+        public List<BB_Page> Pages { get; } = new List<BB_Page>();
+
+        public List<string> Authors { get; } = new List<string>();
+
+        public string Title { get; set; }
+
+        public string CreationDate { get; set; }
+
+        public string Description { get; set; }
 
         //filename of the button_image
-        private String buttonImageName;
-        private String fileVersion;
+        public string ButtonImageName { get; set; }
 
-        public BB_Book() {
-            pages = new List<BB_Page>();
-            authors = new List<String>();
-        }
+        public string FileVersion { get; set; }
 
-        public List<BB_Page> Pages
+        public override string ToString()
         {
-            get
-            {
-                return pages;
-            }
-
-            set
-            {
-                pages = value;
-            }
-        }
-
-        public string Title
-        {
-            get
-            {
-                return title;
-            }
-
-            set
-            {
-                title = value;
-            }
-        }
-
-        public List<string> Authors
-        {
-            get
-            {
-                return authors;
-            }
-
-            set
-            {
-                authors = value;
-            }
-        }
-
-        public string CreationDate
-        {
-            get
-            {
-                return creationDate;
-            }
-
-            set
-            {
-                creationDate = value;
-            }
-        }
-
-        public string Description
-        {
-            get
-            {
-                return description;
-            }
-
-            set
-            {
-                description = value;
-            }
-        }
-
-        public string ButtonImageName
-        {
-            get
-            {
-                return buttonImageName;
-            }
-
-            set
-            {
-                buttonImageName = value;
-            }
-        }
-
-        public string FileVersion
-        {
-            get
-            {
-                return fileVersion;
-            }
-
-            set
-            {
-                fileVersion = value;
-            }
-        }
-
-        public override string ToString() {
             string bookString = "";
             bookString += "Title: " + Title + "\n";
 
-            foreach (string author in authors) {
+            foreach (string author in Authors)
+            {
                 bookString += "Author: " + author + "\n";
             }
 
-            foreach (BB_Page page in pages) {
+            foreach (BB_Page page in Pages)
+            {
                 bookString += "Page Num: " + page.PageNumber + "\n";
                 bookString += "Page Image: " + page.PageImageFileName + "\n";
-                if (page.AudioFileName != null) {
+                if (page.AudioFileName != null)
+                {
                     bookString += "Page Audio File " + page.AudioFileName + "\n";
                 }
-                if (page.VideoFileName != null) {
+                if (page.VideoFileName != null)
+                {
                     bookString += "Page Video File " + page.VideoFileName + "\n";
                     bookString += "Page Video width " + page.VideoWidth + "\n";
                     bookString += "Page Video height " + page.VideoHeight + "\n";
@@ -318,71 +101,76 @@ namespace BookBuilder
 
             return bookString;
         }
-        
+
 
 
     }
 
     class XMLGenerator
     {
-		private BB_Book book;
-		private BB_Page page;
+        private BB_Book book;
+        private BB_Page page;
 
-		public void parseInput(){
-			System.Console.WriteLine("Hello!");
-			book = new BB_Book();
+        public void parseInput()
+        {
+            System.Console.WriteLine("Hello!");
+            book = new BB_Book();
 
-			string path = System.IO.Directory.GetCurrentDirectory();
+            string path = System.IO.Directory.GetCurrentDirectory();
 
-			//GetCurrentDirectory includes /bin/Debug - we need to back up 2 directories and then give the input name
-			path += "/../../testInput.txt";
+            //GetCurrentDirectory includes /bin/Debug - we need to back up 2 directories and then give the input name
+            path += "/../../testInput.txt";
 
-			//Store input file in array, one line per index
-			string[] lines = System.IO.File.ReadAllLines(path);
+            //Store input file in array, one line per index
+            string[] lines = System.IO.File.ReadAllLines(path);
 
-			int pageNum = 0;
-			foreach (string line in lines) {
-				Console.WriteLine("On line " + line);
-				string[] splitLine = line.Split('=');
+            int pageNum = 0;
+            foreach (string line in lines)
+            {
+                Console.WriteLine("On line " + line);
+                string[] splitLine = line.Split('=');
 
-				Console.WriteLine("The left of the = is " + splitLine[0]);
+                Console.WriteLine("The left of the = is " + splitLine[0]);
 
-				//Each time we see a page tag add old page to book and create a new page object
-				if (splitLine[0].Equals("page")) {
-					if (page != null)
-						book.Pages.Add(page);
-					
-					page = new BB_Page();
-					Console.WriteLine("Making a new page");
-				}
+                //Each time we see a page tag add old page to book and create a new page object
+                if (splitLine[0].Equals("page"))
+                {
+                    if (page != null)
+                        book.Pages.Add(page);
 
-				switch (splitLine[0]) {
-					case "title":
-						book.Title = splitLine[1];
-						break;
-					case "author":
-						//Authors are seperated by commas
-						string[] authors = splitLine[1].Split(',');
-						foreach (string author in authors) {
-							book.Authors.Add(author);
-						}
-						break;
-					case "creation_date":
-						book.CreationDate = splitLine[1];
-						break;
-					case "description":
-						book.Description = splitLine[1];
-						break;
-					case "file_version":
-						book.FileVersion = splitLine[1];
-						break;
-					case "button_image":
-						book.ButtonImageName = splitLine[1];
-						break;
-					case "page":
-						page.PageNumber = pageNum;
-						pageNum++;
-						page.PageImageFileName = splitLine[1];
+                    page = new BB_Page();
+                    Console.WriteLine("Making a new page");
+                }
+
+                switch (splitLine[0])
+                {
+                    case "title":
+                        book.Title = splitLine[1];
+                        break;
+                    case "author":
+                        //Authors are separated by commas
+                        string[] authors = splitLine[1].Split(',');
+                        foreach (string author in authors)
+                        {
+                            book.Authors.Add(author);
+                        }
+                        break;
+                    case "creation_date":
+                        book.CreationDate = splitLine[1];
+                        break;
+                    case "description":
+                        book.Description = splitLine[1];
+                        break;
+                    case "file_version":
+                        book.FileVersion = splitLine[1];
+                        break;
+                    case "button_image":
+                        book.ButtonImageName = splitLine[1];
+                        break;
+                    case "page":
+                        page.PageNumber = pageNum;
+                        pageNum++;
+                        page.PageImageFileName = splitLine[1];
 
                         //Open file and set CRC. If file can't be opened, CRC is set to "".
                         try
@@ -394,10 +182,9 @@ namespace BookBuilder
                             Console.WriteLine(e.Message);
                             page.ImageCRC = "";
                         }
-
                         break;
-					case "audio_file":
-						page.AudioFileName = splitLine[1];
+                    case "audio_file":
+                        page.AudioFileName = splitLine[1];
                         try
                         {
                             page.AudioCRC = BB_Page.getCRC32(splitLine[1]);
@@ -408,11 +195,11 @@ namespace BookBuilder
                             page.AudioCRC = "";
                         }
                         break;
-					case "crc-32_checksum_audio":
-						page.AudioCRC = splitLine[1];
-						break;
-					case "video_file":
-						page.VideoFileName = splitLine[1];
+                    case "crc-32_checksum_audio":
+                        page.AudioCRC = splitLine[1];
+                        break;
+                    case "video_file":
+                        page.VideoFileName = splitLine[1];
                         try
                         {
                             page.VideoCRC = BB_Page.getCRC32(splitLine[1]);
@@ -423,112 +210,116 @@ namespace BookBuilder
                             page.VideoCRC = "";
                         }
                         break;
-					case "crc-32_checksum_video":
-						page.VideoCRC = splitLine[1];
-						break;
-					case "video_width":
-						page.VideoWidth = Convert.ToInt32(splitLine[1]);
-						break;
-					case "video_height":
-						page.VideoHeight = Convert.ToInt32(splitLine[1]);
-						break;
-					case "video_coordx":
-						page.VideoX = Convert.ToInt32(splitLine[1]);
-						break;
-					case "video_coordy":
-						page.VideoY = Convert.ToInt32(splitLine[1]);
-						break;
-					default:
-						Console.WriteLine("Bad Input");
-						System.Environment.Exit(1);
-						break;
-				}
-			}
-			// Add last page to book (since input does not include closing tags we have to manually do this)
-			book.Pages.Add(page);
-		}
+                    case "crc-32_checksum_video":
+                        page.VideoCRC = splitLine[1];
+                        break;
+                    case "video_width":
+                        page.VideoWidth = Convert.ToInt32(splitLine[1]);
+                        break;
+                    case "video_height":
+                        page.VideoHeight = Convert.ToInt32(splitLine[1]);
+                        break;
+                    case "video_coordx":
+                        page.VideoX = Convert.ToInt32(splitLine[1]);
+                        break;
+                    case "video_coordy":
+                        page.VideoY = Convert.ToInt32(splitLine[1]);
+                        break;
+                    default:
+                        Console.WriteLine("Bad Input");
+                        System.Environment.Exit(1);
+                        break;
+                }
+            }
+            // Add last page to book (since input does not include closing tags we have to manually do this)
+            book.Pages.Add(page);
+        }
 
-		public void generateXML(){ 
-			string path = System.IO.Directory.GetCurrentDirectory();
-			path += "/../../config.xml";
-			Console.WriteLine("Writing to " + path);
-			System.IO.StreamWriter outFile = new System.IO.StreamWriter(path); //Will overwrite file if it already exists
+        public void generateXML()
+        {
+            string path = System.IO.Directory.GetCurrentDirectory();
+            path += "/../../config.xml";
+            Console.WriteLine("Writing to " + path);
+            System.IO.StreamWriter outFile = new System.IO.StreamWriter(path); //Will overwrite file if it already exists
 
-			//Leaving version and encoding hardcoded for now
-			outFile.WriteLine("<? version=\"1.0\" encoding=\"UTF-8\"?>");
-			outFile.WriteLine("<book file_version = \"" + book.FileVersion + "\">");
-			outFile.WriteLine(tabs(1) + "<title> " + book.Title + "</title>");
+            //Leaving version and encoding hardcoded for now
+            outFile.WriteLine("<? version=\"1.0\" encoding=\"UTF-8\"?>");
+            outFile.WriteLine("<book file_version = \"" + book.FileVersion + "\">");
+            outFile.WriteLine(Tabs(1) + "<title> " + book.Title + "</title>");
 
-			foreach (string author in book.Authors){
-				outFile.WriteLine(tabs(1) + "<author>" + author + "</author>");
-			}
+            foreach (string author in book.Authors)
+            {
+                outFile.WriteLine(Tabs(1) + "<author>" + author + "</author>");
+            }
 
-			outFile.WriteLine(tabs(1) + "<creation_date>" + book.CreationDate + "</creation_date>");
-			outFile.WriteLine(tabs(1) + "<description>" + book.Description + "</description>");
-			outFile.WriteLine(tabs(1) + "<button_image>" + book.ButtonImageName + "</button_image>");
-			outFile.WriteLine(tabs(1) + "<pages>");
+            outFile.WriteLine(Tabs(1) + "<creation_date>" + book.CreationDate + "</creation_date>");
+            outFile.WriteLine(Tabs(1) + "<description>" + book.Description + "</description>");
+            outFile.WriteLine(Tabs(1) + "<button_image>" + book.ButtonImageName + "</button_image>");
+            outFile.WriteLine(Tabs(1) + "<pages>");
 
-			foreach (BB_Page currentPage in book.Pages) {
-				outFile.WriteLine(tabs(2) + "<page num=\"" + currentPage.PageNumber + "\">");
-				outFile.WriteLine(tabs(3) + "<page_image>" + currentPage.PageImageFileName + "</page_image>");
-				if (currentPage.AudioFileName != null) {
-					outFile.WriteLine(tabs(3) + "<audio>");
-					outFile.WriteLine(tabs(4) + "<audio_file>" + currentPage.AudioFileName + "</audio_file>");
-					outFile.WriteLine(tabs(4) + "<crc-32_checksum>" + currentPage.AudioCRC + "</crc-32_checksum>");
-					outFile.WriteLine(tabs(3) + "</audio>");
-				}
-				if (currentPage.VideoFileName != null) {
-					outFile.WriteLine(tabs(3) + "<video>");
-					outFile.WriteLine(tabs(4) + "<video_file>" + currentPage.VideoFileName + "</video_file>");
-					outFile.WriteLine(tabs(4) + "<crc-32_checksum>" + currentPage.VideoCRC + "</crc-32_checksum>");
+            foreach (BB_Page currentPage in book.Pages)
+            {
+                outFile.WriteLine(Tabs(2) + "<page num=\"" + currentPage.PageNumber + "\">");
+                outFile.WriteLine(Tabs(3) + "<page_image>" + currentPage.PageImageFileName + "</page_image>");
+                if (currentPage.AudioFileName != null)
+                {
+                    outFile.WriteLine(Tabs(3) + "<audio>");
+                    outFile.WriteLine(Tabs(4) + "<audio_file>" + currentPage.AudioFileName + "</audio_file>");
+                    outFile.WriteLine(Tabs(4) + "<crc-32_checksum>" + currentPage.AudioCRC + "</crc-32_checksum>");
+                    outFile.WriteLine(Tabs(3) + "</audio>");
+                }
+                if (currentPage.VideoFileName != null)
+                {
+                    outFile.WriteLine(Tabs(3) + "<video>");
+                    outFile.WriteLine(Tabs(4) + "<video_file>" + currentPage.VideoFileName + "</video_file>");
+                    outFile.WriteLine(Tabs(4) + "<crc-32_checksum>" + currentPage.VideoCRC + "</crc-32_checksum>");
 
-					outFile.WriteLine(tabs(4) + "<size>");
-					outFile.WriteLine(tabs(5) + "<width>" + currentPage.VideoWidth + "</width>");
-					outFile.WriteLine(tabs(5) + "<height>" + currentPage.VideoHeight + "</height>");
-					outFile.WriteLine(tabs(4) + "</size>");
+                    outFile.WriteLine(Tabs(4) + "<size>");
+                    outFile.WriteLine(Tabs(5) + "<width>" + currentPage.VideoWidth + "</width>");
+                    outFile.WriteLine(Tabs(5) + "<height>" + currentPage.VideoHeight + "</height>");
+                    outFile.WriteLine(Tabs(4) + "</size>");
 
-					outFile.WriteLine(tabs(4) + "<coord>");
-					outFile.WriteLine(tabs(5) + "<x>" + currentPage.VideoX + "</x>");
-					outFile.WriteLine(tabs(5) + "<y>" + currentPage.VideoY + "</y>");
-					outFile.WriteLine(tabs(4) + "</coord>");
+                    outFile.WriteLine(Tabs(4) + "<coord>");
+                    outFile.WriteLine(Tabs(5) + "<x>" + currentPage.VideoX + "</x>");
+                    outFile.WriteLine(Tabs(5) + "<y>" + currentPage.VideoY + "</y>");
+                    outFile.WriteLine(Tabs(4) + "</coord>");
 
-					outFile.WriteLine(tabs(3) + "</video>");
-				}
-				outFile.WriteLine(tabs(2) + "</page>");
-			}
+                    outFile.WriteLine(Tabs(3) + "</video>");
+                }
+                outFile.WriteLine(Tabs(2) + "</page>");
+            }
 
-			//Done writing individual pages - close page tag
-			outFile.WriteLine(tabs(1) + "</pages>");
-			outFile.WriteLine("</book>");
+            //Done writing individual pages - close page tag
+            outFile.WriteLine(Tabs(1) + "</pages>");
+            outFile.WriteLine("</book>");
 
-			outFile.Close();
+            outFile.Close();
 
-		}
+        }
 
-		public string tabs(int numTabs) {
-			switch (numTabs) { 
-				case 1:
-					return "\t";
-				case 2:
-					return "\t\t";
-				case 3:
-					return "\t\t\t";
-				case 4:
-					return "\t\t\t\t";
-				case 5:
-					return "\t\t\t\t\t";
-				default:
-					return "";
-			}
-		}
+        /// <summary>Returns a string with the specified number of tabs.</summary>
+        /// <remarks>
+        /// This method supports an arbitrary number of tabs. Note that if the specified number of tabs is
+        /// negative, then the returned value will be the empty string. (This really should require a <c>uint</c>,
+        /// but the string constructor used won't accept them.)
+        /// </remarks>
+        /// <param name="numTabs">the number of tabs desired in the return string (must be positive)</param>
+        /// <returns>string containing the specified number of tabs</returns>
+		public static string Tabs(int numTabs)
+        {
+            if (numTabs < 0)
+                return "";
+            else
+                return new string('\t', numTabs);
+        }
 
         static void Main(string[] args)
         {
             XMLGenerator xmlGenerator = new XMLGenerator();
-			xmlGenerator.parseInput();
-			xmlGenerator.generateXML();
-			Console.WriteLine(xmlGenerator.book);
-            
+            xmlGenerator.parseInput();
+            xmlGenerator.generateXML();
+            Console.WriteLine(xmlGenerator.book);
+
         }
     }
 }
