@@ -36,7 +36,7 @@ namespace BookBuilder
 
         //Tries to open a file and returns its CRC32 hash value.
         //See this: https://damieng.com/blog/2006/08/08/calculating_crc32_in_c_and_net
-        public static string getCRC32(String filename)
+        public static string GetCRC32(String filename)
         {
             Crc32 crc32 = new Crc32();
             String hash = "";
@@ -111,7 +111,7 @@ namespace BookBuilder
         private BB_Book book;
         private BB_Page page;
 
-        public void parseInput()
+        public void ParseInput()
         {
             System.Console.WriteLine("Hello!");
             book = new BB_Book();
@@ -175,7 +175,7 @@ namespace BookBuilder
                         //Open file and set CRC. If file can't be opened, CRC is set to "".
                         try
                         {
-                            page.ImageCRC = BB_Page.getCRC32(splitLine[1]);
+                            page.ImageCRC = BB_Page.GetCRC32(splitLine[1]);
                         }
                         catch (System.IO.IOException e)
                         {
@@ -187,7 +187,7 @@ namespace BookBuilder
                         page.AudioFileName = splitLine[1];
                         try
                         {
-                            page.AudioCRC = BB_Page.getCRC32(splitLine[1]);
+                            page.AudioCRC = BB_Page.GetCRC32(splitLine[1]);
                         }
                         catch (System.IO.IOException e)
                         {
@@ -202,7 +202,7 @@ namespace BookBuilder
                         page.VideoFileName = splitLine[1];
                         try
                         {
-                            page.VideoCRC = BB_Page.getCRC32(splitLine[1]);
+                            page.VideoCRC = BB_Page.GetCRC32(splitLine[1]);
                         }
                         catch (System.IO.IOException e)
                         {
@@ -235,7 +235,7 @@ namespace BookBuilder
             book.Pages.Add(page);
         }
 
-        public void generateXML()
+        public void GenerateXML()
         {
             string path = System.IO.Directory.GetCurrentDirectory();
             path += "/../../config.xml";
@@ -316,8 +316,8 @@ namespace BookBuilder
         static void Main(string[] args)
         {
             XMLGenerator xmlGenerator = new XMLGenerator();
-            xmlGenerator.parseInput();
-            xmlGenerator.generateXML();
+            xmlGenerator.ParseInput();
+            xmlGenerator.GenerateXML();
             Console.WriteLine(xmlGenerator.book);
 
         }
