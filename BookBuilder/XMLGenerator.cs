@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using DamienG.Security.Cryptography;
 using System.IO;
+using System.IO.Compression;
 
 namespace BookBuilder
 {
@@ -15,6 +16,12 @@ namespace BookBuilder
         public string VideoFileName { get; set; }
 
         public string AudioFileName { get; set; }
+
+		public string SourcePageImageFileName { get; set; }
+
+		public string SourceVideoFileName { get; set; }
+
+		public string SourceAudioFileName { get; set; }
 
         public int VideoWidth { get; set; }
 
@@ -31,8 +38,6 @@ namespace BookBuilder
         public string VideoCRC { get; set; }
 
         public string AudioCRC { get; set; }
-
-        public string ImageCRC { get; set; }
 
         //Tries to open a file and returns its CRC32 hash value.
         //See this: https://damieng.com/blog/2006/08/08/calculating_crc32_in_c_and_net
@@ -71,36 +76,135 @@ namespace BookBuilder
 
         public string FileVersion { get; set; }
 
-        public override string ToString()
-        {
-            string bookString = "";
-            bookString += "Title: " + Title + "\n";
 
-            foreach (string author in Authors)
-            {
-                bookString += "Author: " + author + "\n";
-            }
+		public void CreateZipFile() 
+		{
+			//Need to go back 2 directories for each path because the current working directory includes /bin/Debug
+			string rootFolderPath = "../../ARMB";
+			string imagesFolderPath = "../../ARMB/images";
+			string audioFolderPath = "../../ARMB/audio";
+			string videoFolderPath = "../../ARMB/video";
+			string configPath = "../../config.xml";
+			string configZipPath = "../../ARMB/config.xml";
+			string zipPath = "../../archive.armb";
 
-            foreach (BB_Page page in Pages)
-            {
-                bookString += "Page Num: " + page.PageNumber + "\n";
-                bookString += "Page Image: " + page.PageImageFileName + "\n";
-                if (page.AudioFileName != null)
-                {
-                    bookString += "Page Audio File " + page.AudioFileName + "\n";
-                }
-                if (page.VideoFileName != null)
-                {
-                    bookString += "Page Video File " + page.VideoFileName + "\n";
-                    bookString += "Page Video width " + page.VideoWidth + "\n";
-                    bookString += "Page Video height " + page.VideoHeight + "\n";
-                    bookString += "Page Video xcoord " + page.VideoX + "\n";
-                    bookString += "Page Video ycoord " + page.VideoY + "\n";
-                }
-            }
+			//If there is already a zip file present delete it so a new one can be created.
+			if (File.Exists(zipPath))
+			{
+				File.Delete(zipPath);
+			}
 
-            return bookString;
-        }
+			Directory.CreateDirectory(rootFolderPath);
+			Directory.CreateDirectory(imagesFolderPath);
+			Directory.CreateDirectory(audioFolderPath);
+			Directory.CreateDirectory(videoFolderPath);
+
+			File.Copy(configPath, configZipPath);
+
+			foreach (BB_Page page in Pages) 
+			{
+				if (page.SourcePageImageFileName != null) 
+				{
+					try
+					{
+						string imageSourcePath = page.SourcePageImageFileName.Insert(0, "../../");
+						string imageDestinationPath = page.PageImageFileName.Insert(0, "../../ARMB/images/");
+
+						File.Copy(imageSourcePath, imageDestinationPath);
+					}
+					catch (FileNotFoundException e)
+					{
+						Console.WriteLine(e.Message);
+					}
+					catch (IOException e) {
+						Console.WriteLine(e.Message);
+					}
+				}
+
+				if (page.SourceAudioFileName != null)
+				{
+					try
+					{
+						string audioSourcePath = page.SourceAudioFileName.Insert(0, "../../");
+						string audioDestinationPath = page.AudioFileName.Insert(0, "../../ARMB/audio/");
+
+						File.Copy(audioSourcePath, audioDestinationPath);
+					}
+					catch (FileNotFoundException e)
+					{
+						Console.WriteLine(e.Message);
+					}
+					catch (IOException e)
+					{
+						Console.WriteLine(e.Message);
+					}
+				}
+
+				if (page.SourceVideoFileName != null)
+				{
+					try
+					{
+						string videoSourcePath = page.SourceVideoFileName.Insert(0, "../../");
+						string videoDestinationPath = page.VideoFileName.Insert(0, "../../ARMB/video/");
+
+						File.Copy(videoSourcePath, videoDestinationPath);
+					}
+					catch (FileNotFoundException e)
+					{
+						Console.WriteLine(e.Message);
+					}
+					catch (IOException e)
+					{
+						Console.WriteLine(e.Message);
+					}
+				}
+			}
+
+			try
+			{
+				// Put ARMB folder in zip file
+				ZipFile.CreateFromDirectory(rootFolderPath, zipPath, CompressionLevel.Fastest, true);
+			}
+			catch (System.IO.IOException e) 
+			{
+				Console.WriteLine(e.Message);
+			}
+
+			//Recursively (boolean parameter) delete ARMB folder to just leave the zip file
+			Directory.Delete(rootFolderPath, true);
+		}
+
+
+		public override string ToString()
+		{
+			string bookString = "";
+			bookString += "Title: " + Title + "\n";
+
+			foreach (string author in Authors)
+			{
+				bookString += "Author: " + author + "\n";
+			}
+
+			foreach (BB_Page page in Pages)
+			{
+				bookString += "Page Num: " + page.PageNumber + "\n";
+				bookString += "Page Image: " + page.PageImageFileName + "\n";
+				if (page.AudioFileName != null)
+				{
+					bookString += "Page Audio File " + page.AudioFileName + "\n";
+				}
+				if (page.VideoFileName != null)
+				{
+					bookString += "Page Video File " + page.VideoFileName + "\n";
+					bookString += "Page Video width " + page.VideoWidth + "\n";
+					bookString += "Page Video height " + page.VideoHeight + "\n";
+					bookString += "Page Video xcoord " + page.VideoX + "\n";
+					bookString += "Page Video ycoord " + page.VideoY + "\n";
+				}
+			}
+
+			return bookString;
+		}
     }
 
     class XMLGenerator
@@ -167,23 +271,31 @@ namespace BookBuilder
                     case "page":
                         page.PageNumber = pageNum;
                         pageNum++;
-                        page.PageImageFileName = splitLine[1];
+						page.SourcePageImageFileName = splitLine[1];
 
-                        //Open file and set CRC. If file can't be opened, CRC is set to "".
-                        try
-                        {
-							//Default directory GetCRC32 searches for includes /bin/Debug so we need to back up 2 directories
-							string filePath = splitLine[1].Insert(0, "../../");
-                            page.ImageCRC = BB_Page.GetCRC32(filePath);
-                        }
-                        catch (System.IO.IOException e)
-                        {
-                            Console.WriteLine(e.Message);
-                            page.ImageCRC = "";
-                        }
+						if (splitLine[1].Contains("/"))
+						{
+							string[] pagePath = splitLine[1].Split('/');
+							page.PageImageFileName = pagePath[pagePath.Length - 1];
+						}
+						else  //User just entered the file name, no path
+						{
+							page.PageImageFileName = splitLine[1];
+						}
                         break;
                     case "audio_file":
-                        page.AudioFileName = splitLine[1];
+						page.SourceAudioFileName = splitLine[1];
+
+						if (splitLine[1].Contains("/"))
+						{
+							string[] pagePath = splitLine[1].Split('/');
+							page.AudioFileName = pagePath[pagePath.Length - 1];
+						}
+						else  //User just entered the file name, no path
+						{
+							page.AudioFileName = splitLine[1];
+						}
+
                         try
                         {
 							string filePath = splitLine[1].Insert(0, "../../");
@@ -196,7 +308,18 @@ namespace BookBuilder
                         }
                         break;
                     case "video_file":
-                        page.VideoFileName = splitLine[1];
+						page.SourceVideoFileName = splitLine[1];
+
+						if (splitLine[1].Contains("/"))
+						{
+							string[] pagePath = splitLine[1].Split('/');
+							page.VideoFileName = pagePath[pagePath.Length - 1];
+						}
+						else  //User just entered the file name, no path
+						{
+							page.VideoFileName = splitLine[1];
+						}
+
                         try
                         {
 							string filePath = splitLine[1].Insert(0, "../../");
@@ -255,18 +378,18 @@ namespace BookBuilder
             foreach (BB_Page currentPage in book.Pages)
             {
                 outFile.WriteLine(Tabs(2) + "<page num=\"" + currentPage.PageNumber + "\">");
-                outFile.WriteLine(Tabs(3) + "<page_image>" + currentPage.PageImageFileName + "</page_image>");
+                outFile.WriteLine(Tabs(3) + "<page_image>" + "images/" + currentPage.PageImageFileName + "</page_image>");
                 if (currentPage.AudioFileName != null)
                 {
                     outFile.WriteLine(Tabs(3) + "<audio>");
-                    outFile.WriteLine(Tabs(4) + "<audio_file>" + currentPage.AudioFileName + "</audio_file>");
+                    outFile.WriteLine(Tabs(4) + "<audio_file>" + "audio/" + currentPage.AudioFileName + "</audio_file>");
                     outFile.WriteLine(Tabs(4) + "<crc-32_checksum>" + currentPage.AudioCRC + "</crc-32_checksum>");
                     outFile.WriteLine(Tabs(3) + "</audio>");
                 }
                 if (currentPage.VideoFileName != null)
                 {
                     outFile.WriteLine(Tabs(3) + "<video>");
-                    outFile.WriteLine(Tabs(4) + "<video_file>" + currentPage.VideoFileName + "</video_file>");
+                    outFile.WriteLine(Tabs(4) + "<video_file>" + "video/" + currentPage.VideoFileName + "</video_file>");
                     outFile.WriteLine(Tabs(4) + "<crc-32_checksum>" + currentPage.VideoCRC + "</crc-32_checksum>");
 
                     outFile.WriteLine(Tabs(4) + "<size>");
@@ -313,7 +436,8 @@ namespace BookBuilder
             XMLGenerator xmlGenerator = new XMLGenerator();
             xmlGenerator.ParseInput();
             xmlGenerator.GenerateXML();
-            Console.WriteLine(xmlGenerator.book);
+			xmlGenerator.book.CreateZipFile();
+			//Console.WriteLine(xmlGenerator.book);
         }
     }
 }
