@@ -256,3 +256,6 @@ config.xml
 
 # Don't save Sandcastle output
 Help/
+
+# Don't save program output (test version output)
+archive.armb
