@@ -253,3 +253,6 @@ Thumbs.db
 
 # Omit the output file
 config.xml
+
+# Don't save Sandcastle output
+Help/
