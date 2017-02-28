@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using DamienG.Security.Cryptography;
+using System.Security.Cryptography;
 using System.IO;
 using System.IO.Compression;
 
 namespace BookBuilder
 {
-
+    /// <summary>Stores info for one page of the BB_Book.</summary>
     class BB_Page
     {
         public int PageNumber { get; set; }
@@ -33,22 +33,21 @@ namespace BookBuilder
         //y coord of video
         public int VideoY { get; set; }
 
-        // For now we will pass this in with input.  When Ryan finished the CRC hash we will use that
-        // to generate these values.
-        public string VideoCRC { get; set; }
+        public string VideoMD5 { get; set; }
 
-        public string AudioCRC { get; set; }
+        public string AudioMD5 { get; set; }
 
-        //Tries to open a file and returns its CRC32 hash value.
-        //See this: https://damieng.com/blog/2006/08/08/calculating_crc32_in_c_and_net
-        public static string GetCRC32(String filename)
+        /// <summary>Tries to open a file and returns its MD5 hash value as a string.</summary>
+        /// <param name="filename">The name of the file to be opened.</param>
+        /// <returns>the MD5 hash as a string.</returns>
+        public static string GetMD5(String filename)
         {
-            Crc32 crc32 = new Crc32();
+            MD5 md5 = MD5.Create();
             String hash = "";
             //Open the file, compute the hash
             using (FileStream fs = File.Open(filename, FileMode.Open))
             {
-                foreach (byte b in crc32.ComputeHash(fs))
+                foreach (byte b in md5.ComputeHash(fs))
                 {
                     hash += b.ToString("x2").ToLower();
                 }
@@ -57,8 +56,7 @@ namespace BookBuilder
         }
     }
 
-    //Book for the bookbuilder
-    //Prefix so there's no confusion with the ARMB Book class.
+    /// <summary>Stores information for a BB_Book including its BB_Pages, authors, etc.</summary>
     class BB_Book
     {
         public List<BB_Page> Pages { get; } = new List<BB_Page>();
@@ -76,7 +74,7 @@ namespace BookBuilder
 
         public string FileVersion { get; set; }
 
-
+        /// <summary>Creates a zip file of the books data (pages, videos, etc.) and config.xml.</summary>
 		public void CreateZipFile() 
 		{
 			//Need to go back 2 directories for each path because the current working directory includes /bin/Debug
@@ -174,7 +172,8 @@ namespace BookBuilder
 			Directory.Delete(rootFolderPath, true);
 		}
 
-
+        /// <summary>Converts information about the book to a string.</summary>
+        /// <return>String of info about the book.</return>
 		public override string ToString()
 		{
 			string bookString = "";
@@ -207,11 +206,15 @@ namespace BookBuilder
 		}
     }
 
+
+    /// summary>Used to parse input from a text file into BB_Book and BB_Pages and generate a config.xml file from that.</summary>
     class XMLGenerator
     {
         private BB_Book book;
         private BB_Page page;
 
+        /// <summary>Parses input from a file named testInput.txt to get data about a book.</summary>
+        /// <remarks>This is only really for testing the XML generator; it will be replaced once we have a GUI to input book data.</remarks>
         public void ParseInput()
         {
             System.Console.WriteLine("Hello!");
@@ -299,12 +302,12 @@ namespace BookBuilder
                         try
                         {
 							string filePath = splitLine[1].Insert(0, "../../");
-                            page.AudioCRC = BB_Page.GetCRC32(filePath);
+                            page.AudioMD5 = BB_Page.GetMD5(filePath);
                         }
                         catch (System.IO.IOException e)
                         {
                             Console.WriteLine(e.Message);
-                            page.AudioCRC = "";
+                            page.AudioMD5 = "";
                         }
                         break;
                     case "video_file":
@@ -323,12 +326,12 @@ namespace BookBuilder
                         try
                         {
 							string filePath = splitLine[1].Insert(0, "../../");
-							page.VideoCRC = BB_Page.GetCRC32(filePath);
+							page.VideoMD5 = BB_Page.GetMD5(filePath);
                         }
                         catch (System.IO.IOException e)
                         {
                             Console.WriteLine(e.Message);
-                            page.VideoCRC = "";
+                            page.VideoMD5 = "";
                         }
 						break;
                     case "video_width":
@@ -353,6 +356,10 @@ namespace BookBuilder
             book.Pages.Add(page);
         }
 
+
+        /// <summary>Generates config.xml file from the stored metadata</summary>
+        /// <remarks>This doesn't use an XML library; all file modifications are hardcoded. This will probably be changed at some point.
+        /// Also, any existing config.xml file will be overwritten.</remarks>
         public void GenerateXML()
         {
             string path = System.IO.Directory.GetCurrentDirectory();
@@ -383,14 +390,14 @@ namespace BookBuilder
                 {
                     outFile.WriteLine(Tabs(3) + "<audio>");
                     outFile.WriteLine(Tabs(4) + "<audio_file>" + "audio/" + currentPage.AudioFileName + "</audio_file>");
-                    outFile.WriteLine(Tabs(4) + "<crc-32_checksum>" + currentPage.AudioCRC + "</crc-32_checksum>");
+                    outFile.WriteLine(Tabs(4) + "<md5_checksum>" + currentPage.AudioMD5 + "</md5_checksum>");
                     outFile.WriteLine(Tabs(3) + "</audio>");
                 }
                 if (currentPage.VideoFileName != null)
                 {
                     outFile.WriteLine(Tabs(3) + "<video>");
                     outFile.WriteLine(Tabs(4) + "<video_file>" + "video/" + currentPage.VideoFileName + "</video_file>");
-                    outFile.WriteLine(Tabs(4) + "<crc-32_checksum>" + currentPage.VideoCRC + "</crc-32_checksum>");
+                    outFile.WriteLine(Tabs(4) + "<md5_checksum>" + currentPage.VideoMD5 + "</md5_checksum>");
 
                     outFile.WriteLine(Tabs(4) + "<size>");
                     outFile.WriteLine(Tabs(5) + "<width>" + currentPage.VideoWidth + "</width>");
