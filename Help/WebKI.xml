@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<HelpKI>
+  <HelpKINode Title="AudioFileName property" Url="html/2a2dcf6d-bca2-e731-d07d-b95ce98a44da.htm" />
+  <HelpKINode Title="AudioMD5 property" Url="html/b1302d3f-ed6c-4163-2bf5-a74bb51c8cd6.htm" />
+  <HelpKINode Title="Authors property" Url="html/96d1cff4-8ff4-5b0b-fccf-f4e9f9cac9b2.htm" />
+  <HelpKINode Title="BB_Book class">
+    <HelpKINode Title="BB_Book Class" Url="html/70566380-08fa-7577-b097-5e7ff7fe0aa4.htm" />
+    <HelpKINode Title="about BB_Book class" Url="html/70566380-08fa-7577-b097-5e7ff7fe0aa4.htm" />
+    <HelpKINode Title="constructor" Url="html/3e5e774f-9f93-ae95-280a-5fd4cc85e2ba.htm" />
+    <HelpKINode Title="methods" Url="html/80891bb0-afa5-840e-14ee-15f806725b15.htm" />
+    <HelpKINode Title="properties" Url="html/a6946b80-8bd7-dcbb-d2a2-451bdd19b7fa.htm" />
+  </HelpKINode>
+  <HelpKINode Title="BB_Book.Authors property" Url="html/96d1cff4-8ff4-5b0b-fccf-f4e9f9cac9b2.htm" />
+  <HelpKINode Title="BB_Book.BB_Book constructor" Url="html/3e5e774f-9f93-ae95-280a-5fd4cc85e2ba.htm" />
+  <HelpKINode Title="BB_Book.ButtonImageName property" Url="html/de650b23-6eb9-1bef-2d10-da5cf60953bd.htm" />
+  <HelpKINode Title="BB_Book.CreateZipFile method" Url="html/d570c9aa-a4d1-06f1-37e0-bb6f5e6c3280.htm" />
+  <HelpKINode Title="BB_Book.CreationDate property" Url="html/334200af-ddea-1b07-ea23-130a03dcd7b8.htm" />
+  <HelpKINode Title="BB_Book.Description property" Url="html/a8cf965e-adef-3efb-bd78-2cd56cf7ace4.htm" />
+  <HelpKINode Title="BB_Book.FileVersion property" Url="html/3bae1406-2f2e-4b50-b0c4-68b4a695bc07.htm" />
+  <HelpKINode Title="BB_Book.Pages property" Url="html/12cdbb0f-abc9-1372-f8b6-6bbaa7a1101c.htm" />
+  <HelpKINode Title="BB_Book.Title property" Url="html/68341e88-d04c-65fd-35b3-47ebdb4b080f.htm" />
+  <HelpKINode Title="BB_Book.ToString method" Url="html/ba2048a6-0755-65f3-e959-a2f55f145177.htm" />
+  <HelpKINode Title="BB_Page class">
+    <HelpKINode Title="BB_Page Class" Url="html/b52a1f46-a967-557b-447c-90967975309f.htm" />
+    <HelpKINode Title="about BB_Page class" Url="html/b52a1f46-a967-557b-447c-90967975309f.htm" />
+    <HelpKINode Title="constructor" Url="html/0bf2b6a9-4421-6cda-fac1-b95fea11f204.htm" />
+    <HelpKINode Title="methods" Url="html/50f68ede-9263-9e4e-db0f-9d1a9e3f0478.htm" />
+    <HelpKINode Title="properties" Url="html/14b5b6dc-80cb-f96c-a240-44fe30b47137.htm" />
+  </HelpKINode>
+  <HelpKINode Title="BB_Page.AudioFileName property" Url="html/2a2dcf6d-bca2-e731-d07d-b95ce98a44da.htm" />
+  <HelpKINode Title="BB_Page.AudioMD5 property" Url="html/b1302d3f-ed6c-4163-2bf5-a74bb51c8cd6.htm" />
+  <HelpKINode Title="BB_Page.BB_Page constructor" Url="html/0bf2b6a9-4421-6cda-fac1-b95fea11f204.htm" />
+  <HelpKINode Title="BB_Page.GetMD5 method" Url="html/0bf6697c-8752-0a3f-c46a-31c83f4fa489.htm" />
+  <HelpKINode Title="BB_Page.PageImageFileName property" Url="html/ea738dde-6daf-079c-81ad-070d36a92c0b.htm" />
+  <HelpKINode Title="BB_Page.PageNumber property" Url="html/28a63983-ef48-4c8b-a34a-b2b0dbc48e6d.htm" />
+  <HelpKINode Title="BB_Page.SourceAudioFileName property" Url="html/32893ffb-9ef7-3aa0-e53e-7a0dbe9a5b75.htm" />
+  <HelpKINode Title="BB_Page.SourcePageImageFileName property" Url="html/90cfcb92-9c59-9aa6-85ee-190bf3445dcf.htm" />
+  <HelpKINode Title="BB_Page.SourceVideoFileName property" Url="html/07fe88f5-fd74-d016-d66e-2c531fc6d764.htm" />
+  <HelpKINode Title="BB_Page.VideoFileName property" Url="html/2dbd4618-6367-6d30-c9ec-4f56b3a9807e.htm" />
+  <HelpKINode Title="BB_Page.VideoHeight property" Url="html/927589c3-98d3-dbb6-75ee-0cddf3974d0b.htm" />
+  <HelpKINode Title="BB_Page.VideoMD5 property" Url="html/0674b0a5-d0d1-e792-78cb-73ba723ff548.htm" />
+  <HelpKINode Title="BB_Page.VideoWidth property" Url="html/5ef6f914-dc96-f3cc-bd88-07367ef2e70f.htm" />
+  <HelpKINode Title="BB_Page.VideoX property" Url="html/ca47ba8a-022b-df05-4202-a190166fe24b.htm" />
+  <HelpKINode Title="BB_Page.VideoY property" Url="html/33301d7e-179d-61e0-4ed6-5bcf213f43b5.htm" />
+  <HelpKINode Title="book field" Url="html/6e058337-199d-8e98-b19b-789fa99a80df.htm" />
+  <HelpKINode Title="BookBuilder namespace" Url="html/f5a11775-f424-8184-f6fb-5567085c2ca4.htm" />
+  <HelpKINode Title="BookBuilder.BB_Book class" Url="html/70566380-08fa-7577-b097-5e7ff7fe0aa4.htm" />
+  <HelpKINode Title="BookBuilder.BB_Page class" Url="html/b52a1f46-a967-557b-447c-90967975309f.htm" />
+  <HelpKINode Title="BookBuilder.GUI class" Url="html/dfd7441d-db4b-60f1-b965-a84a5d6a3e93.htm" />
+  <HelpKINode Title="BookBuilder.XMLGenerator class" Url="html/2c3e4c25-b6fb-b736-f8b4-e7c4567ec0fb.htm" />
+  <HelpKINode Title="ButtonImageName property" Url="html/de650b23-6eb9-1bef-2d10-da5cf60953bd.htm" />
+  <HelpKINode Title="components field" Url="html/772237a9-73f5-608c-1bba-100a773e3af9.htm" />
+  <HelpKINode Title="CreateZipFile method" Url="html/d570c9aa-a4d1-06f1-37e0-bb6f5e6c3280.htm" />
+  <HelpKINode Title="CreationDate property" Url="html/334200af-ddea-1b07-ea23-130a03dcd7b8.htm" />
+  <HelpKINode Title="Description property" Url="html/a8cf965e-adef-3efb-bd78-2cd56cf7ace4.htm" />
+  <HelpKINode Title="Dispose method" Url="html/5b08fd84-64ba-c611-8d24-7af179b3184b.htm" />
+  <HelpKINode Title="FileVersion property" Url="html/3bae1406-2f2e-4b50-b0c4-68b4a695bc07.htm" />
+  <HelpKINode Title="GenerateXML method" Url="html/02c77d40-e39f-19d3-d757-08e1d5efd196.htm" />
+  <HelpKINode Title="GetMD5 method" Url="html/0bf6697c-8752-0a3f-c46a-31c83f4fa489.htm" />
+  <HelpKINode Title="GUI class">
+    <HelpKINode Title="GUI Class" Url="html/dfd7441d-db4b-60f1-b965-a84a5d6a3e93.htm" />
+    <HelpKINode Title="about GUI class" Url="html/dfd7441d-db4b-60f1-b965-a84a5d6a3e93.htm" />
+    <HelpKINode Title="constructor" Url="html/9b758aa0-1fcf-1c4c-d56a-7fc59e09267a.htm" />
+    <HelpKINode Title="events" Url="html/8f221830-bc17-c9a1-2208-ab75a1c9fd3e.htm" />
+    <HelpKINode Title="fields" Url="html/76668ce9-63d1-a985-635c-54467c14adef.htm" />
+    <HelpKINode Title="methods" Url="html/0f097c2a-64a3-23a5-42da-c93bca7a6d87.htm" />
+    <HelpKINode Title="properties" Url="html/259c828d-986c-962a-f348-f873651c84f5.htm" />
+  </HelpKINode>
+  <HelpKINode Title="GUI.components field" Url="html/772237a9-73f5-608c-1bba-100a773e3af9.htm" />
+  <HelpKINode Title="GUI.Dispose method" Url="html/5b08fd84-64ba-c611-8d24-7af179b3184b.htm" />
+  <HelpKINode Title="GUI.GUI constructor" Url="html/9b758aa0-1fcf-1c4c-d56a-7fc59e09267a.htm" />
+  <HelpKINode Title="GUI.InitializeComponent method" Url="html/048b71d5-f15c-4a1f-3d9b-608d8f42031a.htm" />
+  <HelpKINode Title="InitializeComponent method" Url="html/048b71d5-f15c-4a1f-3d9b-608d8f42031a.htm" />
+  <HelpKINode Title="Main method" Url="html/89bc3bf9-7f65-33e6-6ba8-73d7dac87ddd.htm" />
+  <HelpKINode Title="page field" Url="html/e08c24b9-63bd-dc00-efe1-0366094d1cfd.htm" />
+  <HelpKINode Title="PageImageFileName property" Url="html/ea738dde-6daf-079c-81ad-070d36a92c0b.htm" />
+  <HelpKINode Title="PageNumber property" Url="html/28a63983-ef48-4c8b-a34a-b2b0dbc48e6d.htm" />
+  <HelpKINode Title="Pages property" Url="html/12cdbb0f-abc9-1372-f8b6-6bbaa7a1101c.htm" />
+  <HelpKINode Title="ParseInput method" Url="html/9011f172-73d1-d39c-2f11-beca71546bc2.htm" />
+  <HelpKINode Title="SourceAudioFileName property" Url="html/32893ffb-9ef7-3aa0-e53e-7a0dbe9a5b75.htm" />
+  <HelpKINode Title="SourcePageImageFileName property" Url="html/90cfcb92-9c59-9aa6-85ee-190bf3445dcf.htm" />
+  <HelpKINode Title="SourceVideoFileName property" Url="html/07fe88f5-fd74-d016-d66e-2c531fc6d764.htm" />
+  <HelpKINode Title="Tabs method" Url="html/99e518de-9e53-a884-8ec9-7de142075a02.htm" />
+  <HelpKINode Title="Title property" Url="html/68341e88-d04c-65fd-35b3-47ebdb4b080f.htm" />
+  <HelpKINode Title="ToString method" Url="html/ba2048a6-0755-65f3-e959-a2f55f145177.htm" />
+  <HelpKINode Title="VideoFileName property" Url="html/2dbd4618-6367-6d30-c9ec-4f56b3a9807e.htm" />
+  <HelpKINode Title="VideoHeight property" Url="html/927589c3-98d3-dbb6-75ee-0cddf3974d0b.htm" />
+  <HelpKINode Title="VideoMD5 property" Url="html/0674b0a5-d0d1-e792-78cb-73ba723ff548.htm" />
+  <HelpKINode Title="VideoWidth property" Url="html/5ef6f914-dc96-f3cc-bd88-07367ef2e70f.htm" />
+  <HelpKINode Title="VideoX property" Url="html/ca47ba8a-022b-df05-4202-a190166fe24b.htm" />
+  <HelpKINode Title="VideoY property" Url="html/33301d7e-179d-61e0-4ed6-5bcf213f43b5.htm" />
+  <HelpKINode Title="XMLGenerator class">
+    <HelpKINode Title="XMLGenerator Class" Url="html/2c3e4c25-b6fb-b736-f8b4-e7c4567ec0fb.htm" />
+    <HelpKINode Title="about XMLGenerator class" Url="html/2c3e4c25-b6fb-b736-f8b4-e7c4567ec0fb.htm" />
+    <HelpKINode Title="constructor" Url="html/84e4221a-0265-f262-1ee1-ab9a7686c45b.htm" />
+    <HelpKINode Title="fields" Url="html/3ea90511-610e-9506-e420-0f1bf8d26dcb.htm" />
+    <HelpKINode Title="methods" Url="html/1dd9a4ee-4422-89cf-0a87-4b93782b87ed.htm" />
+  </HelpKINode>
+  <HelpKINode Title="XMLGenerator.book field" Url="html/6e058337-199d-8e98-b19b-789fa99a80df.htm" />
+  <HelpKINode Title="XMLGenerator.GenerateXML method" Url="html/02c77d40-e39f-19d3-d757-08e1d5efd196.htm" />
+  <HelpKINode Title="XMLGenerator.Main method" Url="html/89bc3bf9-7f65-33e6-6ba8-73d7dac87ddd.htm" />
+  <HelpKINode Title="XMLGenerator.page field" Url="html/e08c24b9-63bd-dc00-efe1-0366094d1cfd.htm" />
+  <HelpKINode Title="XMLGenerator.ParseInput method" Url="html/9011f172-73d1-d39c-2f11-beca71546bc2.htm" />
+  <HelpKINode Title="XMLGenerator.Tabs method" Url="html/99e518de-9e53-a884-8ec9-7de142075a02.htm" />
+  <HelpKINode Title="XMLGenerator.XMLGenerator constructor" Url="html/84e4221a-0265-f262-1ee1-ab9a7686c45b.htm" />
+</HelpKI>

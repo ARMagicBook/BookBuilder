@@ -1,2 +1,0 @@
-.NET function that returns valid filesystem characters - should we check if all files opened/used have valid Windows (or zip) filenames?
-- is it possible for a valid filename in windows to not be a valid filename in a zip file, or vice-versa? how would we deal with it?

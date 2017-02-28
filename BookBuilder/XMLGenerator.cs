@@ -6,209 +6,8 @@ using System.IO.Compression;
 
 namespace BookBuilder
 {
-    /// <summary>Stores info for one page of the BB_Book.</summary>
-    class BB_Page
-    {
-        public int PageNumber { get; set; }
-
-        public string PageImageFileName { get; set; }
-
-        public string VideoFileName { get; set; }
-
-        public string AudioFileName { get; set; }
-
-		public string SourcePageImageFileName { get; set; }
-
-		public string SourceVideoFileName { get; set; }
-
-		public string SourceAudioFileName { get; set; }
-
-        public int VideoWidth { get; set; }
-
-        public int VideoHeight { get; set; }
-
-        //x coord of video
-        public int VideoX { get; set; }
-
-        //y coord of video
-        public int VideoY { get; set; }
-
-        public string VideoMD5 { get; set; }
-
-        public string AudioMD5 { get; set; }
-
-        /// <summary>Tries to open a file and returns its MD5 hash value as a string.</summary>
-        /// <param name="filename">The name of the file to be opened.</param>
-        /// <returns>the MD5 hash as a string.</returns>
-        public static string GetMD5(String filename)
-        {
-            MD5 md5 = MD5.Create();
-            String hash = "";
-            //Open the file, compute the hash
-            using (FileStream fs = File.Open(filename, FileMode.Open))
-            {
-                foreach (byte b in md5.ComputeHash(fs))
-                {
-                    hash += b.ToString("x2").ToLower();
-                }
-            }
-            return hash;
-        }
-    }
-
-    /// <summary>Stores information for a BB_Book including its BB_Pages, authors, etc.</summary>
-    class BB_Book
-    {
-        public List<BB_Page> Pages { get; } = new List<BB_Page>();
-
-        public List<string> Authors { get; } = new List<string>();
-
-        public string Title { get; set; }
-
-        public string CreationDate { get; set; }
-
-        public string Description { get; set; }
-
-        //filename of the button_image
-        public string ButtonImageName { get; set; }
-
-        public string FileVersion { get; set; }
-
-        /// <summary>Creates a zip file of the books data (pages, videos, etc.) and config.xml.</summary>
-		public void CreateZipFile() 
-		{
-			//Need to go back 2 directories for each path because the current working directory includes /bin/Debug
-			string rootFolderPath = "../../ARMB";
-			string imagesFolderPath = "../../ARMB/images";
-			string audioFolderPath = "../../ARMB/audio";
-			string videoFolderPath = "../../ARMB/video";
-			string configPath = "../../config.xml";
-			string configZipPath = "../../ARMB/config.xml";
-			string zipPath = "../../archive.armb";
-
-			//If there is already a zip file present delete it so a new one can be created.
-			if (File.Exists(zipPath))
-			{
-				File.Delete(zipPath);
-			}
-
-			Directory.CreateDirectory(rootFolderPath);
-			Directory.CreateDirectory(imagesFolderPath);
-			Directory.CreateDirectory(audioFolderPath);
-			Directory.CreateDirectory(videoFolderPath);
-
-			File.Copy(configPath, configZipPath);
-
-			foreach (BB_Page page in Pages) 
-			{
-				if (page.SourcePageImageFileName != null) 
-				{
-					try
-					{
-						string imageSourcePath = page.SourcePageImageFileName.Insert(0, "../../");
-						string imageDestinationPath = page.PageImageFileName.Insert(0, "../../ARMB/images/");
-
-						File.Copy(imageSourcePath, imageDestinationPath);
-					}
-					catch (FileNotFoundException e)
-					{
-						Console.WriteLine(e.Message);
-					}
-					catch (IOException e) {
-						Console.WriteLine(e.Message);
-					}
-				}
-
-				if (page.SourceAudioFileName != null)
-				{
-					try
-					{
-						string audioSourcePath = page.SourceAudioFileName.Insert(0, "../../");
-						string audioDestinationPath = page.AudioFileName.Insert(0, "../../ARMB/audio/");
-
-						File.Copy(audioSourcePath, audioDestinationPath);
-					}
-					catch (FileNotFoundException e)
-					{
-						Console.WriteLine(e.Message);
-					}
-					catch (IOException e)
-					{
-						Console.WriteLine(e.Message);
-					}
-				}
-
-				if (page.SourceVideoFileName != null)
-				{
-					try
-					{
-						string videoSourcePath = page.SourceVideoFileName.Insert(0, "../../");
-						string videoDestinationPath = page.VideoFileName.Insert(0, "../../ARMB/video/");
-
-						File.Copy(videoSourcePath, videoDestinationPath);
-					}
-					catch (FileNotFoundException e)
-					{
-						Console.WriteLine(e.Message);
-					}
-					catch (IOException e)
-					{
-						Console.WriteLine(e.Message);
-					}
-				}
-			}
-
-			try
-			{
-				// Put ARMB folder in zip file
-				ZipFile.CreateFromDirectory(rootFolderPath, zipPath, CompressionLevel.Fastest, true);
-			}
-			catch (System.IO.IOException e) 
-			{
-				Console.WriteLine(e.Message);
-			}
-
-			//Recursively (boolean parameter) delete ARMB folder to just leave the zip file
-			Directory.Delete(rootFolderPath, true);
-		}
-
-        /// <summary>Converts information about the book to a string.</summary>
-        /// <return>String of info about the book.</return>
-		public override string ToString()
-		{
-			string bookString = "";
-			bookString += "Title: " + Title + "\n";
-
-			foreach (string author in Authors)
-			{
-				bookString += "Author: " + author + "\n";
-			}
-
-			foreach (BB_Page page in Pages)
-			{
-				bookString += "Page Num: " + page.PageNumber + "\n";
-				bookString += "Page Image: " + page.PageImageFileName + "\n";
-				if (page.AudioFileName != null)
-				{
-					bookString += "Page Audio File " + page.AudioFileName + "\n";
-				}
-				if (page.VideoFileName != null)
-				{
-					bookString += "Page Video File " + page.VideoFileName + "\n";
-					bookString += "Page Video width " + page.VideoWidth + "\n";
-					bookString += "Page Video height " + page.VideoHeight + "\n";
-					bookString += "Page Video xcoord " + page.VideoX + "\n";
-					bookString += "Page Video ycoord " + page.VideoY + "\n";
-				}
-			}
-
-			return bookString;
-		}
-    }
-
-
     /// <summary>Used to parse input from a text file into BB_Book and BB_Pages and generate a config.xml file from that.</summary>
-    class XMLGenerator
+    public class XMLGenerator
     {
         private BB_Book book;
         private BB_Page page;
@@ -274,34 +73,34 @@ namespace BookBuilder
                     case "page":
                         page.PageNumber = pageNum;
                         pageNum++;
-						page.SourcePageImageFileName = splitLine[1];
+                        page.SourcePageImageFileName = splitLine[1];
 
-						if (splitLine[1].Contains("/"))
-						{
-							string[] pagePath = splitLine[1].Split('/');
-							page.PageImageFileName = pagePath[pagePath.Length - 1];
-						}
-						else  //User just entered the file name, no path
-						{
-							page.PageImageFileName = splitLine[1];
-						}
+                        if (splitLine[1].Contains("/"))
+                        {
+                            string[] pagePath = splitLine[1].Split('/');
+                            page.PageImageFileName = pagePath[pagePath.Length - 1];
+                        }
+                        else  //User just entered the file name, no path
+                        {
+                            page.PageImageFileName = splitLine[1];
+                        }
                         break;
                     case "audio_file":
-						page.SourceAudioFileName = splitLine[1];
+                        page.SourceAudioFileName = splitLine[1];
 
-						if (splitLine[1].Contains("/"))
-						{
-							string[] pagePath = splitLine[1].Split('/');
-							page.AudioFileName = pagePath[pagePath.Length - 1];
-						}
-						else  //User just entered the file name, no path
-						{
-							page.AudioFileName = splitLine[1];
-						}
+                        if (splitLine[1].Contains("/"))
+                        {
+                            string[] pagePath = splitLine[1].Split('/');
+                            page.AudioFileName = pagePath[pagePath.Length - 1];
+                        }
+                        else  //User just entered the file name, no path
+                        {
+                            page.AudioFileName = splitLine[1];
+                        }
 
                         try
                         {
-							string filePath = splitLine[1].Insert(0, "../../");
+                            string filePath = splitLine[1].Insert(0, "../../");
                             page.AudioMD5 = BB_Page.GetMD5(filePath);
                         }
                         catch (System.IO.IOException e)
@@ -311,29 +110,29 @@ namespace BookBuilder
                         }
                         break;
                     case "video_file":
-						page.SourceVideoFileName = splitLine[1];
+                        page.SourceVideoFileName = splitLine[1];
 
-						if (splitLine[1].Contains("/"))
-						{
-							string[] pagePath = splitLine[1].Split('/');
-							page.VideoFileName = pagePath[pagePath.Length - 1];
-						}
-						else  //User just entered the file name, no path
-						{
-							page.VideoFileName = splitLine[1];
-						}
+                        if (splitLine[1].Contains("/"))
+                        {
+                            string[] pagePath = splitLine[1].Split('/');
+                            page.VideoFileName = pagePath[pagePath.Length - 1];
+                        }
+                        else  //User just entered the file name, no path
+                        {
+                            page.VideoFileName = splitLine[1];
+                        }
 
                         try
                         {
-							string filePath = splitLine[1].Insert(0, "../../");
-							page.VideoMD5 = BB_Page.GetMD5(filePath);
+                            string filePath = splitLine[1].Insert(0, "../../");
+                            page.VideoMD5 = BB_Page.GetMD5(filePath);
                         }
                         catch (System.IO.IOException e)
                         {
                             Console.WriteLine(e.Message);
                             page.VideoMD5 = "";
                         }
-						break;
+                        break;
                     case "video_width":
                         page.VideoWidth = Convert.ToInt32(splitLine[1]);
                         break;
@@ -443,8 +242,213 @@ namespace BookBuilder
             XMLGenerator xmlGenerator = new XMLGenerator();
             xmlGenerator.ParseInput();
             xmlGenerator.GenerateXML();
-			xmlGenerator.book.CreateZipFile();
-			//Console.WriteLine(xmlGenerator.book);
+            xmlGenerator.book.CreateZipFile();
+            //Console.WriteLine(xmlGenerator.book);
         }
     }
+
+
+    /// <summary>Stores info for one page of the BB_Book.</summary>
+    public class BB_Page
+    {
+        public int PageNumber { get; set; }
+
+        public string PageImageFileName { get; set; }
+
+        public string VideoFileName { get; set; }
+
+        public string AudioFileName { get; set; }
+
+        public string SourcePageImageFileName { get; set; }
+
+        public string SourceVideoFileName { get; set; }
+
+        public string SourceAudioFileName { get; set; }
+
+        public int VideoWidth { get; set; }
+
+        public int VideoHeight { get; set; }
+
+        //x coord of video
+        public int VideoX { get; set; }
+
+        //y coord of video
+        public int VideoY { get; set; }
+
+        public string VideoMD5 { get; set; }
+
+        public string AudioMD5 { get; set; }
+
+        /// <summary>Tries to open a file and returns its MD5 hash value as a string.</summary>
+        /// <param name="filename">The name of the file to be opened.</param>
+        /// <returns>the MD5 hash as a string.</returns>
+        public static string GetMD5(String filename)
+        {
+            MD5 md5 = MD5.Create();
+            String hash = "";
+            //Open the file, compute the hash
+            using (FileStream fs = File.Open(filename, FileMode.Open))
+            {
+                foreach (byte b in md5.ComputeHash(fs))
+                {
+                    hash += b.ToString("x2").ToLower();
+                }
+            }
+            return hash;
+        }
+    }
+
+    /// <summary>Stores information for a BB_Book including its BB_Pages, authors, etc.</summary>
+    public class BB_Book
+    {
+        public List<BB_Page> Pages { get; } = new List<BB_Page>();
+
+        public List<string> Authors { get; } = new List<string>();
+
+        public string Title { get; set; }
+
+        public string CreationDate { get; set; }
+
+        public string Description { get; set; }
+
+        //filename of the button_image
+        public string ButtonImageName { get; set; }
+
+        public string FileVersion { get; set; }
+
+        /// <summary>Creates a zip file of the books data (pages, videos, etc.) and config.xml.</summary>
+		public void CreateZipFile()
+        {
+            //Need to go back 2 directories for each path because the current working directory includes /bin/Debug
+            string rootFolderPath = "../../ARMB";
+            string imagesFolderPath = "../../ARMB/images";
+            string audioFolderPath = "../../ARMB/audio";
+            string videoFolderPath = "../../ARMB/video";
+            string configPath = "../../config.xml";
+            string configZipPath = "../../ARMB/config.xml";
+            string zipPath = "../../archive.armb";
+
+            //If there is already a zip file present delete it so a new one can be created.
+            if (File.Exists(zipPath))
+            {
+                File.Delete(zipPath);
+            }
+
+            Directory.CreateDirectory(rootFolderPath);
+            Directory.CreateDirectory(imagesFolderPath);
+            Directory.CreateDirectory(audioFolderPath);
+            Directory.CreateDirectory(videoFolderPath);
+
+            File.Copy(configPath, configZipPath);
+
+            foreach (BB_Page page in Pages)
+            {
+                if (page.SourcePageImageFileName != null)
+                {
+                    try
+                    {
+                        string imageSourcePath = page.SourcePageImageFileName.Insert(0, "../../");
+                        string imageDestinationPath = page.PageImageFileName.Insert(0, "../../ARMB/images/");
+
+                        File.Copy(imageSourcePath, imageDestinationPath);
+                    }
+                    catch (FileNotFoundException e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                    catch (IOException e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                }
+
+                if (page.SourceAudioFileName != null)
+                {
+                    try
+                    {
+                        string audioSourcePath = page.SourceAudioFileName.Insert(0, "../../");
+                        string audioDestinationPath = page.AudioFileName.Insert(0, "../../ARMB/audio/");
+
+                        File.Copy(audioSourcePath, audioDestinationPath);
+                    }
+                    catch (FileNotFoundException e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                    catch (IOException e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                }
+
+                if (page.SourceVideoFileName != null)
+                {
+                    try
+                    {
+                        string videoSourcePath = page.SourceVideoFileName.Insert(0, "../../");
+                        string videoDestinationPath = page.VideoFileName.Insert(0, "../../ARMB/video/");
+
+                        File.Copy(videoSourcePath, videoDestinationPath);
+                    }
+                    catch (FileNotFoundException e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                    catch (IOException e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                }
+            }
+
+            try
+            {
+                // Put ARMB folder in zip file
+                ZipFile.CreateFromDirectory(rootFolderPath, zipPath, CompressionLevel.Fastest, true);
+            }
+            catch (System.IO.IOException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            //Recursively (boolean parameter) delete ARMB folder to just leave the zip file
+            Directory.Delete(rootFolderPath, true);
+        }
+
+        /// <summary>Converts information about the book to a string.</summary>
+        /// <return>String of info about the book.</return>
+		public override string ToString()
+        {
+            string bookString = "";
+            bookString += "Title: " + Title + "\n";
+
+            foreach (string author in Authors)
+            {
+                bookString += "Author: " + author + "\n";
+            }
+
+            foreach (BB_Page page in Pages)
+            {
+                bookString += "Page Num: " + page.PageNumber + "\n";
+                bookString += "Page Image: " + page.PageImageFileName + "\n";
+                if (page.AudioFileName != null)
+                {
+                    bookString += "Page Audio File " + page.AudioFileName + "\n";
+                }
+                if (page.VideoFileName != null)
+                {
+                    bookString += "Page Video File " + page.VideoFileName + "\n";
+                    bookString += "Page Video width " + page.VideoWidth + "\n";
+                    bookString += "Page Video height " + page.VideoHeight + "\n";
+                    bookString += "Page Video xcoord " + page.VideoX + "\n";
+                    bookString += "Page Video ycoord " + page.VideoY + "\n";
+                }
+            }
+
+            return bookString;
+        }
+    }
+
+
+
 }

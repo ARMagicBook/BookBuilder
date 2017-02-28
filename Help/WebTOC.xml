@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<HelpTOC>
+
+  <HelpTOCNode Id="290fb8a8-1b8d-4195-b12c-4b5500eb913b" Title="BookBuilder" Url="html/f5a11775-f424-8184-f6fb-5567085c2ca4.htm">
+    <HelpTOCNode Id="8b3264e0-bb81-41e9-a61e-a72189674569" Title="BB_Book Class" Url="html/70566380-08fa-7577-b097-5e7ff7fe0aa4.htm">
+      <HelpTOCNode Title="BB_Book Constructor " Url="html/3e5e774f-9f93-ae95-280a-5fd4cc85e2ba.htm" />
+      <HelpTOCNode Id="e5493615-81a8-4ace-9e50-9e56d4784d66" Title="BB_Book Properties" Url="html/a6946b80-8bd7-dcbb-d2a2-451bdd19b7fa.htm">
+        <HelpTOCNode Title="Authors Property " Url="html/96d1cff4-8ff4-5b0b-fccf-f4e9f9cac9b2.htm" />
+        <HelpTOCNode Title="ButtonImageName Property " Url="html/de650b23-6eb9-1bef-2d10-da5cf60953bd.htm" />
+        <HelpTOCNode Title="CreationDate Property " Url="html/334200af-ddea-1b07-ea23-130a03dcd7b8.htm" />
+        <HelpTOCNode Title="Description Property " Url="html/a8cf965e-adef-3efb-bd78-2cd56cf7ace4.htm" />
+        <HelpTOCNode Title="FileVersion Property " Url="html/3bae1406-2f2e-4b50-b0c4-68b4a695bc07.htm" />
+        <HelpTOCNode Title="Pages Property " Url="html/12cdbb0f-abc9-1372-f8b6-6bbaa7a1101c.htm" />
+        <HelpTOCNode Title="Title Property " Url="html/68341e88-d04c-65fd-35b3-47ebdb4b080f.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="8503a5ea-265f-4d03-b90b-bee8f8372a4b" Title="BB_Book Methods" Url="html/80891bb0-afa5-840e-14ee-15f806725b15.htm">
+        <HelpTOCNode Title="CreateZipFile Method " Url="html/d570c9aa-a4d1-06f1-37e0-bb6f5e6c3280.htm" />
+        <HelpTOCNode Title="ToString Method " Url="html/ba2048a6-0755-65f3-e959-a2f55f145177.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="90934a95-4835-4249-a9f8-67508f01acb4" Title="BB_Page Class" Url="html/b52a1f46-a967-557b-447c-90967975309f.htm">
+      <HelpTOCNode Title="BB_Page Constructor " Url="html/0bf2b6a9-4421-6cda-fac1-b95fea11f204.htm" />
+      <HelpTOCNode Id="791885cd-cbd0-4599-86fc-cfef4b25bd59" Title="BB_Page Properties" Url="html/14b5b6dc-80cb-f96c-a240-44fe30b47137.htm">
+        <HelpTOCNode Title="AudioFileName Property " Url="html/2a2dcf6d-bca2-e731-d07d-b95ce98a44da.htm" />
+        <HelpTOCNode Title="AudioMD5 Property " Url="html/b1302d3f-ed6c-4163-2bf5-a74bb51c8cd6.htm" />
+        <HelpTOCNode Title="PageImageFileName Property " Url="html/ea738dde-6daf-079c-81ad-070d36a92c0b.htm" />
+        <HelpTOCNode Title="PageNumber Property " Url="html/28a63983-ef48-4c8b-a34a-b2b0dbc48e6d.htm" />
+        <HelpTOCNode Title="SourceAudioFileName Property " Url="html/32893ffb-9ef7-3aa0-e53e-7a0dbe9a5b75.htm" />
+        <HelpTOCNode Title="SourcePageImageFileName Property " Url="html/90cfcb92-9c59-9aa6-85ee-190bf3445dcf.htm" />
+        <HelpTOCNode Title="SourceVideoFileName Property " Url="html/07fe88f5-fd74-d016-d66e-2c531fc6d764.htm" />
+        <HelpTOCNode Title="VideoFileName Property " Url="html/2dbd4618-6367-6d30-c9ec-4f56b3a9807e.htm" />
+        <HelpTOCNode Title="VideoHeight Property " Url="html/927589c3-98d3-dbb6-75ee-0cddf3974d0b.htm" />
+        <HelpTOCNode Title="VideoMD5 Property " Url="html/0674b0a5-d0d1-e792-78cb-73ba723ff548.htm" />
+        <HelpTOCNode Title="VideoWidth Property " Url="html/5ef6f914-dc96-f3cc-bd88-07367ef2e70f.htm" />
+        <HelpTOCNode Title="VideoX Property " Url="html/ca47ba8a-022b-df05-4202-a190166fe24b.htm" />
+        <HelpTOCNode Title="VideoY Property " Url="html/33301d7e-179d-61e0-4ed6-5bcf213f43b5.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="ec01c7aa-5205-4964-b641-154d203c7bf3" Title="BB_Page Methods" Url="html/50f68ede-9263-9e4e-db0f-9d1a9e3f0478.htm">
+        <HelpTOCNode Title="GetMD5 Method " Url="html/0bf6697c-8752-0a3f-c46a-31c83f4fa489.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="80a40fb4-52db-4563-b09a-10ab7f8a41aa" Title="GUI Class" Url="html/dfd7441d-db4b-60f1-b965-a84a5d6a3e93.htm">
+      <HelpTOCNode Title="GUI Constructor " Url="html/9b758aa0-1fcf-1c4c-d56a-7fc59e09267a.htm" />
+      <HelpTOCNode Title="GUI Properties" Url="html/259c828d-986c-962a-f348-f873651c84f5.htm" />
+      <HelpTOCNode Id="361773bc-e782-4b9e-91e3-3827ce2b8661" Title="GUI Methods" Url="html/0f097c2a-64a3-23a5-42da-c93bca7a6d87.htm">
+        <HelpTOCNode Id="1c64ae5f-8303-472a-8e2e-71b435f1a8a8" Title="Dispose Method " Url="html/5b08fd84-64ba-c611-8d24-7af179b3184b.htm">
+          <HelpTOCNode Title="Dispose Method (Boolean)" Url="html/798f41fd-9e84-0a2a-f5b1-f787059d4afb.htm" />
+        </HelpTOCNode>
+        <HelpTOCNode Title="InitializeComponent Method " Url="html/048b71d5-f15c-4a1f-3d9b-608d8f42031a.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Title="GUI Events" Url="html/8f221830-bc17-c9a1-2208-ab75a1c9fd3e.htm" />
+      <HelpTOCNode Id="c1d893a3-c310-41c0-8e20-b10cd5ad4797" Title="GUI Fields" Url="html/76668ce9-63d1-a985-635c-54467c14adef.htm">
+        <HelpTOCNode Title="components Field" Url="html/772237a9-73f5-608c-1bba-100a773e3af9.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="3ceba08e-470b-4698-87a2-7d1a2d60831c" Title="XMLGenerator Class" Url="html/2c3e4c25-b6fb-b736-f8b4-e7c4567ec0fb.htm">
+      <HelpTOCNode Title="XMLGenerator Constructor " Url="html/84e4221a-0265-f262-1ee1-ab9a7686c45b.htm" />
+      <HelpTOCNode Id="3e744970-b075-4930-9e60-6945ea8acb8a" Title="XMLGenerator Methods" Url="html/1dd9a4ee-4422-89cf-0a87-4b93782b87ed.htm">
+        <HelpTOCNode Title="GenerateXML Method " Url="html/02c77d40-e39f-19d3-d757-08e1d5efd196.htm" />
+        <HelpTOCNode Title="Main Method " Url="html/89bc3bf9-7f65-33e6-6ba8-73d7dac87ddd.htm" />
+        <HelpTOCNode Title="ParseInput Method " Url="html/9011f172-73d1-d39c-2f11-beca71546bc2.htm" />
+        <HelpTOCNode Title="Tabs Method " Url="html/99e518de-9e53-a884-8ec9-7de142075a02.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="844800e2-37ca-4616-9335-424a8c9d6b6c" Title="XMLGenerator Fields" Url="html/3ea90511-610e-9506-e420-0f1bf8d26dcb.htm">
+        <HelpTOCNode Title="book Field" Url="html/6e058337-199d-8e98-b19b-789fa99a80df.htm" />
+        <HelpTOCNode Title="page Field" Url="html/e08c24b9-63bd-dc00-efe1-0366094d1cfd.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+  </HelpTOCNode>
+</HelpTOC>
