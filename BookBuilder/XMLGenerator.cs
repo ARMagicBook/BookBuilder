@@ -207,7 +207,7 @@ namespace BookBuilder
     }
 
 
-    /// summary>Used to parse input from a text file into BB_Book and BB_Pages and generate a config.xml file from that.</summary>
+    /// <summary>Used to parse input from a text file into BB_Book and BB_Pages and generate a config.xml file from that.</summary>
     class XMLGenerator
     {
         private BB_Book book;
