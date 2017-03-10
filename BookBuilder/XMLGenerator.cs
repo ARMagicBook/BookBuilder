@@ -401,10 +401,13 @@ namespace BookBuilder
                 }
             }
 
+			//Only have one copy of config.xml - the one in the zip file
+			File.Delete(configPath);
+
             try
             {
-                // Put ARMB folder in zip file
-                ZipFile.CreateFromDirectory(rootFolderPath, zipPath, CompressionLevel.Fastest, true);
+				// Put ARMB folder in zip file, false parameter means do not include the root directory when unzipping
+				ZipFile.CreateFromDirectory(rootFolderPath, zipPath, CompressionLevel.Fastest, false);
             }
             catch (System.IO.IOException e)
             {
