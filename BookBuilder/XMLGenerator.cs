@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.IO;
 using System.IO.Compression;
-
+using System.Windows.Forms;
 namespace BookBuilder
 {
     /// <summary>Used to parse input from a text file into BB_Book and BB_Pages and generate a config.xml file from that.</summary>
@@ -237,12 +237,29 @@ namespace BookBuilder
                 return new string('\t', numTabs);
         }
 
-        static void Main(string[] args)
+        //Temporary function: do stuff that was in main before
+        //Necessary because we don't want to make book a public variable (yet?)
+        //But we do want to parse input, generate XML, and create a zip file from the GUI
+        public static void doMain()
         {
             XMLGenerator xmlGenerator = new XMLGenerator();
             xmlGenerator.ParseInput();
             xmlGenerator.GenerateXML();
             xmlGenerator.book.CreateZipFile();
+            Console.WriteLine(xmlGenerator.book);
+        }
+
+        static void Main(string[] args)
+        {
+            //This starts the GUI.
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new GUI());
+
+            /*XMLGenerator xmlGenerator = new XMLGenerator();
+            xmlGenerator.ParseInput();
+            xmlGenerator.GenerateXML();
+            xmlGenerator.book.CreateZipFile();*/
             //Console.WriteLine(xmlGenerator.book);
         }
     }
