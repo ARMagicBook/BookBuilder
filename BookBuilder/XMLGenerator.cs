@@ -16,7 +16,6 @@ namespace BookBuilder
         /// <remarks>This is only really for testing the XML generator; it will be replaced once we have a GUI to input book data.</remarks>
         public void ParseInput()
         {
-            System.Console.WriteLine("Hello!");
             book = new BB_Book();
 
             string path = System.IO.Directory.GetCurrentDirectory();
@@ -241,6 +240,7 @@ namespace BookBuilder
         {
             XMLGenerator xmlGenerator = new XMLGenerator();
             xmlGenerator.ParseInput();
+			xmlGenerator.book.AudioFileCheck();
             xmlGenerator.GenerateXML();
             xmlGenerator.book.CreateZipFile();
             //Console.WriteLine(xmlGenerator.book);
@@ -392,6 +392,24 @@ namespace BookBuilder
 		/// </summary>
 		/// <value>The file version.</value>
         public string FileVersion { get; set; }
+
+		/// <summary>
+		/// Checks if two pages that will be open at the same time both have an audio file. 
+		/// If they do a warning is displayed to the user (for now just write to console).
+		/// </summary>
+		public void AudioFileCheck(){
+			for (int i = 0; i < Pages.Count; i += 2) 
+			{
+				BB_Page leftPage = Pages[i];
+				BB_Page rightPage = Pages[i + 1];
+				if (leftPage.AudioFileName != null && rightPage.AudioFileName != null)
+				{
+					Console.WriteLine("Warning: Page {0} and Page {1} both have audio files and will be open at the same time",
+									  i, i + 1);
+
+				}
+			}
+		}
 
         /// <summary>Creates a zip file of the books data (pages, videos, etc.) and config.xml.</summary>
 		public void CreateZipFile()
