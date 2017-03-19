@@ -251,32 +251,82 @@ namespace BookBuilder
     /// <summary>Stores info for one page of the BB_Book.</summary>
     public class BB_Page
     {
+		/// <summary>
+		/// Gets or sets the page number.
+		/// </summary>
+		/// <value>The page number.</value>
         public int PageNumber { get; set; }
 
+		/// <summary>
+		/// Gets or sets the name of the page image file for the .armb file.
+		/// </summary>
+		/// <value>The name of the page image file.</value>
         public string PageImageFileName { get; set; }
 
+		/// <summary>
+		/// Gets or sets the name of the video file for the .armb file.
+		/// </summary>
+		/// <value>The name of the video file.</value>
         public string VideoFileName { get; set; }
 
+		/// <summary>
+		/// Gets or sets the name of the audio file for the .armb file.
+		/// </summary>
+		/// <value>The name of the audio file.</value>
         public string AudioFileName { get; set; }
 
+		/// <summary>
+		/// Gets or sets the name of the source page image file.
+		/// </summary>
+		/// <value>The name of the source page image file.</value>
         public string SourcePageImageFileName { get; set; }
 
+		/// <summary>
+		/// Gets or sets the name of the source video file.
+		/// </summary>
+		/// <value>The name of the source video file.</value>
         public string SourceVideoFileName { get; set; }
 
+		/// <summary>
+		/// Gets or sets the name of the source audio file.
+		/// </summary>
+		/// <value>The name of the source audio file.</value>
         public string SourceAudioFileName { get; set; }
 
+		/// <summary>
+		/// Gets or sets the width of the video.
+		/// </summary>
+		/// <value>The width of the video.</value>
         public int VideoWidth { get; set; }
 
+		/// <summary>
+		/// Gets or sets the height of the video.
+		/// </summary>
+		/// <value>The height of the video.</value>
         public int VideoHeight { get; set; }
 
-        //x coord of video
+        /// <summary>
+        /// Gets or sets the x coordinate of the video.
+        /// </summary>
+        /// <value>The x coordinate of the video.</value>
         public int VideoX { get; set; }
 
-        //y coord of video
+        /// <summary>
+        /// Gets or sets the y coordinate of the video.
+        /// </summary>
+        /// <value>The y coordinate of the video.</value>
         public int VideoY { get; set; }
 
+		/// <summary>
+		/// Gets or sets the video MD5 hash value.
+		/// </summary>
+		/// <value>The video MD5 hash value.</value>
         public string VideoMD5 { get; set; }
 
+		/// <summary>
+		/// Gets or sets the audio MD5 hash value.
+		/// </summary>
+		/// <value>The audio MD5 hash value.</value>
         public string AudioMD5 { get; set; }
 
         /// <summary>Tries to open a file and returns its MD5 hash value as a string.</summary>
@@ -301,19 +351,46 @@ namespace BookBuilder
     /// <summary>Stores information for a BB_Book including its BB_Pages, authors, etc.</summary>
     public class BB_Book
     {
+		/// <summary>
+		/// Gets the pages of the book.
+		/// </summary>
+		/// <value>The pages of the book.</value>
         public List<BB_Page> Pages { get; } = new List<BB_Page>();
 
+		/// <summary>
+		/// Gets the author(s) of the book.
+		/// </summary>
+		/// <value>The author(s) of the book.</value>
         public List<string> Authors { get; } = new List<string>();
 
+		/// <summary>
+		/// Gets or sets the title.
+		/// </summary>
+		/// <value>The title.</value>
         public string Title { get; set; }
 
+		/// <summary>
+		/// Gets or sets the creation date.
+		/// </summary>
+		/// <value>The creation date.</value>
         public string CreationDate { get; set; }
 
+		/// <summary>
+		/// Gets or sets the description.
+		/// </summary>
+		/// <value>The description.</value>
         public string Description { get; set; }
 
-        //filename of the button_image
+        /// <summary>
+        /// Gets or sets the name of the button image.
+        /// </summary>
+        /// <value>The name of the button image.</value>
         public string ButtonImageName { get; set; }
 
+		/// <summary>
+		/// Gets or sets the file version.
+		/// </summary>
+		/// <value>The file version.</value>
         public string FileVersion { get; set; }
 
         /// <summary>Creates a zip file of the books data (pages, videos, etc.) and config.xml.</summary>
