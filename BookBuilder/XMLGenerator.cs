@@ -294,21 +294,21 @@ namespace BookBuilder
         public string AudioFileName { get; set; }
 
 		/// <summary>
-		/// Gets or sets the name of the source page image file.
+		/// Gets or sets absolute file path + filename of the source page image file.
 		/// </summary>
-		/// <value>The name of the source page image file.</value>
+		/// <value>The absolute file path + filename of the source page image file.</value>
         public string SourcePageImageFileName { get; set; }
 
 		/// <summary>
-		/// Gets or sets the name of the source video file.
+		/// Gets or sets the absolute file path + filename of the source video file.
 		/// </summary>
-		/// <value>The name of the source video file.</value>
+		/// <value>The absolute file path + filename of the source video file.</value>
         public string SourceVideoFileName { get; set; }
 
 		/// <summary>
-		/// Gets or sets the name of the source audio file.
+		/// Gets or sets the absolute file path + filename of the source audio file.
 		/// </summary>
-		/// <value>The name of the source audio file.</value>
+		/// <value>The absolute file path + filename of the source audio file.</value>
         public string SourceAudioFileName { get; set; }
 
 		/// <summary>
@@ -438,6 +438,9 @@ namespace BookBuilder
 		public void CreateZipFile()
         {
             //Need to go back 2 directories for each path because the current working directory includes /bin/Debug
+            //This will work properly when these are ABSOLUTE file paths instead of relative ones.
+            //Get the absolute file paths by splicing part of the current directory with these.
+            //(Remember, use escaped back slashes! That's what Windows uses.)
             string rootFolderPath = "../../ARMB";
             string imagesFolderPath = "../../ARMB/images";
             string audioFolderPath = "../../ARMB/audio";
@@ -450,6 +453,13 @@ namespace BookBuilder
             if (File.Exists(zipPath))
             {
                 File.Delete(zipPath);
+            }
+
+            //If the ARMB folder we're about to make into a .zip already exists, delete it. 
+            //(It shouldn't, but it does if this function crashes between creating and deleting it.)
+            if (Directory.Exists(rootFolderPath))
+            {
+                Directory.Delete(rootFolderPath,true);
             }
 
             Directory.CreateDirectory(rootFolderPath);

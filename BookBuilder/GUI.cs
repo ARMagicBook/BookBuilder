@@ -36,6 +36,7 @@ namespace BookBuilder
         //Shows the file dialogue and sets the image filename accordingly
         private void PageImageBrowseButton_Click(object sender, EventArgs e)
         {
+            Debug.Write(Directory.GetCurrentDirectory());
             DialogResult res = openFileDialog1.ShowDialog();
             if (res == DialogResult.OK)
             {
@@ -80,11 +81,18 @@ namespace BookBuilder
             //Create the page from the form info.
             page1.PageNumber = 1;
             page1.SourcePageImageFileName = (PageFileBox.Text == "") ? null : PageFileBox.Text;
+
+            if (PageFileBox.Text != "")
+            {
+                page1.PageImageFileName = Path.GetFileName(page1.SourcePageImageFileName);
+            } 
+
             if (HasAudioCheckbox.Checked)
             {
                 page1.SourceAudioFileName = (AudioFileBox.Text == "") ? null : AudioFileBox.Text;
                 if (AudioFileBox.Text != "")
                 {
+                    page1.AudioFileName = Path.GetFileName(page1.SourceAudioFileName);
                     try
                     {
                         page1.AudioMD5 = BB_Page.GetMD5(page1.SourceAudioFileName);
@@ -107,8 +115,9 @@ namespace BookBuilder
             if (HasVideoCheckbox.Checked)
             {
                 page1.SourceVideoFileName = (VideoFileBox.Text == "") ? null : VideoFileBox.Text;
-                if (AudioFileBox.Text != "")
+                if (VideoFileBox.Text != "")
                 {
+                    page1.VideoFileName = Path.GetFileName(page1.SourceVideoFileName);
                     try
                     {
                         page1.VideoMD5 = BB_Page.GetMD5(page1.SourceVideoFileName);
