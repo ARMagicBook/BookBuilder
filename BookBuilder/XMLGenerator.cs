@@ -9,12 +9,13 @@ namespace BookBuilder
     /// <summary>Used to parse input from a text file into BB_Book and BB_Pages and generate a config.xml file from that.</summary>
     public class XMLGenerator
     {
-        private BB_Book book = new BB_Book();
+        //private BB_Book book = new BB_Book();
 
 
         /// <summary>Parses input from a file named testInput.txt to get data about a book.</summary>
         /// <remarks>This is only really for testing the XML generator; it will be replaced once we have a GUI to input book data.</remarks>
-        public void ParseInput()
+        //Changed! Now this reads data into the book it's given as an argument.
+        public static void ParseInput(BB_Book book)
         {
 
             string path = System.IO.Directory.GetCurrentDirectory();
@@ -161,7 +162,8 @@ namespace BookBuilder
         /// <summary>Generates config.xml file from the stored metadata</summary>
         /// <remarks>This doesn't use an XML library; all file modifications are hardcoded. This will probably be changed at some point.
         /// Also, any existing config.xml file will be overwritten.</remarks>
-        public void GenerateXML()
+        //Changed completely! Now this generates an XML file from the book that gets passed in as an argument. 
+        public static void GenerateXML(BB_Book book)
         {
             string path = System.IO.Directory.GetCurrentDirectory();
             path += "/../../config.xml";
@@ -244,12 +246,13 @@ namespace BookBuilder
         //But we do want to parse input, generate XML, and create a zip file from the GUI
         public static void doMain()
         {
-            XMLGenerator xmlGenerator = new XMLGenerator();
-            xmlGenerator.ParseInput();
-			xmlGenerator.book.AudioFileCheck();
-            xmlGenerator.GenerateXML();
-            xmlGenerator.book.CreateZipFile();
-            Console.WriteLine(xmlGenerator.book);
+            //XMLGenerator xmlGenerator = new XMLGenerator();
+            BB_Book book = new BB_Book();
+            XMLGenerator.ParseInput(book);
+			book.AudioFileCheck();
+            //xmlGenerator.GenerateXML();
+            //xmlGenerator.book.CreateZipFile();
+            //Console.WriteLine(xmlGenerator.book);
         }
 
         [STAThread]
@@ -272,22 +275,22 @@ namespace BookBuilder
 		/// <value>The page number.</value>
         public int PageNumber { get; set; }
 
-		/// <summary>
-		/// Gets or sets the name of the page image file for the .armb file.
-		/// </summary>
-		/// <value>The name of the page image file.</value>
+        /// <summary>
+        /// Gets or sets the name of the page image file for the .armb file.
+        /// </summary>
+        /// <value>The name of the page image file.</value>
         public string PageImageFileName { get; set; }
 
-		/// <summary>
-		/// Gets or sets the name of the video file for the .armb file.
-		/// </summary>
-		/// <value>The name of the video file.</value>
+        /// <summary>
+        /// Gets or sets the name of the video file for the .armb file.
+        /// </summary>
+        /// <value>The name of the video file.</value>
         public string VideoFileName { get; set; }
 
-		/// <summary>
-		/// Gets or sets the name of the audio file for the .armb file.
-		/// </summary>
-		/// <value>The name of the audio file.</value>
+        /// <summary>
+        /// Gets or sets the name of the audio file for the .armb file.
+        /// </summary>
+        /// <value>The name of the audio file.</value>
         public string AudioFileName { get; set; }
 
 		/// <summary>
@@ -413,6 +416,10 @@ namespace BookBuilder
 		/// If they do a warning is displayed to the user (for now just write to console).
 		/// </summary>
 		public void AudioFileCheck(){
+            if (Pages.Count < 2)
+            {
+                return;
+            }
 			for (int i = 0; i < Pages.Count; i += 2) 
 			{
 				BB_Page leftPage = Pages[i];
@@ -421,7 +428,8 @@ namespace BookBuilder
 				{
 					Console.WriteLine("Warning: Page {0} and Page {1} both have audio files and will be open at the same time",
 									  i, i + 1);
-
+                    //TODO: Make this a dialog box popup instead. Maybe by having AudioFileCheck return a bool, which the GUI would check
+                    //when creating the book.
 				}
 			}
 		}
@@ -559,6 +567,11 @@ namespace BookBuilder
             }
 
             return bookString;
+        }
+
+        public void AddPage(BB_Page p)
+        {
+            Pages.Add(p);
         }
     }
 

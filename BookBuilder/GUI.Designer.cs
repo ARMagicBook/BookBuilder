@@ -37,7 +37,7 @@
             this.VideoYLabel = new System.Windows.Forms.Label();
             this.PageFileBox = new System.Windows.Forms.TextBox();
             this.PageImageBrowseButton = new System.Windows.Forms.Button();
-            this.hasVideoCheckbox = new System.Windows.Forms.CheckBox();
+            this.HasVideoCheckbox = new System.Windows.Forms.CheckBox();
             this.VideoFileBox = new System.Windows.Forms.TextBox();
             this.AudioFileBox = new System.Windows.Forms.TextBox();
             this.AudioFileLabel = new System.Windows.Forms.Label();
@@ -48,6 +48,7 @@
             this.VideoHeightBox = new System.Windows.Forms.TextBox();
             this.VideoXBox = new System.Windows.Forms.TextBox();
             this.VideoYBox = new System.Windows.Forms.TextBox();
+            this.CreateBookButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -63,18 +64,16 @@
             this.VideoFileLabel.Size = new System.Drawing.Size(79, 20);
             this.VideoFileLabel.TabIndex = 0;
             this.VideoFileLabel.Text = "Video File";
-            this.VideoFileLabel.Click += new System.EventHandler(this.label1_Click);
             // 
             // PageImageFileLabel
             // 
             this.PageImageFileLabel.AutoSize = true;
             this.PageImageFileLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.PageImageFileLabel.Location = new System.Drawing.Point(60, 48);
+            this.PageImageFileLabel.Location = new System.Drawing.Point(60, 40);
             this.PageImageFileLabel.Name = "PageImageFileLabel";
             this.PageImageFileLabel.Size = new System.Drawing.Size(124, 20);
             this.PageImageFileLabel.TabIndex = 1;
             this.PageImageFileLabel.Text = "Page Image File";
-            this.PageImageFileLabel.Click += new System.EventHandler(this.PageImageFileLabel_Click);
             // 
             // VideoWidthLabel
             // 
@@ -118,14 +117,14 @@
             // 
             // PageFileBox
             // 
-            this.PageFileBox.Location = new System.Drawing.Point(226, 47);
+            this.PageFileBox.Location = new System.Drawing.Point(226, 39);
             this.PageFileBox.Name = "PageFileBox";
             this.PageFileBox.Size = new System.Drawing.Size(288, 20);
             this.PageFileBox.TabIndex = 9;
             // 
             // PageImageBrowseButton
             // 
-            this.PageImageBrowseButton.Location = new System.Drawing.Point(536, 44);
+            this.PageImageBrowseButton.Location = new System.Drawing.Point(536, 36);
             this.PageImageBrowseButton.Name = "PageImageBrowseButton";
             this.PageImageBrowseButton.Size = new System.Drawing.Size(62, 23);
             this.PageImageBrowseButton.TabIndex = 10;
@@ -133,18 +132,17 @@
             this.PageImageBrowseButton.UseVisualStyleBackColor = true;
             this.PageImageBrowseButton.Click += new System.EventHandler(this.PageImageBrowseButton_Click);
             // 
-            // hasVideoCheckbox
+            // HasVideoCheckbox
             // 
-            this.hasVideoCheckbox.AutoSize = true;
-            this.hasVideoCheckbox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.hasVideoCheckbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.hasVideoCheckbox.Location = new System.Drawing.Point(63, 71);
-            this.hasVideoCheckbox.Name = "hasVideoCheckbox";
-            this.hasVideoCheckbox.Size = new System.Drawing.Size(107, 24);
-            this.hasVideoCheckbox.TabIndex = 11;
-            this.hasVideoCheckbox.Text = "Has video?";
-            this.hasVideoCheckbox.UseVisualStyleBackColor = true;
-            this.hasVideoCheckbox.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.HasVideoCheckbox.AutoSize = true;
+            this.HasVideoCheckbox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.HasVideoCheckbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.HasVideoCheckbox.Location = new System.Drawing.Point(54, 74);
+            this.HasVideoCheckbox.Name = "HasVideoCheckbox";
+            this.HasVideoCheckbox.Size = new System.Drawing.Size(107, 24);
+            this.HasVideoCheckbox.TabIndex = 11;
+            this.HasVideoCheckbox.Text = "Has video?";
+            this.HasVideoCheckbox.UseVisualStyleBackColor = true;
             // 
             // VideoFileBox
             // 
@@ -155,7 +153,7 @@
             // 
             // AudioFileBox
             // 
-            this.AudioFileBox.Location = new System.Drawing.Point(226, 280);
+            this.AudioFileBox.Location = new System.Drawing.Point(226, 309);
             this.AudioFileBox.Name = "AudioFileBox";
             this.AudioFileBox.Size = new System.Drawing.Size(288, 20);
             this.AudioFileBox.TabIndex = 13;
@@ -164,7 +162,7 @@
             // 
             this.AudioFileLabel.AutoSize = true;
             this.AudioFileLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.AudioFileLabel.Location = new System.Drawing.Point(60, 278);
+            this.AudioFileLabel.Location = new System.Drawing.Point(60, 307);
             this.AudioFileLabel.Name = "AudioFileLabel";
             this.AudioFileLabel.Size = new System.Drawing.Size(79, 20);
             this.AudioFileLabel.TabIndex = 6;
@@ -175,7 +173,7 @@
             this.HasAudioCheckbox.AutoSize = true;
             this.HasAudioCheckbox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.HasAudioCheckbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.HasAudioCheckbox.Location = new System.Drawing.Point(63, 251);
+            this.HasAudioCheckbox.Location = new System.Drawing.Point(54, 280);
             this.HasAudioCheckbox.Name = "HasAudioCheckbox";
             this.HasAudioCheckbox.Size = new System.Drawing.Size(109, 24);
             this.HasAudioCheckbox.TabIndex = 14;
@@ -190,15 +188,17 @@
             this.VideoFileBrowseButton.TabIndex = 15;
             this.VideoFileBrowseButton.Text = "Open...";
             this.VideoFileBrowseButton.UseVisualStyleBackColor = true;
+            this.VideoFileBrowseButton.Click += new System.EventHandler(this.VideoFileBrowseButton_Click);
             // 
             // AudioFileBrowseButton
             // 
-            this.AudioFileBrowseButton.Location = new System.Drawing.Point(536, 278);
+            this.AudioFileBrowseButton.Location = new System.Drawing.Point(536, 307);
             this.AudioFileBrowseButton.Name = "AudioFileBrowseButton";
             this.AudioFileBrowseButton.Size = new System.Drawing.Size(62, 23);
             this.AudioFileBrowseButton.TabIndex = 16;
             this.AudioFileBrowseButton.Text = "Open...";
             this.AudioFileBrowseButton.UseVisualStyleBackColor = true;
+            this.AudioFileBrowseButton.Click += new System.EventHandler(this.AudioFileBrowseButton_Click);
             // 
             // VideoWidthBox
             // 
@@ -228,11 +228,23 @@
             this.VideoYBox.Size = new System.Drawing.Size(122, 20);
             this.VideoYBox.TabIndex = 20;
             // 
+            // CreateBookButton
+            // 
+            this.CreateBookButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.CreateBookButton.Location = new System.Drawing.Point(272, 368);
+            this.CreateBookButton.Name = "CreateBookButton";
+            this.CreateBookButton.Size = new System.Drawing.Size(206, 54);
+            this.CreateBookButton.TabIndex = 21;
+            this.CreateBookButton.Text = "Create a one-page book!";
+            this.CreateBookButton.UseVisualStyleBackColor = true;
+            this.CreateBookButton.Click += new System.EventHandler(this.CreateBookButton_Click);
+            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(830, 496);
+            this.Controls.Add(this.CreateBookButton);
             this.Controls.Add(this.VideoYBox);
             this.Controls.Add(this.VideoXBox);
             this.Controls.Add(this.VideoHeightBox);
@@ -242,7 +254,7 @@
             this.Controls.Add(this.HasAudioCheckbox);
             this.Controls.Add(this.AudioFileBox);
             this.Controls.Add(this.VideoFileBox);
-            this.Controls.Add(this.hasVideoCheckbox);
+            this.Controls.Add(this.HasVideoCheckbox);
             this.Controls.Add(this.PageImageBrowseButton);
             this.Controls.Add(this.PageFileBox);
             this.Controls.Add(this.AudioFileLabel);
@@ -269,7 +281,7 @@
         private System.Windows.Forms.Label VideoYLabel;
         private System.Windows.Forms.TextBox PageFileBox;
         private System.Windows.Forms.Button PageImageBrowseButton;
-        private System.Windows.Forms.CheckBox hasVideoCheckbox;
+        private System.Windows.Forms.CheckBox HasVideoCheckbox;
         private System.Windows.Forms.TextBox VideoFileBox;
         private System.Windows.Forms.TextBox AudioFileBox;
         private System.Windows.Forms.Label AudioFileLabel;
@@ -280,5 +292,6 @@
         private System.Windows.Forms.TextBox VideoHeightBox;
         private System.Windows.Forms.TextBox VideoXBox;
         private System.Windows.Forms.TextBox VideoYBox;
+        private System.Windows.Forms.Button CreateBookButton;
     }
 }
