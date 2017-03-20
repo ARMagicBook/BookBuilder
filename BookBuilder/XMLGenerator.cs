@@ -531,7 +531,7 @@ namespace BookBuilder
             try
             {
 				// Put ARMB folder in zip file, false parameter means do not include the root directory when unzipping
-				ZipFile.CreateFromDirectory(rootFolderPath, zipPath, CompressionLevel.Fastest, false);
+				ZipFile.CreateFromDirectory(rootFolderPath, zipPath, CompressionLevel.NoCompression, false);
             }
             catch (System.IO.IOException e)
             {

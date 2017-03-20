@@ -26,9 +26,6 @@ namespace BookBuilder
         public GUI()
         {
             InitializeComponent();
-            //book = new BB_Book();
-
-            //page1 = new BookBuilder.BB_Page();
         }
 
         
