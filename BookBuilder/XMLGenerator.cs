@@ -10,18 +10,12 @@ namespace BookBuilder
     public class XMLGenerator
     {
         private BB_Book book = new BB_Book();
-        private BB_Page page;
-
-        //Constructor for the XMLGenerator.
-        //The book should be initialized here because we don't call ParesInput when we have the GUI.
-
 
 
         /// <summary>Parses input from a file named testInput.txt to get data about a book.</summary>
         /// <remarks>This is only really for testing the XML generator; it will be replaced once we have a GUI to input book data.</remarks>
         public void ParseInput()
         {
-            book = new BB_Book();
 
             string path = System.IO.Directory.GetCurrentDirectory();
 
@@ -32,6 +26,10 @@ namespace BookBuilder
             string[] lines = System.IO.File.ReadAllLines(path);
 
             int pageNum = 0;
+
+            //(It makes much more sense to have this here than as a class variable.)
+            BB_Page page = null;
+
             foreach (string line in lines)
             {
                 Console.WriteLine("On line " + line);
