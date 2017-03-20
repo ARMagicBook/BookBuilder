@@ -77,7 +77,11 @@ namespace BookBuilder
         //Create a one-page book button with the info we now have!
         private void CreateBookButton_Click(object sender, EventArgs e)
         {
-
+            if (BookDestinationBox.Text == "")
+            {
+                Debug.Write("No destination selected.");
+                return;
+            }
             //Create the page from the form info.
             page1.PageNumber = 1;
             page1.SourcePageImageFileName = (PageFileBox.Text == "") ? null : PageFileBox.Text;
@@ -146,11 +150,20 @@ namespace BookBuilder
             book.AddPage(page1);
             book.AudioFileCheck();
             XMLGenerator.GenerateXML(book);
-            book.CreateZipFile();
+            book.CreateZipFile(BookDestinationBox.Text);
             Debug.Write("Successfully created book!");
         }
 
-
-
+        private void DestinationBrowseButton_Click(object sender, EventArgs e)
+        {
+            DialogResult res = folderBrowserDialog1.ShowDialog();
+            if (res == DialogResult.OK)
+            {
+                BookDestinationBox.Text = folderBrowserDialog1.SelectedPath;
+            } else
+            {
+                Debug.Write("Couldn't open directory.");
+            }
+        }
     }
 }

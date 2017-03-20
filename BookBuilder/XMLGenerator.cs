@@ -165,8 +165,7 @@ namespace BookBuilder
         //Changed completely! Now this generates an XML file from the book that gets passed in as an argument. 
         public static void GenerateXML(BB_Book book)
         {
-            string path = System.IO.Directory.GetCurrentDirectory();
-            path += "/../../config.xml";
+            string path = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "config.xml");
             Console.WriteLine("Writing to " + path);
             System.IO.StreamWriter outFile = new System.IO.StreamWriter(path); //Will overwrite file if it already exists
 
@@ -435,19 +434,19 @@ namespace BookBuilder
 		}
 
         /// <summary>Creates a zip file of the books data (pages, videos, etc.) and config.xml.</summary>
-		public void CreateZipFile()
+		public void CreateZipFile(string destDirectory)
         {
             //Need to go back 2 directories for each path because the current working directory includes /bin/Debug
             //This will work properly when these are ABSOLUTE file paths instead of relative ones.
             //Get the absolute file paths by splicing part of the current directory with these.
             //(Remember, use escaped back slashes! That's what Windows uses.)
-            string rootFolderPath = "../../ARMB";
-            string imagesFolderPath = "../../ARMB/images";
-            string audioFolderPath = "../../ARMB/audio";
-            string videoFolderPath = "../../ARMB/video";
-            string configPath = "../../config.xml";
-            string configZipPath = "../../ARMB/config.xml";
-            string zipPath = "../../archive.armb";
+            string rootFolderPath = Path.Combine(destDirectory,"ARMB");
+            string imagesFolderPath = Path.Combine(rootFolderPath,"images");
+            string audioFolderPath = Path.Combine(rootFolderPath, "audio");
+            string videoFolderPath = Path.Combine(rootFolderPath, "video");
+            string configPath = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "config.xml");
+            string configZipPath = Path.Combine(rootFolderPath,"config.xml");
+            string zipPath = Path.Combine(destDirectory,"archive.armb");
 
             //If there is already a zip file present delete it so a new one can be created.
             if (File.Exists(zipPath))
@@ -475,8 +474,8 @@ namespace BookBuilder
                 {
                     try
                     {
-                        string imageSourcePath = page.SourcePageImageFileName.Insert(0, "../../");
-                        string imageDestinationPath = page.PageImageFileName.Insert(0, "../../ARMB/images/");
+                        string imageSourcePath = page.SourcePageImageFileName;
+                        string imageDestinationPath = Path.Combine(imagesFolderPath, page.PageImageFileName);
 
                         File.Copy(imageSourcePath, imageDestinationPath);
                     }
@@ -494,8 +493,8 @@ namespace BookBuilder
                 {
                     try
                     {
-                        string audioSourcePath = page.SourceAudioFileName.Insert(0, "../../");
-                        string audioDestinationPath = page.AudioFileName.Insert(0, "../../ARMB/audio/");
+                        string audioSourcePath = page.SourceAudioFileName;
+                        string audioDestinationPath = Path.Combine(audioFolderPath,page.AudioFileName);
 
                         File.Copy(audioSourcePath, audioDestinationPath);
                     }
@@ -513,8 +512,8 @@ namespace BookBuilder
                 {
                     try
                     {
-                        string videoSourcePath = page.SourceVideoFileName.Insert(0, "../../");
-                        string videoDestinationPath = page.VideoFileName.Insert(0, "../../ARMB/video/");
+                        string videoSourcePath = page.SourceVideoFileName;
+                        string videoDestinationPath = Path.Combine(videoFolderPath, page.VideoFileName);
 
                         File.Copy(videoSourcePath, videoDestinationPath);
                     }

@@ -49,6 +49,10 @@
             this.VideoXBox = new System.Windows.Forms.TextBox();
             this.VideoYBox = new System.Windows.Forms.TextBox();
             this.CreateBookButton = new System.Windows.Forms.Button();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.DestinationLabel = new System.Windows.Forms.Label();
+            this.BookDestinationBox = new System.Windows.Forms.TextBox();
+            this.DestinationBrowseButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -231,7 +235,7 @@
             // CreateBookButton
             // 
             this.CreateBookButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.CreateBookButton.Location = new System.Drawing.Point(272, 368);
+            this.CreateBookButton.Location = new System.Drawing.Point(282, 420);
             this.CreateBookButton.Name = "CreateBookButton";
             this.CreateBookButton.Size = new System.Drawing.Size(206, 54);
             this.CreateBookButton.TabIndex = 21;
@@ -239,11 +243,41 @@
             this.CreateBookButton.UseVisualStyleBackColor = true;
             this.CreateBookButton.Click += new System.EventHandler(this.CreateBookButton_Click);
             // 
+            // DestinationLabel
+            // 
+            this.DestinationLabel.AutoSize = true;
+            this.DestinationLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.DestinationLabel.Location = new System.Drawing.Point(50, 354);
+            this.DestinationLabel.Name = "DestinationLabel";
+            this.DestinationLabel.Size = new System.Drawing.Size(131, 20);
+            this.DestinationLabel.TabIndex = 22;
+            this.DestinationLabel.Text = "Book Destination";
+            // 
+            // BookDestinationBox
+            // 
+            this.BookDestinationBox.Location = new System.Drawing.Point(226, 353);
+            this.BookDestinationBox.Name = "BookDestinationBox";
+            this.BookDestinationBox.Size = new System.Drawing.Size(288, 20);
+            this.BookDestinationBox.TabIndex = 23;
+            // 
+            // DestinationBrowseButton
+            // 
+            this.DestinationBrowseButton.Location = new System.Drawing.Point(536, 349);
+            this.DestinationBrowseButton.Name = "DestinationBrowseButton";
+            this.DestinationBrowseButton.Size = new System.Drawing.Size(75, 23);
+            this.DestinationBrowseButton.TabIndex = 24;
+            this.DestinationBrowseButton.Text = "Choose...";
+            this.DestinationBrowseButton.UseVisualStyleBackColor = true;
+            this.DestinationBrowseButton.Click += new System.EventHandler(this.DestinationBrowseButton_Click);
+            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(830, 496);
+            this.Controls.Add(this.DestinationBrowseButton);
+            this.Controls.Add(this.BookDestinationBox);
+            this.Controls.Add(this.DestinationLabel);
             this.Controls.Add(this.CreateBookButton);
             this.Controls.Add(this.VideoYBox);
             this.Controls.Add(this.VideoXBox);
@@ -293,5 +327,9 @@
         private System.Windows.Forms.TextBox VideoXBox;
         private System.Windows.Forms.TextBox VideoYBox;
         private System.Windows.Forms.Button CreateBookButton;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.Windows.Forms.Label DestinationLabel;
+        private System.Windows.Forms.TextBox BookDestinationBox;
+        private System.Windows.Forms.Button DestinationBrowseButton;
     }
 }
