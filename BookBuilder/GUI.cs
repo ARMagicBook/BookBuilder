@@ -112,7 +112,7 @@ namespace BookBuilder
                 }
             } else
             {
-                page1.SourceAudioFileName = "";
+                page1.SourceAudioFileName = null;
                 page1.AudioMD5 = null;
             }
 
@@ -143,7 +143,7 @@ namespace BookBuilder
             }
             else
             {
-                page1.SourceVideoFileName = "";
+                page1.SourceVideoFileName = null;
                 page1.VideoMD5 = null;
             }
 

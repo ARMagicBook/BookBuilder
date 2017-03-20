@@ -436,10 +436,7 @@ namespace BookBuilder
         /// <summary>Creates a zip file of the books data (pages, videos, etc.) and config.xml.</summary>
 		public void CreateZipFile(string destDirectory)
         {
-            //Need to go back 2 directories for each path because the current working directory includes /bin/Debug
-            //This will work properly when these are ABSOLUTE file paths instead of relative ones.
-            //Get the absolute file paths by splicing part of the current directory with these.
-            //(Remember, use escaped back slashes! That's what Windows uses.)
+
             string rootFolderPath = Path.Combine(destDirectory,"ARMB");
             string imagesFolderPath = Path.Combine(rootFolderPath,"images");
             string audioFolderPath = Path.Combine(rootFolderPath, "audio");
