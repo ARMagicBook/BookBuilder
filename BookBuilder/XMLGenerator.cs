@@ -9,8 +9,13 @@ namespace BookBuilder
     /// <summary>Used to parse input from a text file into BB_Book and BB_Pages and generate a config.xml file from that.</summary>
     public class XMLGenerator
     {
-        private BB_Book book;
+        private BB_Book book = new BB_Book();
         private BB_Page page;
+
+        //Constructor for the XMLGenerator.
+        //The book should be initialized here because we don't call ParesInput when we have the GUI.
+
+
 
         /// <summary>Parses input from a file named testInput.txt to get data about a book.</summary>
         /// <remarks>This is only really for testing the XML generator; it will be replaced once we have a GUI to input book data.</remarks>
@@ -249,18 +254,13 @@ namespace BookBuilder
             Console.WriteLine(xmlGenerator.book);
         }
 
+        [STAThread]
         static void Main(string[] args)
         {
             //This starts the GUI.
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new GUI());
-
-            /*XMLGenerator xmlGenerator = new XMLGenerator();
-            xmlGenerator.ParseInput();
-            xmlGenerator.GenerateXML();
-            xmlGenerator.book.CreateZipFile();*/
-            //Console.WriteLine(xmlGenerator.book);
         }
     }
 
