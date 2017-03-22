@@ -19,6 +19,11 @@ namespace BookBuilder
         //The book that we're making.
         public BB_Book book = new BookBuilder.BB_Book();
 
+        public List<String> videoExtensions = new List<String>(new String[] { ".mp4", ".wmv", ".webm", ".m4v", ".avi" });
+        public List<String> imageExtensions = new List<String>(new String[] { ".jpg", ".png", ".gif", ".tiff" });
+        //Note: .m4a is the file extension for AAC files.
+        public List<String> audioExtensions = new List<String>(new String[] { ".mp3", ".m4a", ".wma" });
+
         //The page we're making. SUPER TEMPORARY.
         //It's only for the current setup where the book we make only has one page.
         public BB_Page page1 = new BookBuilder.BB_Page();
@@ -37,6 +42,7 @@ namespace BookBuilder
             DialogResult res = openFileDialog1.ShowDialog();
             if (res == DialogResult.OK)
             {
+
                 PageFileBox.Text = openFileDialog1.FileName;
             } else
             {
