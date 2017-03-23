@@ -4,6 +4,9 @@ using System.Security.Cryptography;
 using System.IO;
 using System.IO.Compression;
 using System.Windows.Forms;
+using System.Xml;
+using System.Diagnostics;
+
 namespace BookBuilder
 {
     /// <summary>Used to parse input from a text file into BB_Book and BB_Pages and generate a config.xml file from that.</summary>
@@ -160,68 +163,135 @@ namespace BookBuilder
 
 
         /// <summary>Generates config.xml file from the stored metadata</summary>
-        /// <remarks>This doesn't use an XML library; all file modifications are hardcoded. This will probably be changed at some point.
-        /// Also, any existing config.xml file will be overwritten.</remarks>
-        //Changed completely! Now this generates an XML file from the book that gets passed in as an argument. 
+        /// <remarks>
+        /// Any existing config.xml file will be overwritten.
+		/// </remarks>
+        // Changed completely! Now this generates an XML file from the book that gets passed in as an argument. 
         public static void GenerateXML(BB_Book book)
         {
             string path = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "config.xml");
-            Console.WriteLine("Writing to " + path);
-            System.IO.StreamWriter outFile = new System.IO.StreamWriter(path); //Will overwrite file if it already exists
 
-            //Leaving version and encoding hardcoded for now
-            outFile.WriteLine("<? version=\"1.0\" encoding=\"UTF-8\"?>");
-            outFile.WriteLine("<book file_version = \"" + book.FileVersion + "\">");
-            outFile.WriteLine(Tabs(1) + "<title> " + book.Title + "</title>");
+			XmlDocument xmlDoc = new XmlDocument();
 
-            foreach (string author in book.Authors)
-            {
-                outFile.WriteLine(Tabs(1) + "<author>" + author + "</author>");
-            }
+			XmlDeclaration xmlDeclaration = xmlDoc.CreateXmlDeclaration("1.0", "UTF-8", null);
+			XmlElement root = xmlDoc.DocumentElement;
+			xmlDoc.InsertBefore(xmlDeclaration, root);
 
-            outFile.WriteLine(Tabs(1) + "<creation_date>" + book.CreationDate + "</creation_date>");
-            outFile.WriteLine(Tabs(1) + "<description>" + book.Description + "</description>");
-            outFile.WriteLine(Tabs(1) + "<button_image>" + book.ButtonImageName + "</button_image>");
-            outFile.WriteLine(Tabs(1) + "<pages>");
+			XmlElement bookTag = xmlDoc.CreateElement("book");
+			XmlAttribute attr = xmlDoc.CreateAttribute("file_version");
+			attr.Value = book.FileVersion;
+			bookTag.Attributes.SetNamedItem(attr);
+			xmlDoc.AppendChild(bookTag);
 
-            foreach (BB_Page currentPage in book.Pages)
-            {
-                outFile.WriteLine(Tabs(2) + "<page num=\"" + currentPage.PageNumber + "\">");
-                outFile.WriteLine(Tabs(3) + "<page_image>" + "images/" + currentPage.PageImageFileName + "</page_image>");
-                if (currentPage.AudioFileName != null)
-                {
-                    outFile.WriteLine(Tabs(3) + "<audio>");
-                    outFile.WriteLine(Tabs(4) + "<audio_file>" + "audio/" + currentPage.AudioFileName + "</audio_file>");
-                    outFile.WriteLine(Tabs(4) + "<md5_checksum>" + currentPage.AudioMD5 + "</md5_checksum>");
-                    outFile.WriteLine(Tabs(3) + "</audio>");
-                }
-                if (currentPage.VideoFileName != null)
-                {
-                    outFile.WriteLine(Tabs(3) + "<video>");
-                    outFile.WriteLine(Tabs(4) + "<video_file>" + "video/" + currentPage.VideoFileName + "</video_file>");
-                    outFile.WriteLine(Tabs(4) + "<md5_checksum>" + currentPage.VideoMD5 + "</md5_checksum>");
+			XmlElement title = xmlDoc.CreateElement("title");
+			XmlText bookTitle = xmlDoc.CreateTextNode(book.Title);
+			title.AppendChild(bookTitle);
+			bookTag.AppendChild(title);
 
-                    outFile.WriteLine(Tabs(4) + "<size>");
-                    outFile.WriteLine(Tabs(5) + "<width>" + currentPage.VideoWidth + "</width>");
-                    outFile.WriteLine(Tabs(5) + "<height>" + currentPage.VideoHeight + "</height>");
-                    outFile.WriteLine(Tabs(4) + "</size>");
+			foreach (string author in book.Authors) {
+				XmlElement newAuthor = xmlDoc.CreateElement("author");
+				XmlText name = xmlDoc.CreateTextNode(author);
+				newAuthor.AppendChild(name);
+				bookTag.AppendChild(newAuthor);
+			}
 
-                    outFile.WriteLine(Tabs(4) + "<coord>");
-                    outFile.WriteLine(Tabs(5) + "<x>" + currentPage.VideoX + "</x>");
-                    outFile.WriteLine(Tabs(5) + "<y>" + currentPage.VideoY + "</y>");
-                    outFile.WriteLine(Tabs(4) + "</coord>");
+			XmlElement creationDate = xmlDoc.CreateElement("creation_date");
+			XmlText date = xmlDoc.CreateTextNode(book.CreationDate);
+			creationDate.AppendChild(date);
+			bookTag.AppendChild(creationDate);
 
-                    outFile.WriteLine(Tabs(3) + "</video>");
-                }
-                outFile.WriteLine(Tabs(2) + "</page>");
-            }
+			XmlElement description = xmlDoc.CreateElement("description");
+			XmlText descriptionText = xmlDoc.CreateTextNode(book.Description);
+			description.AppendChild(descriptionText);
+			bookTag.AppendChild(description);
 
-            //Done writing individual pages - close page tag
-            outFile.WriteLine(Tabs(1) + "</pages>");
-            outFile.WriteLine("</book>");
+			XmlElement buttonImage = xmlDoc.CreateElement("button_image");
+			XmlText buttonText = xmlDoc.CreateTextNode(book.ButtonImageName);
+			buttonImage.AppendChild(buttonText);
+			bookTag.AppendChild(buttonImage);
 
-            outFile.Close();
+			XmlElement pages = xmlDoc.CreateElement("pages");
 
+			foreach (BB_Page currentPage in book.Pages) {
+				XmlElement page = xmlDoc.CreateElement("page"); 
+				XmlAttribute pageNum = xmlDoc.CreateAttribute("num");
+				pageNum.Value = currentPage.PageNumber.ToString();
+				page.Attributes.SetNamedItem(pageNum);
+
+				XmlElement pageImage = xmlDoc.CreateElement("image");
+				XmlText imageLoc = xmlDoc.CreateTextNode("images/" + currentPage.PageImageFileName);
+				pageImage.AppendChild(imageLoc);
+				page.AppendChild(pageImage);
+
+				if (currentPage.AudioFileName != null) 
+				{
+					XmlElement audio = xmlDoc.CreateElement("audio");
+
+					XmlElement audioFile = xmlDoc.CreateElement("audio_file");
+					XmlText audioName = xmlDoc.CreateTextNode("audio/" + currentPage.AudioFileName);
+					audioFile.AppendChild(audioName);
+
+					XmlElement md5 = xmlDoc.CreateElement("md5_checksum");
+					XmlText checksum = xmlDoc.CreateTextNode(currentPage.AudioMD5);
+					md5.AppendChild(checksum);
+
+					audio.AppendChild(audioFile);
+					audio.AppendChild(md5);
+
+					page.AppendChild(audio);
+				}
+
+				if (currentPage.VideoFileName != null)
+				{
+					XmlElement video = xmlDoc.CreateElement("video");
+
+					XmlElement videoFile = xmlDoc.CreateElement("video_file");
+					XmlText videoName = xmlDoc.CreateTextNode("video/" + currentPage.VideoFileName);
+					videoFile.AppendChild(videoName);
+					video.AppendChild(videoFile);
+
+					XmlElement md5 = xmlDoc.CreateElement("md5_checksum");
+					XmlText checksum = xmlDoc.CreateTextNode(currentPage.VideoMD5);
+					md5.AppendChild(checksum);
+					video.AppendChild(md5);
+
+					XmlElement size = xmlDoc.CreateElement("size");
+
+					XmlElement width = xmlDoc.CreateElement("width");
+					XmlText widthNum = xmlDoc.CreateTextNode(currentPage.VideoWidth.ToString());
+					width.AppendChild(widthNum);
+					size.AppendChild(width);
+
+					XmlElement height = xmlDoc.CreateElement("height");
+					XmlText heightNum = xmlDoc.CreateTextNode(currentPage.VideoHeight.ToString());
+					height.AppendChild(heightNum);
+					size.AppendChild(height);
+
+					video.AppendChild(size);
+
+					XmlElement coord = xmlDoc.CreateElement("coord");
+
+					XmlElement xCoord = xmlDoc.CreateElement("x");
+					XmlText xNum = xmlDoc.CreateTextNode(currentPage.VideoX.ToString());
+					xCoord.AppendChild(xNum);
+					coord.AppendChild(xCoord);
+
+					XmlElement yCoord = xmlDoc.CreateElement("y");
+					XmlText yNum = xmlDoc.CreateTextNode(currentPage.VideoY.ToString());
+					yCoord.AppendChild(yNum);
+					coord.AppendChild(yCoord);
+
+					video.AppendChild(coord);
+
+					page.AppendChild(video);
+				
+				}
+
+				pages.AppendChild(page);
+			}
+
+			bookTag.AppendChild(pages);
+			xmlDoc.Save(path);
         }
 
         /// <summary>Returns a string with the specified number of tabs.</summary>
@@ -243,6 +313,7 @@ namespace BookBuilder
         //Temporary function: do stuff that was in main before
         //Necessary because we don't want to make book a public variable (yet?)
         //But we do want to parse input, generate XML, and create a zip file from the GUI
+		//THIS NEVER GETS CALLED!  title, author, creation date, description, file version, and button image will always be blank until we collec them from the GUI.
         public static void doMain()
         {
             //XMLGenerator xmlGenerator = new XMLGenerator();

@@ -156,7 +156,16 @@ namespace BookBuilder
 
             book.AddPage(page1);
             book.AudioFileCheck();
-            XMLGenerator.GenerateXML(book);
+
+		//////// -----   Dummy values to make sure new XML code works (need to eventually get from GUI) ----- ///////
+			book.Title = "Test";
+			book.Authors.Add("Eric");
+			book.Authors.Add("Ryan");
+			book.CreationDate = "2015-01-03";
+			book.Description = "Test description";
+		/////// ------------------------------------------------------------ ///////
+
+			XMLGenerator.GenerateXML(book);
             book.CreateZipFile(BookDestinationBox.Text);
             Debug.Write("Successfully created book!");
         }
