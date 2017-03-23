@@ -19,10 +19,10 @@ namespace BookBuilder
         //The book that we're making.
         public BB_Book book = new BookBuilder.BB_Book();
 
-        public List<String> videoExtensions = new List<String>(new String[] { ".mp4", ".wmv", ".webm", ".m4v", ".avi" });
-        public List<String> imageExtensions = new List<String>(new String[] { ".jpg", ".png", ".gif", ".tiff" });
+        //public List<String> videoExtensions = new List<String>(new String[] { ".mp4", ".wmv", ".webm", ".m4v", ".avi" });
+        //public List<String> imageExtensions = new List<String>(new String[] { ".jpg", ".png", ".gif", ".tiff" });
         //Note: .m4a is the file extension for AAC files.
-        public List<String> audioExtensions = new List<String>(new String[] { ".mp3", ".m4a", ".wma" });
+        //public List<String> audioExtensions = new List<String>(new String[] { ".mp3", ".m4a", ".wma" });
 
         //The page we're making. SUPER TEMPORARY.
         //It's only for the current setup where the book we make only has one page.
@@ -39,10 +39,11 @@ namespace BookBuilder
         private void PageImageBrowseButton_Click(object sender, EventArgs e)
         {
             Debug.Write(Directory.GetCurrentDirectory());
+            //This makes it impossible to open an image of a invalid format.
+            openFileDialog1.Filter =  "Image files (*.jpg, *.jpeg, *.gif, *.png, *.tiff)| *.jpg; *.jpeg; *.gif; *.png; *.tiff";
             DialogResult res = openFileDialog1.ShowDialog();
             if (res == DialogResult.OK)
             {
-
                 PageFileBox.Text = openFileDialog1.FileName;
             } else
             {
@@ -53,7 +54,9 @@ namespace BookBuilder
 
         private void VideoFileBrowseButton_Click(object sender, EventArgs e)
         {
+            openFileDialog1.Filter = "Video files (*.avi, *.mp4, *.wmv, *.m4v, *.avi)| *.avi; *.mp4; *.wmv; *.m4v; *.avi";
             DialogResult res = openFileDialog1.ShowDialog();
+
             if (res == DialogResult.OK)
             {
                 VideoFileBox.Text = openFileDialog1.FileName;
@@ -66,6 +69,7 @@ namespace BookBuilder
 
         private void AudioFileBrowseButton_Click(object sender, EventArgs e)
         {
+            openFileDialog1.Filter = "Audio files (*.mp3, *.m4a, *.wma, *.wav) | *.mp3; *.m4a; *.wma; *.wav";
             DialogResult res = openFileDialog1.ShowDialog();
             if (res == DialogResult.OK)
             {
@@ -167,6 +171,11 @@ namespace BookBuilder
             {
                 Debug.Write("Couldn't open directory.");
             }
+        }
+
+        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+
         }
     }
 }
