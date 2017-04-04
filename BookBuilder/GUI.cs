@@ -13,7 +13,7 @@ using System.IO;
 namespace BookBuilder
 {
 
-
+    //NOT USED. We're using MainForm.cs and SetupForm.cs instead.
     public partial class GUI : Form
     {
         //The book that we're making.
@@ -38,6 +38,7 @@ namespace BookBuilder
         //Shows the file dialogue and sets the image filename accordingly
         private void PageImageBrowseButton_Click(object sender, EventArgs e)
         {
+
             Debug.Write(Directory.GetCurrentDirectory());
             //This makes it impossible to open an image of a invalid format.
             openFileDialog1.Filter = imageFileFilter;
