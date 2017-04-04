@@ -23,7 +23,15 @@ namespace BookBuilder
             InitializeComponent();
         }
 
-        
-
+        /// <summary>
+        /// Runs when the main form is closed.
+        /// Should prompt the user to save their work before exiting. For now, it just exits the program.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainFormClosed(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

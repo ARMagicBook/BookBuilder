@@ -37,6 +37,7 @@
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.Name = "MainForm";
             this.Text = "BookBuilder";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainFormClosed);
             this.ResumeLayout(false);
 
         }

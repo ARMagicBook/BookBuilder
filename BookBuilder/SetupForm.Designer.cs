@@ -102,10 +102,25 @@
             // PagesBox
             // 
             this.PagesBox.Location = new System.Drawing.Point(87, 33);
+            this.PagesBox.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.PagesBox.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.PagesBox.Name = "PagesBox";
             this.PagesBox.Size = new System.Drawing.Size(69, 20);
             this.PagesBox.TabIndex = 4;
             this.PagesBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.PagesBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // DescriptionLabel
             // 
@@ -155,6 +170,7 @@
             this.AddAuthorButton.TabIndex = 10;
             this.AddAuthorButton.Text = "Add...";
             this.AddAuthorButton.UseVisualStyleBackColor = true;
+            this.AddAuthorButton.Click += new System.EventHandler(this.AddAuthorBox);
             // 
             // ContinueButton
             // 
@@ -175,6 +191,7 @@
             this.Controls.Add(this.tableLayoutPanel);
             this.Name = "SetupForm";
             this.Text = "Setup";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SetupFormClosed);
             this.tableLayoutPanel.ResumeLayout(false);
             this.tableLayoutPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PagesBox)).EndInit();

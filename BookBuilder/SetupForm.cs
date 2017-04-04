@@ -60,5 +60,27 @@ namespace BookBuilder
             StaticBook.mainForm.Visible = true;
 
         }
+        /// <summary>
+        /// Runs when the setup form is closed.
+        /// Exits the application.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SetupFormClosed(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
+        }
+
+        /// <summary>
+        /// Adds another author textbox between the last one added and AddAuthorButton.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AddAuthorBox(object sender, EventArgs e)
+        {
+            //Create new row in TableLayoutPanel. (Resize TableLayoutPanel first?)
+            //Put a new textbox in it and add it to AuthorBoxes
+            //Resize the window to accomodate the new textbox.
+        }
     }
 }
