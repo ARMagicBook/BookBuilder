@@ -12,8 +12,6 @@ namespace BookBuilder
     /// <summary>Used to parse input from a text file into BB_Book and BB_Pages and generate a config.xml file from that.</summary>
     public class XMLGenerator
     {
-        //private BB_Book book = new BB_Book();
-
 
         /// <summary>Parses input from a file named testInput.txt to get data about a book.</summary>
         /// <remarks>This is only really for testing the XML generator; it will be replaced once we have a GUI to input book data.</remarks>

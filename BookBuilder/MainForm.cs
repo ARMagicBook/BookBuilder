@@ -10,6 +10,9 @@ using System.Windows.Forms;
 
 namespace BookBuilder
 {
+    /// <summary>
+    /// The main BookBuilder GUI form. 
+    /// </summary>
     public partial class MainForm : Form
     {
         /// <summary>
