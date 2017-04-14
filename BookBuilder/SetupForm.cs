@@ -16,6 +16,8 @@ namespace BookBuilder
     /// </summary>
     public partial class SetupForm : Form
     {
+        int insertRowNum;
+
         /// <summary>
         /// Initializes the SetupForm.
         /// </summary>
@@ -23,6 +25,7 @@ namespace BookBuilder
         {
             InitializeComponent();
             AuthorBoxes.Add(AuthorBox1);
+            insertRowNum = tableLayoutPanel.GetRow(AuthorBox1) + 1;  //Want to insert rows belows the bottomost author row
         }
 
         /// <summary>
@@ -81,6 +84,36 @@ namespace BookBuilder
             //Create new row in TableLayoutPanel. (Resize TableLayoutPanel first?)
             //Put a new textbox in it and add it to AuthorBoxes
             //Resize the window to accomodate the new textbox.
+
+            tableLayoutPanel.Visible = false;
+
+            RowStyle newRowStyle = new RowStyle();
+            newRowStyle.SizeType = SizeType.AutoSize;
+            tableLayoutPanel.RowStyles.Insert(insertRowNum, newRowStyle);
+
+            tableLayoutPanel.RowCount += 1;
+
+            //Move existing rows below the inserted row down 1
+            foreach (Control existingControl in tableLayoutPanel.Controls)
+            {
+                if (tableLayoutPanel.GetRow(existingControl) >= insertRowNum)
+                {
+                    tableLayoutPanel.SetRow(existingControl, tableLayoutPanel.GetRow(existingControl) + 1);
+                }
+            }
+
+            //Add new author text box
+            TextBox nextAuthorBox = new TextBox();
+            nextAuthorBox.Size = new Size(AuthorBox1.Size.Width, nextAuthorBox.Size.Height);
+            tableLayoutPanel.Controls.Add(nextAuthorBox, 1, insertRowNum);
+            AuthorBoxes.Add(nextAuthorBox);
+
+            //Adjust size of layout panel and setup form to account for the new author row
+            tableLayoutPanel.Size = new Size(tableLayoutPanel.Size.Width, tableLayoutPanel.Size.Height + nextAuthorBox.Size.Height + 6); //6 is padding for layout cell size
+            this.Size = new Size(this.Size.Width, this.Size.Height + nextAuthorBox.Size.Height + 6);
+            
+            insertRowNum++; //Next time add is pressed we insert underneath this one
+            tableLayoutPanel.Visible = true;
         }
     }
 }

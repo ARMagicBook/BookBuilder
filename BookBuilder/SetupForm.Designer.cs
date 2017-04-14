@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.AuthorLabel = new System.Windows.Forms.Label();
             this.TitleLabel = new System.Windows.Forms.Label();
             this.TitleBox = new System.Windows.Forms.TextBox();
-            this.PagesLabel = new System.Windows.Forms.Label();
-            this.PagesBox = new System.Windows.Forms.NumericUpDown();
             this.DescriptionLabel = new System.Windows.Forms.Label();
             this.DescriptionBox = new System.Windows.Forms.TextBox();
-            this.AuthorLabel = new System.Windows.Forms.Label();
+            this.PagesBox = new System.Windows.Forms.NumericUpDown();
+            this.PagesLabel = new System.Windows.Forms.Label();
             this.AuthorBox1 = new System.Windows.Forms.TextBox();
             this.AddAuthorButton = new System.Windows.Forms.Button();
             this.ContinueButton = new System.Windows.Forms.Button();
@@ -58,50 +58,79 @@
             this.tableLayoutPanel.Controls.Add(this.AuthorBox1, 1, 3);
             this.tableLayoutPanel.Controls.Add(this.AddAuthorButton, 1, 4);
             this.tableLayoutPanel.Controls.Add(this.ContinueButton, 1, 5);
-            this.tableLayoutPanel.Location = new System.Drawing.Point(12, 12);
+            this.tableLayoutPanel.Location = new System.Drawing.Point(18, 18);
+            this.tableLayoutPanel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
             this.tableLayoutPanel.RowCount = 6;
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 110F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 42F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 169F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 207F));
-            this.tableLayoutPanel.Size = new System.Drawing.Size(472, 256);
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 52F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 318F));
+            this.tableLayoutPanel.Size = new System.Drawing.Size(708, 394);
             this.tableLayoutPanel.TabIndex = 4;
+            // 
+            // AuthorLabel
+            // 
+            this.AuthorLabel.AutoSize = true;
+            this.AuthorLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F);
+            this.AuthorLabel.Location = new System.Drawing.Point(4, 257);
+            this.AuthorLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.AuthorLabel.Name = "AuthorLabel";
+            this.AuthorLabel.Size = new System.Drawing.Size(79, 20);
+            this.AuthorLabel.TabIndex = 8;
+            this.AuthorLabel.Text = "Author(s)";
+            this.AuthorLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // TitleLabel
             // 
             this.TitleLabel.AutoSize = true;
             this.TitleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F);
-            this.TitleLabel.Location = new System.Drawing.Point(3, 0);
+            this.TitleLabel.Location = new System.Drawing.Point(4, 0);
+            this.TitleLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.TitleLabel.Name = "TitleLabel";
-            this.TitleLabel.Size = new System.Drawing.Size(30, 15);
+            this.TitleLabel.Size = new System.Drawing.Size(41, 20);
             this.TitleLabel.TabIndex = 1;
             this.TitleLabel.Text = "Title";
             this.TitleLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // TitleBox
             // 
-            this.TitleBox.Location = new System.Drawing.Point(87, 3);
+            this.TitleBox.Location = new System.Drawing.Point(131, 5);
+            this.TitleBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.TitleBox.Name = "TitleBox";
-            this.TitleBox.Size = new System.Drawing.Size(382, 20);
+            this.TitleBox.Size = new System.Drawing.Size(571, 26);
             this.TitleBox.TabIndex = 2;
             // 
-            // PagesLabel
+            // DescriptionLabel
             // 
-            this.PagesLabel.AutoSize = true;
-            this.PagesLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F);
-            this.PagesLabel.Location = new System.Drawing.Point(3, 30);
-            this.PagesLabel.Name = "PagesLabel";
-            this.PagesLabel.Size = new System.Drawing.Size(42, 15);
-            this.PagesLabel.TabIndex = 5;
-            this.PagesLabel.Text = "Pages";
-            this.PagesLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.DescriptionLabel.AutoSize = true;
+            this.DescriptionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F);
+            this.DescriptionLabel.Location = new System.Drawing.Point(4, 88);
+            this.DescriptionLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.DescriptionLabel.Name = "DescriptionLabel";
+            this.DescriptionLabel.Size = new System.Drawing.Size(95, 20);
+            this.DescriptionLabel.TabIndex = 6;
+            this.DescriptionLabel.Text = "Description";
+            this.DescriptionLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // DescriptionBox
+            // 
+            this.DescriptionBox.AcceptsReturn = true;
+            this.DescriptionBox.AcceptsTab = true;
+            this.DescriptionBox.Location = new System.Drawing.Point(131, 93);
+            this.DescriptionBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.DescriptionBox.Multiline = true;
+            this.DescriptionBox.Name = "DescriptionBox";
+            this.DescriptionBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.DescriptionBox.Size = new System.Drawing.Size(571, 153);
+            this.DescriptionBox.TabIndex = 7;
             // 
             // PagesBox
             // 
-            this.PagesBox.Location = new System.Drawing.Point(87, 33);
+            this.PagesBox.Location = new System.Drawing.Point(131, 51);
+            this.PagesBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.PagesBox.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -113,7 +142,7 @@
             0,
             0});
             this.PagesBox.Name = "PagesBox";
-            this.PagesBox.Size = new System.Drawing.Size(69, 20);
+            this.PagesBox.Size = new System.Drawing.Size(104, 26);
             this.PagesBox.TabIndex = 4;
             this.PagesBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.PagesBox.Value = new decimal(new int[] {
@@ -122,51 +151,32 @@
             0,
             0});
             // 
-            // DescriptionLabel
+            // PagesLabel
             // 
-            this.DescriptionLabel.AutoSize = true;
-            this.DescriptionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F);
-            this.DescriptionLabel.Location = new System.Drawing.Point(3, 57);
-            this.DescriptionLabel.Name = "DescriptionLabel";
-            this.DescriptionLabel.Size = new System.Drawing.Size(69, 15);
-            this.DescriptionLabel.TabIndex = 6;
-            this.DescriptionLabel.Text = "Description";
-            this.DescriptionLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // DescriptionBox
-            // 
-            this.DescriptionBox.AcceptsReturn = true;
-            this.DescriptionBox.AcceptsTab = true;
-            this.DescriptionBox.Location = new System.Drawing.Point(87, 60);
-            this.DescriptionBox.Multiline = true;
-            this.DescriptionBox.Name = "DescriptionBox";
-            this.DescriptionBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.DescriptionBox.Size = new System.Drawing.Size(382, 101);
-            this.DescriptionBox.TabIndex = 7;
-            // 
-            // AuthorLabel
-            // 
-            this.AuthorLabel.AutoSize = true;
-            this.AuthorLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F);
-            this.AuthorLabel.Location = new System.Drawing.Point(3, 167);
-            this.AuthorLabel.Name = "AuthorLabel";
-            this.AuthorLabel.Size = new System.Drawing.Size(48, 15);
-            this.AuthorLabel.TabIndex = 8;
-            this.AuthorLabel.Text = "Authors";
-            this.AuthorLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.PagesLabel.AutoSize = true;
+            this.PagesLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F);
+            this.PagesLabel.Location = new System.Drawing.Point(4, 46);
+            this.PagesLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.PagesLabel.Name = "PagesLabel";
+            this.PagesLabel.Size = new System.Drawing.Size(56, 20);
+            this.PagesLabel.TabIndex = 5;
+            this.PagesLabel.Text = "Pages";
+            this.PagesLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // AuthorBox1
             // 
-            this.AuthorBox1.Location = new System.Drawing.Point(87, 170);
+            this.AuthorBox1.Location = new System.Drawing.Point(131, 262);
+            this.AuthorBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.AuthorBox1.Name = "AuthorBox1";
-            this.AuthorBox1.Size = new System.Drawing.Size(290, 20);
+            this.AuthorBox1.Size = new System.Drawing.Size(433, 26);
             this.AuthorBox1.TabIndex = 9;
             // 
             // AddAuthorButton
             // 
-            this.AddAuthorButton.Location = new System.Drawing.Point(87, 196);
+            this.AddAuthorButton.Location = new System.Drawing.Point(131, 298);
+            this.AddAuthorButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.AddAuthorButton.Name = "AddAuthorButton";
-            this.AddAuthorButton.Size = new System.Drawing.Size(75, 23);
+            this.AddAuthorButton.Size = new System.Drawing.Size(112, 35);
             this.AddAuthorButton.TabIndex = 10;
             this.AddAuthorButton.Text = "Add...";
             this.AddAuthorButton.UseVisualStyleBackColor = true;
@@ -175,9 +185,10 @@
             // ContinueButton
             // 
             this.ContinueButton.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.ContinueButton.Location = new System.Drawing.Point(240, 230);
+            this.ContinueButton.Location = new System.Drawing.Point(361, 350);
+            this.ContinueButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ContinueButton.Name = "ContinueButton";
-            this.ContinueButton.Size = new System.Drawing.Size(75, 23);
+            this.ContinueButton.Size = new System.Drawing.Size(112, 35);
             this.ContinueButton.TabIndex = 11;
             this.ContinueButton.Text = "Continue...";
             this.ContinueButton.UseVisualStyleBackColor = true;
@@ -185,10 +196,11 @@
             // 
             // SetupForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(496, 290);
+            this.ClientSize = new System.Drawing.Size(744, 446);
             this.Controls.Add(this.tableLayoutPanel);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "SetupForm";
             this.Text = "Setup";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SetupFormClosed);
