@@ -16,7 +16,7 @@ namespace BookBuilder
         /// <summary>
         /// The BB_Book we're creating.
         /// </summary>
-        public static BB_Book book = new BB_Book();
+        public static BB_Book Book = new BB_Book();
 
         /// <summary>
         /// The main form. This is where the book building takes place.
@@ -30,6 +30,21 @@ namespace BookBuilder
         /// Should be initialized and shown immediately when the user creates the MainForm.
         /// </summary>
         public static SetupForm setupForm;
+
+
+        /// <summary>
+        /// Allowed audio file types.
+        /// </summary>
+        public const string audioFileFilter = "Audio files (*.mp3, *.m4a, *.wma, *.wav) | *.mp3; *.m4a; *.wma; *.wav";
+        /// <summary>
+        /// Allowed image file types.
+        /// </summary>
+        public const string imageFileFilter = "Image files (*.jpg, *.jpeg, *.gif, *.png, *.tiff)| *.jpg; *.jpeg; *.gif; *.png; *.tiff";
+        /// <summary>
+        /// Allowed video file types.
+        /// </summary>
+        public const string videoFileFilter = "Video files (*.avi, *.mp4, *.wmv, *.m4v, *.avi)| *.avi; *.mp4; *.wmv; *.m4v; *.avi";
+
 
         [STAThread]
         static void Main(string[] args)

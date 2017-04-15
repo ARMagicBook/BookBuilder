@@ -12,159 +12,10 @@ namespace BookBuilder
     /// <summary>Used to parse input from a text file into BB_Book and BB_Pages and generate a config.xml file from that.</summary>
     public class XMLGenerator
     {
-
-        /// <summary>Parses input from a file named testInput.txt to get data about a book.</summary>
-        /// <remarks>This is only really for testing the XML generator; it will be replaced once we have a GUI to input book data.</remarks>
-        //Changed! Now this reads data into the book it's given as an argument.
-        public static void ParseInput(BB_Book book)
-        {
-
-            string path = System.IO.Directory.GetCurrentDirectory();
-
-            //GetCurrentDirectory includes /bin/Debug - we need to back up 2 directories and then give the input name
-            path += "/../../testInput.txt";
-
-            //Store input file in array, one line per index
-            string[] lines = System.IO.File.ReadAllLines(path);
-
-            int pageNum = 0;
-
-            //(It makes much more sense to have this here than as a class variable.)
-            BB_Page page = null;
-
-            foreach (string line in lines)
-            {
-                Console.WriteLine("On line " + line);
-                string[] splitLine = line.Split('=');
-
-                Console.WriteLine("The left of the = is " + splitLine[0]);
-
-                //Each time we see a page tag add old page to book and create a new page object
-                if (splitLine[0].Equals("page"))
-                {
-                    if (page != null)
-                        book.Pages.Add(page);
-
-                    page = new BB_Page();
-                    Console.WriteLine("Making a new page");
-                }
-
-                switch (splitLine[0])
-                {
-                    case "title":
-                        book.Title = splitLine[1];
-                        break;
-                    case "author":
-                        //Authors are separated by commas
-                        string[] authors = splitLine[1].Split(',');
-                        foreach (string author in authors)
-                        {
-                            book.Authors.Add(author);
-                        }
-                        break;
-                    case "creation_date":
-                        book.CreationDate = splitLine[1];
-                        break;
-                    case "description":
-                        book.Description = splitLine[1];
-                        break;
-                    case "file_version":
-                        book.FileVersion = splitLine[1];
-                        break;
-                    case "button_image":
-                        book.ButtonImageName = splitLine[1];
-                        break;
-                    case "page":
-                        page.PageNumber = pageNum;
-                        pageNum++;
-                        page.SourcePageImageFileName = splitLine[1];
-
-                        if (splitLine[1].Contains("/"))
-                        {
-                            string[] pagePath = splitLine[1].Split('/');
-                            page.PageImageFileName = pagePath[pagePath.Length - 1];
-                        }
-                        else  //User just entered the file name, no path
-                        {
-                            page.PageImageFileName = splitLine[1];
-                        }
-                        break;
-                    case "audio_file":
-                        page.SourceAudioFileName = splitLine[1];
-
-                        if (splitLine[1].Contains("/"))
-                        {
-                            string[] pagePath = splitLine[1].Split('/');
-                            page.AudioFileName = pagePath[pagePath.Length - 1];
-                        }
-                        else  //User just entered the file name, no path
-                        {
-                            page.AudioFileName = splitLine[1];
-                        }
-
-                        try
-                        {
-                            string filePath = splitLine[1].Insert(0, "../../");
-                            page.AudioMD5 = BB_Page.GetMD5(filePath);
-                        }
-                        catch (System.IO.IOException e)
-                        {
-                            Console.WriteLine(e.Message);
-                            page.AudioMD5 = "";
-                        }
-                        break;
-                    case "video_file":
-                        page.SourceVideoFileName = splitLine[1];
-
-                        if (splitLine[1].Contains("/"))
-                        {
-                            string[] pagePath = splitLine[1].Split('/');
-                            page.VideoFileName = pagePath[pagePath.Length - 1];
-                        }
-                        else  //User just entered the file name, no path
-                        {
-                            page.VideoFileName = splitLine[1];
-                        }
-
-                        try
-                        {
-                            string filePath = splitLine[1].Insert(0, "../../");
-                            page.VideoMD5 = BB_Page.GetMD5(filePath);
-                        }
-                        catch (System.IO.IOException e)
-                        {
-                            Console.WriteLine(e.Message);
-                            page.VideoMD5 = "";
-                        }
-                        break;
-                    case "video_width":
-                        page.VideoWidth = Convert.ToInt32(splitLine[1]);
-                        break;
-                    case "video_height":
-                        page.VideoHeight = Convert.ToInt32(splitLine[1]);
-                        break;
-                    case "video_coordx":
-                        page.VideoX = Convert.ToInt32(splitLine[1]);
-                        break;
-                    case "video_coordy":
-                        page.VideoY = Convert.ToInt32(splitLine[1]);
-                        break;
-                    default:
-                        Console.WriteLine("Bad Input");
-                        System.Environment.Exit(1);
-                        break;
-                }
-            }
-            // Add last page to book (since input does not include closing tags we have to manually do this)
-            book.Pages.Add(page);
-        }
-
-
-        /// <summary>Generates config.xml file from the stored metadata</summary>
-        /// <remarks>
-        /// Any existing config.xml file will be overwritten.
-		/// </remarks>
-        // Changed completely! Now this generates an XML file from the book that gets passed in as an argument. 
+        /// <summary>
+        /// Generates an XML file from a BB_Book that was passed in.
+        /// </summary>
+        /// <param name="book"></param>
         public static void GenerateXML(BB_Book book)
         {
             string path = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "config.xml");
@@ -307,19 +158,7 @@ namespace BookBuilder
             else
                 return new string('\t', numTabs);
         }
-        /*
-        [STAThread]
-        static void Main(string[] args)
-        {
-            //This starts the MainForm.
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
-        }
-        */
+
     }
-   
-
-
-
 }
+

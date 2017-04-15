@@ -222,7 +222,10 @@ namespace BookBuilder
 
 
 
-
+        /// <summary>
+        /// Add a page to the book.
+        /// </summary>
+        /// <param name="p">The BB_Page to add.</param>
         public void AddPage(BB_Page p)
         {
             Pages.Add(p);

@@ -17,16 +17,14 @@ namespace BookBuilder
     public partial class GUI : Form
     {
         //The book that we're making.
-        public BB_Book book = new BookBuilder.BB_Book();
+        public BB_Book book = new global::BookBuilder.BB_Book();
 
         //Note: .m4a is the file extension for AAC files.
-        const string audioFileFilter = "Audio files (*.mp3, *.m4a, *.wma, *.wav) | *.mp3; *.m4a; *.wma; *.wav";
-        const string imageFileFilter = "Image files (*.jpg, *.jpeg, *.gif, *.png, *.tiff)| *.jpg; *.jpeg; *.gif; *.png; *.tiff";
-        const string videoFileFilter = "Video files (*.avi, *.mp4, *.wmv, *.m4v, *.avi)| *.avi; *.mp4; *.wmv; *.m4v; *.avi";
+        
 
         //The page we're making. SUPER TEMPORARY.
         //It's only for the current setup where the book we make only has one page.
-        public BB_Page page1 = new BookBuilder.BB_Page();
+        public BB_Page page1 = new global::BookBuilder.BB_Page();
 
         public GUI()
         {
@@ -41,7 +39,7 @@ namespace BookBuilder
 
             Debug.Write(Directory.GetCurrentDirectory());
             //This makes it impossible to open an image of a invalid format.
-            openFileDialog1.Filter = imageFileFilter;
+            openFileDialog1.Filter = StaticBook.imageFileFilter;
             DialogResult res = openFileDialog1.ShowDialog();
             if (res == DialogResult.OK)
             {
@@ -55,7 +53,7 @@ namespace BookBuilder
 
         private void VideoFileBrowseButton_Click(object sender, EventArgs e)
         {
-            openFileDialog1.Filter = videoFileFilter;
+            openFileDialog1.Filter = StaticBook.videoFileFilter;
             DialogResult res = openFileDialog1.ShowDialog();
 
             if (res == DialogResult.OK)
@@ -70,7 +68,7 @@ namespace BookBuilder
 
         private void AudioFileBrowseButton_Click(object sender, EventArgs e)
         {
-            openFileDialog1.Filter = audioFileFilter;
+            openFileDialog1.Filter = StaticBook.audioFileFilter;
             DialogResult res = openFileDialog1.ShowDialog();
             if (res == DialogResult.OK)
             {

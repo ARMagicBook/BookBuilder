@@ -40,23 +40,25 @@ namespace BookBuilder
         /// <param name="e"></param>
         private void GoToBuilder(object sender, EventArgs e)
         {
-            StaticBook.book.Title = TitleBox.Text;
-            StaticBook.book.Description = DescriptionBox.Text;
+            StaticBook.Book.Title = TitleBox.Text;
+            StaticBook.Book.Description = DescriptionBox.Text;
 
             for (int i=0; i < PagesBox.Value; i++)
             {
-                StaticBook.book.Pages.Add(new BookBuilder.BB_Page());
+                StaticBook.Book.Pages.Add(new global::BookBuilder.BB_Page());
             }
 
             foreach (TextBox Box in AuthorBoxes){
                 if (Box.Text != "")
                 {
-                    StaticBook.book.Authors.Add(Box.Text);
+                    StaticBook.Book.Authors.Add(Box.Text);
                 }
             }
 
             //Set CreationDate to today's date.
-            StaticBook.book.CreationDate = DateTime.Today.ToLongDateString();
+            StaticBook.Book.CreationDate = DateTime.Today.ToLongDateString();
+
+            StaticBook.mainForm.currentPage = StaticBook.Book.Pages[0];
 
             //Hide the setup form and show the main bookbuilder form.
             this.Visible = false;
