@@ -1,9 +1,12 @@
 ﻿Concerns:
-Should a book's iamges be stored in memory or opened from the file each time the page is turned?
+- Should a book's iamges be stored in memory or opened from the file each time the page is turned?
 	- With lots of big images (a likely base), storing them in memory would take a ton of RAM
 	  but make them load much faster.
 	- Compromise by storing a few pages at a time?
-Is the MD5 checked in the BookBuilder othe ARMB?
+- Is the MD5 checked in the BookBuilder othe ARMB?
+- Source...FileName variables in BB_Book are junk if you're opening the book on a different computer
+	so they shouldn't be relied on for anything unless the book was just created
+
 
 To do:
 - Add drag and drop for videos
