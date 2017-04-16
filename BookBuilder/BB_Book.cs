@@ -57,11 +57,11 @@ namespace BookBuilder
         /// Checks if two pages that will be open at the same time both have an audio file. 
         /// If they do a warning is displayed to the user (for now just write to console).
         /// </summary>
-        public void AudioFileCheck()
+        public bool AudioFileCheck()
         {
             if (Pages.Count < 2)
             {
-                return;
+                return true; 
             }
             for (int i = 0; i < Pages.Count; i += 2)
             {
@@ -71,10 +71,47 @@ namespace BookBuilder
                 {
                     Console.WriteLine("Warning: Page {0} and Page {1} both have audio files and will be open at the same time",
                                       i, i + 1);
+                    return false;
                     //TODO: Make this a dialog box popup instead. Maybe by having AudioFileCheck return a bool, which the GUI would check
                     //when creating the book.
                 }
             }
+            return true;
+        }
+
+        /// <summary>
+        /// THIS HAS NOT BEEN TESTED YET. NEED TO GET THE GUI TO THE POINT OF CREATING A BOOK FIRST.
+        /// Checks to see if all images in the book are the same size.
+        /// Uses the size of the image on the first page as the correct size.
+        /// </summary>
+        /// <returns>true if all the images in the book are the same size, false otherwise</returns>
+        public bool ImageFileCheck()
+        {
+            if (Pages == null)
+                return false;
+
+            System.Drawing.Image img = System.Drawing.Image.FromFile(Pages[0].SourceAudioFileName);
+            int correctHeight = img.Width;
+            int correctWidth = img.Height;
+
+            for (int i = 1; i < Pages.Count; i++)
+            {
+                try
+                {
+                    img = System.Drawing.Image.FromFile(Pages[i].SourceAudioFileName);
+                    if (img.Height != correctHeight || img.Width != correctWidth)
+                    {
+                        Console.WriteLine("Warning: Page image {0} has the incorrect size. All pages must have height {1} and width {0}",
+                            i, correctHeight, correctWidth);
+                        return false;
+                    }
+                }
+                catch
+                {
+                    Console.WriteLine("Failed to open image file for page {0}", i);
+                }
+            }
+            return true;
         }
 
         /// <summary>Creates a zip file of the books data (pages, videos, etc.) and config.xml.</summary>
