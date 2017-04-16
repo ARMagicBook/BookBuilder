@@ -16,7 +16,7 @@ namespace BookBuilder
     /// </summary>
     public partial class SetupForm : Form
     {
-        int insertRowNum;
+        private int insertRowNum;
 
         /// <summary>
         /// Initializes the SetupForm.
