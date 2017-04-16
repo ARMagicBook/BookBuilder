@@ -90,7 +90,7 @@ namespace BookBuilder
             if (Pages == null)
                 return false;
 
-            System.Drawing.Image img = System.Drawing.Image.FromFile(Pages[0].SourceAudioFileName);
+            System.Drawing.Image img = System.Drawing.Image.FromFile(Pages[0].SourcePageImageFileName);
             int correctHeight = img.Width;
             int correctWidth = img.Height;
 
@@ -98,7 +98,7 @@ namespace BookBuilder
             {
                 try
                 {
-                    img = System.Drawing.Image.FromFile(Pages[i].SourceAudioFileName);
+                    img = System.Drawing.Image.FromFile(Pages[i].SourcePageImageFileName);
                     if (img.Height != correctHeight || img.Width != correctWidth)
                     {
                         Console.WriteLine("Warning: Page image {0} has the incorrect size. All pages must have height {1} and width {0}",
