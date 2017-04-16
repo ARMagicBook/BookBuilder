@@ -1,0 +1,19 @@
+﻿Concerns:
+Should a book's iamges be stored in memory or opened from the file each time the page is turned?
+	- With lots of big images (a likely base), storing them in memory would take a ton of RAM
+	  but make them load much faster.
+	- Compromise by storing a few pages at a time?
+Is the MD5 checked in the BookBuilder othe ARMB?
+
+To do:
+- Add drag and drop for videos
+- Be able to open books in builder
+	- Serialize BB_Book in ARMB file
+	- Should be able to open books from setup form or main form
+- Have Save and Save As buttons in main form
+- Force all images in the book to be the same size
+	- How? Forcing them to be the first image's size would be weird.
+- Allow user to remove audio file or video file from a page
+- Allow user to add or remove pages
+- Give a warning if two pages that would show at the same time both have audio.
+- Maybe prevent user from making windows too small to hold everything?
