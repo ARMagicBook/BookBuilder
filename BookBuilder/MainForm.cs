@@ -31,8 +31,12 @@ namespace BookBuilder
             isNewBook = true;
         }
 
-        //The current page, zero-indexed as it is in the BB_Book
+        //The current page number, zero-indexed as it is in the BB_Book
         int currentPageNum = 0;
+
+        /// <summary>
+        /// The page currently being viewed in MainForm.
+        /// </summary>
         public BB_Page currentPage;
         //Set this to false if this is an opened book instead of a new one
         bool isNewBook = false;

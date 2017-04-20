@@ -3,7 +3,8 @@
 	- With lots of big images (a likely base), storing them in memory would take a ton of RAM
 	  but make them load much faster.
 	- Compromise by storing a few pages at a time?
-- Is the MD5 checked in the BookBuilder othe ARMB?
+	- Doesn't matter
+- Is the MD5 checked in the BookBuilder or the ARMB?
 - Source...FileName variables in BB_Book are junk if you're opening the book on a different computer
 	so they shouldn't be relied on for anything unless the book was just created
 
@@ -20,3 +21,5 @@ To do:
 - Allow user to add or remove pages
 - Give a warning if two pages that would show at the same time both have audio.
 - Maybe prevent user from making windows too small to hold everything?
+- Handle image size differences w/ descriptive error
+- Get width and height of videos from the file itself
