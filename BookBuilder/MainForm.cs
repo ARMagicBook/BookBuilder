@@ -121,6 +121,8 @@ namespace BookBuilder
 
             //Subract the page pictures location because the location of the video placeholder relative to the
             //page picture is what matters.
+            //THIS IS A PROBLEM RIGHT NOW. Currently the PagePicure container stretches accross the entire screen.
+            //We need to find a way to get the coordinates of where the page image appears on the screen
             XPosBox.Text = (videoPlaceholder.Location.X - PagePicture.Location.X).ToString();
             YPosBox.Text = (videoPlaceholder.Location.Y - PagePicture.Location.Y).ToString();
             WidthBox.Text = videoPlaceholder.Size.Width.ToString();
