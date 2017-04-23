@@ -31,6 +31,10 @@
             this.MainLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.BottomlayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.VideoInfoPanel = new System.Windows.Forms.Panel();
+            this.HeightBox = new System.Windows.Forms.TextBox();
+            this.HeightLabel = new System.Windows.Forms.Label();
+            this.WidthBox = new System.Windows.Forms.TextBox();
+            this.WidthLabel = new System.Windows.Forms.Label();
             this.YPosBox = new System.Windows.Forms.TextBox();
             this.YPosLabel = new System.Windows.Forms.Label();
             this.XPosBox = new System.Windows.Forms.TextBox();
@@ -54,10 +58,6 @@
             this.PrevButton = new System.Windows.Forms.Button();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.WidthBox = new System.Windows.Forms.TextBox();
-            this.WidthLabel = new System.Windows.Forms.Label();
-            this.HeightBox = new System.Windows.Forms.TextBox();
-            this.HeightLabel = new System.Windows.Forms.Label();
             this.MainLayoutPanel.SuspendLayout();
             this.BottomlayoutPanel.SuspendLayout();
             this.VideoInfoPanel.SuspendLayout();
@@ -79,30 +79,32 @@
             this.MainLayoutPanel.Controls.Add(this.BottomlayoutPanel, 0, 2);
             this.MainLayoutPanel.Controls.Add(this.PagePicture, 0, 1);
             this.MainLayoutPanel.Controls.Add(this.ControlsPanel, 0, 0);
-            this.MainLayoutPanel.Location = new System.Drawing.Point(8, 7);
+            this.MainLayoutPanel.Location = new System.Drawing.Point(12, 11);
+            this.MainLayoutPanel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MainLayoutPanel.Name = "MainLayoutPanel";
             this.MainLayoutPanel.RowCount = 3;
-            this.MainLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.MainLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 54F));
             this.MainLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 93.54839F));
-            this.MainLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.MainLayoutPanel.Size = new System.Drawing.Size(1114, 609);
+            this.MainLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 62F));
+            this.MainLayoutPanel.Size = new System.Drawing.Size(1671, 937);
             this.MainLayoutPanel.TabIndex = 0;
             this.MainLayoutPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
             // 
             // BottomlayoutPanel
             // 
             this.BottomlayoutPanel.ColumnCount = 3;
-            this.BottomlayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 290F));
-            this.BottomlayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 275F));
+            this.BottomlayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 435F));
+            this.BottomlayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 412F));
             this.BottomlayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 67.43119F));
             this.BottomlayoutPanel.Controls.Add(this.VideoInfoPanel, 0, 0);
             this.BottomlayoutPanel.Controls.Add(this.AudioInfoPanel, 0, 0);
             this.BottomlayoutPanel.Controls.Add(this.ImageInfoPanel, 0, 0);
-            this.BottomlayoutPanel.Location = new System.Drawing.Point(5, 570);
+            this.BottomlayoutPanel.Location = new System.Drawing.Point(6, 878);
+            this.BottomlayoutPanel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.BottomlayoutPanel.Name = "BottomlayoutPanel";
             this.BottomlayoutPanel.RowCount = 1;
             this.BottomlayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.BottomlayoutPanel.Size = new System.Drawing.Size(1104, 34);
+            this.BottomlayoutPanel.Size = new System.Drawing.Size(1656, 52);
             this.BottomlayoutPanel.TabIndex = 1;
             // 
             // VideoInfoPanel
@@ -119,16 +121,60 @@
             this.VideoInfoPanel.Controls.Add(this.OpenVideoButton);
             this.VideoInfoPanel.Controls.Add(this.VideoFileLabel);
             this.VideoInfoPanel.Controls.Add(this.VideoLabel);
-            this.VideoInfoPanel.Location = new System.Drawing.Point(568, 3);
+            this.VideoInfoPanel.Location = new System.Drawing.Point(851, 5);
+            this.VideoInfoPanel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.VideoInfoPanel.Name = "VideoInfoPanel";
-            this.VideoInfoPanel.Size = new System.Drawing.Size(533, 28);
+            this.VideoInfoPanel.Size = new System.Drawing.Size(798, 42);
             this.VideoInfoPanel.TabIndex = 2;
+            // 
+            // HeightBox
+            // 
+            this.HeightBox.Location = new System.Drawing.Point(732, 5);
+            this.HeightBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.HeightBox.Name = "HeightBox";
+            this.HeightBox.Size = new System.Drawing.Size(50, 26);
+            this.HeightBox.TabIndex = 11;
+            this.HeightBox.Text = "0";
+            this.HeightBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.HeightBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.BlockNonDigits);
+            // 
+            // HeightLabel
+            // 
+            this.HeightLabel.AutoSize = true;
+            this.HeightLabel.Location = new System.Drawing.Point(696, 9);
+            this.HeightLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.HeightLabel.Name = "HeightLabel";
+            this.HeightLabel.Size = new System.Drawing.Size(25, 20);
+            this.HeightLabel.TabIndex = 10;
+            this.HeightLabel.Text = "H:";
+            // 
+            // WidthBox
+            // 
+            this.WidthBox.Location = new System.Drawing.Point(634, 5);
+            this.WidthBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.WidthBox.Name = "WidthBox";
+            this.WidthBox.Size = new System.Drawing.Size(50, 26);
+            this.WidthBox.TabIndex = 9;
+            this.WidthBox.Text = "0";
+            this.WidthBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.WidthBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.BlockNonDigits);
+            // 
+            // WidthLabel
+            // 
+            this.WidthLabel.AutoSize = true;
+            this.WidthLabel.Location = new System.Drawing.Point(598, 9);
+            this.WidthLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.WidthLabel.Name = "WidthLabel";
+            this.WidthLabel.Size = new System.Drawing.Size(28, 20);
+            this.WidthLabel.TabIndex = 8;
+            this.WidthLabel.Text = "W:";
             // 
             // YPosBox
             // 
-            this.YPosBox.Location = new System.Drawing.Point(358, 3);
+            this.YPosBox.Location = new System.Drawing.Point(537, 5);
+            this.YPosBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.YPosBox.Name = "YPosBox";
-            this.YPosBox.Size = new System.Drawing.Size(35, 20);
+            this.YPosBox.Size = new System.Drawing.Size(50, 26);
             this.YPosBox.TabIndex = 7;
             this.YPosBox.Text = "0";
             this.YPosBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -137,17 +183,19 @@
             // YPosLabel
             // 
             this.YPosLabel.AutoSize = true;
-            this.YPosLabel.Location = new System.Drawing.Point(335, 7);
+            this.YPosLabel.Location = new System.Drawing.Point(502, 11);
+            this.YPosLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.YPosLabel.Name = "YPosLabel";
-            this.YPosLabel.Size = new System.Drawing.Size(17, 13);
+            this.YPosLabel.Size = new System.Drawing.Size(24, 20);
             this.YPosLabel.TabIndex = 6;
             this.YPosLabel.Text = "Y:";
             // 
             // XPosBox
             // 
-            this.XPosBox.Location = new System.Drawing.Point(293, 4);
+            this.XPosBox.Location = new System.Drawing.Point(440, 6);
+            this.XPosBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.XPosBox.Name = "XPosBox";
-            this.XPosBox.Size = new System.Drawing.Size(35, 20);
+            this.XPosBox.Size = new System.Drawing.Size(50, 26);
             this.XPosBox.TabIndex = 5;
             this.XPosBox.Text = "0";
             this.XPosBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -156,18 +204,20 @@
             // XPosLabel
             // 
             this.XPosLabel.AutoSize = true;
-            this.XPosLabel.Location = new System.Drawing.Point(269, 7);
+            this.XPosLabel.Location = new System.Drawing.Point(404, 11);
+            this.XPosLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.XPosLabel.Name = "XPosLabel";
-            this.XPosLabel.Size = new System.Drawing.Size(17, 13);
+            this.XPosLabel.Size = new System.Drawing.Size(24, 20);
             this.XPosLabel.TabIndex = 4;
             this.XPosLabel.Text = "X:";
             // 
             // OpenVideoButton
             // 
             this.OpenVideoButton.BackColor = System.Drawing.SystemColors.Control;
-            this.OpenVideoButton.Location = new System.Drawing.Point(188, 2);
+            this.OpenVideoButton.Location = new System.Drawing.Point(282, 3);
+            this.OpenVideoButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.OpenVideoButton.Name = "OpenVideoButton";
-            this.OpenVideoButton.Size = new System.Drawing.Size(75, 23);
+            this.OpenVideoButton.Size = new System.Drawing.Size(112, 35);
             this.OpenVideoButton.TabIndex = 3;
             this.OpenVideoButton.Text = "Open...";
             this.OpenVideoButton.UseVisualStyleBackColor = false;
@@ -176,18 +226,20 @@
             // VideoFileLabel
             // 
             this.VideoFileLabel.AutoSize = true;
-            this.VideoFileLabel.Location = new System.Drawing.Point(52, 7);
+            this.VideoFileLabel.Location = new System.Drawing.Point(78, 11);
+            this.VideoFileLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.VideoFileLabel.Name = "VideoFileLabel";
-            this.VideoFileLabel.Size = new System.Drawing.Size(130, 13);
+            this.VideoFileLabel.Size = new System.Drawing.Size(195, 20);
             this.VideoFileLabel.TabIndex = 2;
             this.VideoFileLabel.Text = "placeholder_filename.mp4";
             // 
             // VideoLabel
             // 
             this.VideoLabel.AutoSize = true;
-            this.VideoLabel.Location = new System.Drawing.Point(3, 7);
+            this.VideoLabel.Location = new System.Drawing.Point(4, 11);
+            this.VideoLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.VideoLabel.Name = "VideoLabel";
-            this.VideoLabel.Size = new System.Drawing.Size(53, 13);
+            this.VideoLabel.Size = new System.Drawing.Size(78, 20);
             this.VideoLabel.TabIndex = 1;
             this.VideoLabel.Text = "Video file:";
             // 
@@ -197,17 +249,19 @@
             this.AudioInfoPanel.Controls.Add(this.OpenAudioButton);
             this.AudioInfoPanel.Controls.Add(this.AudioFileLabel);
             this.AudioInfoPanel.Controls.Add(this.AudioLabel);
-            this.AudioInfoPanel.Location = new System.Drawing.Point(293, 3);
+            this.AudioInfoPanel.Location = new System.Drawing.Point(439, 5);
+            this.AudioInfoPanel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.AudioInfoPanel.Name = "AudioInfoPanel";
-            this.AudioInfoPanel.Size = new System.Drawing.Size(269, 28);
+            this.AudioInfoPanel.Size = new System.Drawing.Size(402, 42);
             this.AudioInfoPanel.TabIndex = 1;
             // 
             // OpenAudioButton
             // 
             this.OpenAudioButton.BackColor = System.Drawing.SystemColors.Control;
-            this.OpenAudioButton.Location = new System.Drawing.Point(188, 2);
+            this.OpenAudioButton.Location = new System.Drawing.Point(282, 3);
+            this.OpenAudioButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.OpenAudioButton.Name = "OpenAudioButton";
-            this.OpenAudioButton.Size = new System.Drawing.Size(75, 23);
+            this.OpenAudioButton.Size = new System.Drawing.Size(112, 35);
             this.OpenAudioButton.TabIndex = 3;
             this.OpenAudioButton.Text = "Open...";
             this.OpenAudioButton.UseVisualStyleBackColor = false;
@@ -216,18 +270,20 @@
             // AudioFileLabel
             // 
             this.AudioFileLabel.AutoSize = true;
-            this.AudioFileLabel.Location = new System.Drawing.Point(52, 7);
+            this.AudioFileLabel.Location = new System.Drawing.Point(78, 11);
+            this.AudioFileLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.AudioFileLabel.Name = "AudioFileLabel";
-            this.AudioFileLabel.Size = new System.Drawing.Size(130, 13);
+            this.AudioFileLabel.Size = new System.Drawing.Size(195, 20);
             this.AudioFileLabel.TabIndex = 2;
             this.AudioFileLabel.Text = "placeholder_filename.mp3";
             // 
             // AudioLabel
             // 
             this.AudioLabel.AutoSize = true;
-            this.AudioLabel.Location = new System.Drawing.Point(3, 7);
+            this.AudioLabel.Location = new System.Drawing.Point(4, 11);
+            this.AudioLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.AudioLabel.Name = "AudioLabel";
-            this.AudioLabel.Size = new System.Drawing.Size(53, 13);
+            this.AudioLabel.Size = new System.Drawing.Size(78, 20);
             this.AudioLabel.TabIndex = 1;
             this.AudioLabel.Text = "Audio file:";
             // 
@@ -237,17 +293,19 @@
             this.ImageInfoPanel.Controls.Add(this.OpenImageButton);
             this.ImageInfoPanel.Controls.Add(this.ImageFileLabel);
             this.ImageInfoPanel.Controls.Add(this.ImageLabel);
-            this.ImageInfoPanel.Location = new System.Drawing.Point(3, 3);
+            this.ImageInfoPanel.Location = new System.Drawing.Point(4, 5);
+            this.ImageInfoPanel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ImageInfoPanel.Name = "ImageInfoPanel";
-            this.ImageInfoPanel.Size = new System.Drawing.Size(281, 28);
+            this.ImageInfoPanel.Size = new System.Drawing.Size(420, 42);
             this.ImageInfoPanel.TabIndex = 0;
             // 
             // OpenImageButton
             // 
             this.OpenImageButton.BackColor = System.Drawing.SystemColors.Control;
-            this.OpenImageButton.Location = new System.Drawing.Point(197, 2);
+            this.OpenImageButton.Location = new System.Drawing.Point(296, 3);
+            this.OpenImageButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.OpenImageButton.Name = "OpenImageButton";
-            this.OpenImageButton.Size = new System.Drawing.Size(75, 23);
+            this.OpenImageButton.Size = new System.Drawing.Size(112, 35);
             this.OpenImageButton.TabIndex = 3;
             this.OpenImageButton.Text = "Open...";
             this.OpenImageButton.UseVisualStyleBackColor = false;
@@ -256,18 +314,20 @@
             // ImageFileLabel
             // 
             this.ImageFileLabel.AutoSize = true;
-            this.ImageFileLabel.Location = new System.Drawing.Point(67, 7);
+            this.ImageFileLabel.Location = new System.Drawing.Point(100, 11);
+            this.ImageFileLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.ImageFileLabel.Name = "ImageFileLabel";
-            this.ImageFileLabel.Size = new System.Drawing.Size(124, 13);
+            this.ImageFileLabel.Size = new System.Drawing.Size(185, 20);
             this.ImageFileLabel.TabIndex = 2;
             this.ImageFileLabel.Text = "placeholder_filename.jpg";
             // 
             // ImageLabel
             // 
             this.ImageLabel.AutoSize = true;
-            this.ImageLabel.Location = new System.Drawing.Point(3, 7);
+            this.ImageLabel.Location = new System.Drawing.Point(4, 11);
+            this.ImageLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.ImageLabel.Name = "ImageLabel";
-            this.ImageLabel.Size = new System.Drawing.Size(67, 13);
+            this.ImageLabel.Size = new System.Drawing.Size(99, 20);
             this.ImageLabel.TabIndex = 1;
             this.ImageLabel.Text = "Page Image:";
             // 
@@ -276,9 +336,10 @@
             this.PagePicture.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.PagePicture.Location = new System.Drawing.Point(5, 42);
+            this.PagePicture.Location = new System.Drawing.Point(6, 63);
+            this.PagePicture.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.PagePicture.Name = "PagePicture";
-            this.PagePicture.Size = new System.Drawing.Size(1104, 520);
+            this.PagePicture.Size = new System.Drawing.Size(1659, 803);
             this.PagePicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.PagePicture.TabIndex = 2;
             this.PagePicture.TabStop = false;
@@ -290,17 +351,19 @@
             this.ControlsPanel.Controls.Add(this.Nextbutton);
             this.ControlsPanel.Controls.Add(this.PageNumBox);
             this.ControlsPanel.Controls.Add(this.PrevButton);
-            this.ControlsPanel.Location = new System.Drawing.Point(5, 5);
+            this.ControlsPanel.Location = new System.Drawing.Point(6, 7);
+            this.ControlsPanel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ControlsPanel.Name = "ControlsPanel";
-            this.ControlsPanel.Size = new System.Drawing.Size(226, 29);
+            this.ControlsPanel.Size = new System.Drawing.Size(338, 44);
             this.ControlsPanel.TabIndex = 3;
             this.ControlsPanel.Click += new System.EventHandler(this.PrevPage);
             // 
             // SaveAsButton
             // 
-            this.SaveAsButton.Location = new System.Drawing.Point(144, 2);
+            this.SaveAsButton.Location = new System.Drawing.Point(216, 3);
+            this.SaveAsButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.SaveAsButton.Name = "SaveAsButton";
-            this.SaveAsButton.Size = new System.Drawing.Size(77, 23);
+            this.SaveAsButton.Size = new System.Drawing.Size(116, 35);
             this.SaveAsButton.TabIndex = 3;
             this.SaveAsButton.Text = "Save As...";
             this.SaveAsButton.UseVisualStyleBackColor = true;
@@ -308,9 +371,10 @@
             // 
             // Nextbutton
             // 
-            this.Nextbutton.Location = new System.Drawing.Point(92, 3);
+            this.Nextbutton.Location = new System.Drawing.Point(138, 5);
+            this.Nextbutton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Nextbutton.Name = "Nextbutton";
-            this.Nextbutton.Size = new System.Drawing.Size(46, 23);
+            this.Nextbutton.Size = new System.Drawing.Size(69, 35);
             this.Nextbutton.TabIndex = 2;
             this.Nextbutton.Text = "Next";
             this.Nextbutton.UseVisualStyleBackColor = true;
@@ -318,9 +382,10 @@
             // 
             // PageNumBox
             // 
-            this.PageNumBox.Location = new System.Drawing.Point(55, 5);
+            this.PageNumBox.Location = new System.Drawing.Point(82, 8);
+            this.PageNumBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.PageNumBox.Name = "PageNumBox";
-            this.PageNumBox.Size = new System.Drawing.Size(31, 20);
+            this.PageNumBox.Size = new System.Drawing.Size(44, 26);
             this.PageNumBox.TabIndex = 1;
             this.PageNumBox.Text = "1";
             this.PageNumBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -328,9 +393,10 @@
             // 
             // PrevButton
             // 
-            this.PrevButton.Location = new System.Drawing.Point(3, 3);
+            this.PrevButton.Location = new System.Drawing.Point(4, 5);
+            this.PrevButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.PrevButton.Name = "PrevButton";
-            this.PrevButton.Size = new System.Drawing.Size(46, 23);
+            this.PrevButton.Size = new System.Drawing.Size(69, 35);
             this.PrevButton.TabIndex = 0;
             this.PrevButton.Text = "Prev";
             this.PrevButton.UseVisualStyleBackColor = true;
@@ -340,50 +406,13 @@
             // 
             this.openFileDialog.FileName = "openFileDialog";
             // 
-            // WidthBox
-            // 
-            this.WidthBox.Location = new System.Drawing.Point(423, 3);
-            this.WidthBox.Name = "WidthBox";
-            this.WidthBox.Size = new System.Drawing.Size(35, 20);
-            this.WidthBox.TabIndex = 9;
-            this.WidthBox.Text = "0";
-            this.WidthBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.WidthBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.BlockNonDigits);
-            // 
-            // WidthLabel
-            // 
-            this.WidthLabel.AutoSize = true;
-            this.WidthLabel.Location = new System.Drawing.Point(399, 6);
-            this.WidthLabel.Name = "WidthLabel";
-            this.WidthLabel.Size = new System.Drawing.Size(21, 13);
-            this.WidthLabel.TabIndex = 8;
-            this.WidthLabel.Text = "W:";
-            // 
-            // HeightBox
-            // 
-            this.HeightBox.Location = new System.Drawing.Point(488, 3);
-            this.HeightBox.Name = "HeightBox";
-            this.HeightBox.Size = new System.Drawing.Size(35, 20);
-            this.HeightBox.TabIndex = 11;
-            this.HeightBox.Text = "0";
-            this.HeightBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.HeightBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.BlockNonDigits);
-            // 
-            // HeightLabel
-            // 
-            this.HeightLabel.AutoSize = true;
-            this.HeightLabel.Location = new System.Drawing.Point(464, 6);
-            this.HeightLabel.Name = "HeightLabel";
-            this.HeightLabel.Size = new System.Drawing.Size(18, 13);
-            this.HeightLabel.TabIndex = 10;
-            this.HeightLabel.Text = "H:";
-            // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1126, 615);
+            this.ClientSize = new System.Drawing.Size(1689, 946);
             this.Controls.Add(this.MainLayoutPanel);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "MainForm";
             this.Text = "BookBuilder";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainFormClosed);

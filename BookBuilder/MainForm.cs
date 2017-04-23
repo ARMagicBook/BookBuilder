@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace BookBuilder
 {
@@ -40,6 +41,8 @@ namespace BookBuilder
         public BB_Page currentPage;
         //Set this to false if this is an opened book instead of a new one
         bool isNewBook = false;
+
+        private PictureBox videoPlaceholder;
 
         /// <summary>
         /// Runs when the main form is closed.
@@ -77,7 +80,6 @@ namespace BookBuilder
                 currentPage.SourceAudioFileName = openFileDialog.FileName;
                 currentPage.AudioFileName = Path.GetFileName(openFileDialog.FileName);
                 AudioFileLabel.Text = currentPage.AudioFileName;
-
             }
         }
 
@@ -89,7 +91,40 @@ namespace BookBuilder
                 currentPage.SourceVideoFileName = openFileDialog.FileName;
                 currentPage.VideoFileName = Path.GetFileName(openFileDialog.FileName);
                 VideoFileLabel.Text = currentPage.VideoFileName;
+
+                videoPlaceholder = new PictureBox();
+                videoPlaceholder.Size = new Size(150, 150);
+                videoPlaceholder.Image = Image.FromFile("../../video_source/video_placeholder.png");
+                Point centerOfPageImage = new Point(PagePicture.Location.X + PagePicture.Size.Width / 2 - videoPlaceholder.Size.Width / 2,
+                    PagePicture.Location.Y + PagePicture.Size.Height / 2 - videoPlaceholder.Size.Height / 2);
+                videoPlaceholder.Location = centerOfPageImage;
+                videoPlaceholder.SizeMode = PictureBoxSizeMode.StretchImage;
+
+                Controls.Add(videoPlaceholder);
+                videoPlaceholder.BringToFront();
+
+                DisplayVideoSizeAndLocation();
             }
+        }
+
+
+        /// <summary>
+        /// Updates the X, Y, W, and H text fields in the lower righthand corner to 
+        /// display the current information of the video placeholder
+        /// </summary>
+        private void DisplayVideoSizeAndLocation() {
+
+            Debug.WriteLine("videoPl x is " + videoPlaceholder.Location.X.ToString());
+            Debug.WriteLine("pagepic x is " + PagePicture.Location.X.ToString());
+            Debug.WriteLine("videoPl y is " + videoPlaceholder.Location.Y.ToString());
+            Debug.WriteLine("pagepic y is " + PagePicture.Location.Y.ToString());
+
+            //Subract the page pictures location because the location of the video placeholder relative to the
+            //page picture is what matters.
+            XPosBox.Text = (videoPlaceholder.Location.X - PagePicture.Location.X).ToString();
+            YPosBox.Text = (videoPlaceholder.Location.Y - PagePicture.Location.Y).ToString();
+            WidthBox.Text = videoPlaceholder.Size.Width.ToString();
+            HeightBox.Text = videoPlaceholder.Size.Height.ToString();
         }
 
         private void BlockNonDigits(object sender, KeyPressEventArgs e)
