@@ -42,7 +42,7 @@ namespace BookBuilder
         //Set this to false if this is an opened book instead of a new one
         bool isNewBook = false;
 
-        private PictureBox videoPlaceholder;
+        private CustomPictureBox videoPlaceholder;
 
         /// <summary>
         /// Runs when the main form is closed.
@@ -92,7 +92,7 @@ namespace BookBuilder
                 currentPage.VideoFileName = Path.GetFileName(openFileDialog.FileName);
                 VideoFileLabel.Text = currentPage.VideoFileName;
 
-                videoPlaceholder = new PictureBox();
+                videoPlaceholder = new CustomPictureBox();
                 videoPlaceholder.Size = new Size(150, 150);
                 videoPlaceholder.Image = Image.FromFile("../../video_source/video_placeholder.png");
                 Point centerOfPageImage = new Point(PagePicture.Location.X + PagePicture.Size.Width / 2 - videoPlaceholder.Size.Width / 2,

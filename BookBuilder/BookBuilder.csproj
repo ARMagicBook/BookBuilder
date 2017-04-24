@@ -53,6 +53,9 @@
   <ItemGroup>
     <Compile Include="BB_Page.cs" />
     <Compile Include="BB_Book.cs" />
+    <Compile Include="CustomPictureBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="GUI.cs">
       <SubType>Form</SubType>
     </Compile>
