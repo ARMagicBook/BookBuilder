@@ -10,6 +10,19 @@ namespace BookBuilder
 {
     class CustomPictureBox : PictureBox
     {
+        private MainForm mainForm;
+
+        public CustomPictureBox(MainForm mainForm)
+        {
+            this.mainForm = mainForm;
+            this.MouseUp += MouseUpHandler;
+        }
+
+
+        private void MouseUpHandler(object sender, MouseEventArgs e)
+        {
+            mainForm.DisplayVideoSizeAndLocation();  //Re-update size and location of video when user is done resizing.
+        }
 
         //http://stackoverflow.com/questions/17264225/how-can-user-resize-control-at-runtime-in-winforms
         protected override CreateParams CreateParams
