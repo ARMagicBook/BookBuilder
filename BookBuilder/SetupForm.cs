@@ -40,6 +40,11 @@ namespace BookBuilder
         /// <param name="e"></param>
         private void GoToBuilder(object sender, EventArgs e)
         {
+            if (TitleBox.Text == "")
+            {
+                MessageBox.Show("Your book must have a title.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             StaticBook.Book.Title = TitleBox.Text;
             StaticBook.Book.Description = DescriptionBox.Text;
 

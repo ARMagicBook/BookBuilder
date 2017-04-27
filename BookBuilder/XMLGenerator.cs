@@ -53,11 +53,12 @@ namespace BookBuilder
 			XmlText descriptionText = xmlDoc.CreateTextNode(book.Description);
 			description.AppendChild(descriptionText);
 			bookTag.AppendChild(description);
-
+            /*
 			XmlElement buttonImage = xmlDoc.CreateElement("button_image");
 			XmlText buttonText = xmlDoc.CreateTextNode(book.ButtonImageName);
 			buttonImage.AppendChild(buttonText);
 			bookTag.AppendChild(buttonImage);
+            */
 
 			XmlElement pages = xmlDoc.CreateElement("pages");
 

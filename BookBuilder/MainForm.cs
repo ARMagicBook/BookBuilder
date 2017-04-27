@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.IO.Compression;
 
 namespace BookBuilder
 {
@@ -223,5 +224,26 @@ namespace BookBuilder
             WidthBox.Text = currentPage.VideoWidth.ToString();
         }
 
+        private void OpenBook(object sender, EventArgs e)
+        {
+            openFileDialog.Filter = "ARMB files (*.armb)| *.armb";
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+
+
+                //Extract zip into temp folder
+                String tempFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Local/ARMB/temp/bookbuilder");
+                //Gives username\AppData\Roaming\Local]ARMB\temp\bookbuilder.
+                ZipFile.ExtractToDirectory(openFileDialog.FileName, tempFolder);
+
+
+
+
+                //Open config.xml
+
+                //Parse it and put its info in the BB_Book;
+                //(make sure code is equipped to not use Source..Handlers.
+            }
+        }
     }
 }
