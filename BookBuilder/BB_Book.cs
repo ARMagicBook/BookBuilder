@@ -5,6 +5,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace BookBuilder
 {
@@ -15,13 +16,13 @@ namespace BookBuilder
         /// Gets the pages of the book.
         /// </summary>
         /// <value>The pages of the book.</value>
-        public List<BB_Page> Pages { get; } = new List<BB_Page>();
+        public List<BB_Page> Pages { get; private set; } = new List<BB_Page>();
 
         /// <summary>
         /// Gets the author(s) of the book.
         /// </summary>
         /// <value>The author(s) of the book.</value>
-        public List<string> Authors { get; } = new List<string>();
+        public List<string> Authors { get; private set; } = new List<string>();
 
         /// <summary>
         /// Gets or sets the title.
@@ -114,6 +115,51 @@ namespace BookBuilder
             return true;
         }
 
+
+        /// <summary>
+        /// Serializes the BB_Book.
+        /// </summary>
+        /// <param name="path">The directory to save the serialized BB_Book in.</param>
+        public void SerializeBook(String path)
+        {
+            // Insert code to set properties and fields of the object.  
+            XmlSerializer serializer = new XmlSerializer(typeof(BB_Book));
+            // To write to a file, create a StreamWriter object.  
+            StreamWriter writer = new StreamWriter(Path.Combine(path,"serialized"));
+            serializer.Serialize(writer, this);
+            writer.Close();
+
+        }
+
+        /// <summary>
+        /// Deserializes the BB_Book and replaces the current values with its values.
+        /// </summary>
+        /// <param name="path">The directory of the serialized BB_Book.</param>
+        public void DeserializeBook(String path)
+        {
+            BB_Book tempBook;
+            // Construct an instance of the XmlSerializer with the type  
+            // of object that is being deserialized.  
+            XmlSerializer serializer = new XmlSerializer(typeof(BB_Book));
+            // To read the file, create a FileStream.  
+            FileStream fs = new FileStream(Path.Combine(path,"serialized"), FileMode.Open);
+            // Call the Deserialize method and cast to the object type.  
+            tempBook = (BB_Book)serializer.Deserialize(fs);
+
+            //Copy tempBook to this book
+            Pages = tempBook.Pages;
+            Authors = tempBook.Authors;
+            Title = tempBook.Title;
+            CreationDate = tempBook.CreationDate;
+            Description = tempBook.Description;
+            ButtonImageName = tempBook.ButtonImageName;
+            FileVersion = tempBook.FileVersion;
+
+
+        }
+
+
+
         /// <summary>Creates a zip file of the books data (pages, videos, etc.) and config.xml.</summary>
 		public void CreateZipFile(string destDirectory)
         {
@@ -145,6 +191,9 @@ namespace BookBuilder
             Directory.CreateDirectory(videoFolderPath);
 
             File.Copy(configPath, configZipPath);
+
+            //Serialize book
+            SerializeBook(rootFolderPath);
 
             foreach (BB_Page page in Pages)
             {

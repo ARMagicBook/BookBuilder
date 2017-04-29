@@ -70,7 +70,7 @@ namespace BookBuilder
                 currentPage.PageImageFileName = Path.GetFileName(openFileDialog.FileName);
                 ImageFileLabel.Text = currentPage.PageImageFileName;
                 PagePicture.Image = Image.FromFile(openFileDialog.FileName);
-            } 
+            }
         }
 
         private void OpenAudio(object sender, EventArgs e)
@@ -113,7 +113,8 @@ namespace BookBuilder
         /// Updates the X, Y, W, and H text fields in the lower righthand corner to 
         /// display the current information of the video placeholder
         /// </summary>
-        private void DisplayVideoSizeAndLocation() {
+        private void DisplayVideoSizeAndLocation()
+        {
 
             Debug.WriteLine("videoPl x is " + videoPlaceholder.Location.X.ToString());
             Debug.WriteLine("pagepic x is " + PagePicture.Location.X.ToString());
@@ -140,20 +141,20 @@ namespace BookBuilder
 
         private void PrevPage(object sender, EventArgs e)
         {
-            GoToPage(ClampPageNum(currentPageNum - 1));
+            GoToPage(ClampPageNum(currentPageNum - 1), true);
         }
 
         private void NextPage(object sender, EventArgs e)
         {
 
-            GoToPage(ClampPageNum(currentPageNum + 1));
+            GoToPage(ClampPageNum(currentPageNum + 1), true);
         }
 
         //Save the entire book
         private void SaveAs(object sender, EventArgs e)
         {
             //saves contents of current page to BB_Book
-            GoToPage(currentPageNum);
+            GoToPage(currentPageNum, true);
             if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
             {
                 XMLGenerator.GenerateXML(StaticBook.Book);
@@ -165,7 +166,7 @@ namespace BookBuilder
         {
             if (e.KeyChar == Convert.ToChar(Keys.Return))
             {
-                GoToPage(ClampPageNum(Int32.Parse(PageNumBox.Text)-1));
+                GoToPage(ClampPageNum(Int32.Parse(PageNumBox.Text) - 1), true);
             }
         }
 
@@ -173,76 +174,97 @@ namespace BookBuilder
         private int ClampPageNum(int num)
         {
             if (num < 0) return 0;
-            if (num > StaticBook.Book.Pages.Count-1) return StaticBook.Book.Pages.Count-1;
+            if (num > StaticBook.Book.Pages.Count - 1) return StaticBook.Book.Pages.Count - 1;
             return num;
         }
 
         //Save the current page to the BB_Book and go to another one.
-        private void GoToPage(int pageNum)
+        private void GoToPage(int pageNum, bool saveCurrent)
         {
-            currentPage.VideoX = Int32.Parse(XPosBox.Text);
-            currentPage.VideoY = Int32.Parse(YPosBox.Text);
-            currentPage.VideoHeight = Int32.Parse(HeightBox.Text);
-            currentPage.VideoWidth = Int32.Parse(WidthBox.Text);
-            currentPage.PageNumber = currentPageNum;
 
+            if (saveCurrent)
+            {
+                currentPage.VideoX = Int32.Parse(XPosBox.Text);
+                currentPage.VideoY = Int32.Parse(YPosBox.Text);
+                currentPage.VideoHeight = Int32.Parse(HeightBox.Text);
+                currentPage.VideoWidth = Int32.Parse(WidthBox.Text);
+                currentPage.PageNumber = currentPageNum;
+            }
             currentPageNum = pageNum;
             currentPage = StaticBook.Book.Pages[currentPageNum];
 
             PageNumBox.Text = (currentPageNum + 1).ToString();
             //If it's a new book, use SourcePage... filenames.
             //Otherwise, use Page... filenames because SourcePage... filenames might be meaningless.
-            if (isNewBook)
+            // if (isNewBook)
+            //{
+            if (currentPage.SourcePageImageFileName != null)
             {
-                if (currentPage.SourcePageImageFileName != null)
-                {
-                    ImageFileLabel.Text = Path.GetFileName(currentPage.SourcePageImageFileName);
-                    PagePicture.Image = Image.FromFile(currentPage.SourcePageImageFileName);
-                } else
-                {
-                    ImageFileLabel.Text = "";
-                    PagePicture.Image = null;
-                }
-                if (currentPage.SourceAudioFileName != null)
-                {
-                    AudioFileLabel.Text = Path.GetFileName(currentPage.SourceAudioFileName);
-                } else
-                {
-                    AudioFileLabel.Text = "";
-                }
-                if (currentPage.SourceVideoFileName != null)
-                {
-                    VideoFileLabel.Text = Path.GetFileName(currentPage.SourceVideoFileName);
-                } else
-                {
-                    VideoFileLabel.Text = "";
-                }
+                ImageFileLabel.Text = Path.GetFileName(currentPage.SourcePageImageFileName);
+                PagePicture.Image = Image.FromFile(currentPage.SourcePageImageFileName);
             }
+            else
+            {
+                ImageFileLabel.Text = "";
+                PagePicture.Image = null;
+            }
+            if (currentPage.SourceAudioFileName != null)
+            {
+                AudioFileLabel.Text = Path.GetFileName(currentPage.SourceAudioFileName);
+            }
+            else
+            {
+                AudioFileLabel.Text = "";
+            }
+            if (currentPage.SourceVideoFileName != null)
+            {
+                VideoFileLabel.Text = Path.GetFileName(currentPage.SourceVideoFileName);
+            }
+            else
+            {
+                VideoFileLabel.Text = "";
+            }
+            //}
             XPosBox.Text = currentPage.VideoX.ToString();
             YPosBox.Text = currentPage.VideoY.ToString();
             HeightBox.Text = currentPage.VideoHeight.ToString();
             WidthBox.Text = currentPage.VideoWidth.ToString();
         }
 
+        //Make sure to add prompt to save current book before opening a new one
         private void OpenBook(object sender, EventArgs e)
         {
             openFileDialog.Filter = "ARMB files (*.armb)| *.armb";
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-
-
                 //Extract zip into temp folder
-                String tempFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Local/ARMB/temp/bookbuilder");
-                //Gives username\AppData\Roaming\Local]ARMB\temp\bookbuilder.
+                String tempFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "../Local/ARMB/temp/bookbuilder/building");
+
+                if (Directory.Exists(tempFolder))
+                {
+                    Directory.Delete(tempFolder, true);
+                }
+
+                Directory.CreateDirectory(tempFolder);
                 ZipFile.ExtractToDirectory(openFileDialog.FileName, tempFolder);
-
-
-
-
-                //Open config.xml
-
-                //Parse it and put its info in the BB_Book;
-                //(make sure code is equipped to not use Source..Handlers.
+                //Parse the serialized BB_Book and copy it into our book.
+                StaticBook.Book.DeserializeBook(tempFolder);
+                foreach (BB_Page p in StaticBook.Book.Pages)
+                {
+                    if (p.PageImageFileName != null && p.PageImageFileName != "")
+                    {
+                        p.SourcePageImageFileName = Path.Combine(tempFolder, "images", p.PageImageFileName);
+                    }
+                    if (p.AudioFileName != null && p.AudioFileName != "")
+                    {
+                        p.SourceAudioFileName = Path.Combine(tempFolder, "audio", p.AudioFileName);
+                    }
+                    if (p.VideoFileName != null && p.VideoFileName != "")
+                    {
+                        p.SourceVideoFileName = Path.Combine(tempFolder, "video", p.VideoFileName);
+                    }
+                }
+                GoToPage(0, false);
             }
         }
     }
