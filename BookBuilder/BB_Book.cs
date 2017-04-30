@@ -154,7 +154,7 @@ namespace BookBuilder
             Description = tempBook.Description;
             ButtonImageName = tempBook.ButtonImageName;
             FileVersion = tempBook.FileVersion;
-
+            fs.Close();
 
         }
 

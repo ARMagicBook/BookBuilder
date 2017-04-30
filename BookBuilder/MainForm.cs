@@ -251,7 +251,7 @@ namespace BookBuilder
                 if (Directory.Exists(tempFolder))
                 {
                     //Necessary so we're not deleting an image we have open
-                    PagePicture.Dispose();
+                    PagePicture.Image.Dispose();
                     Directory.Delete(tempFolder, true);
                 }
 

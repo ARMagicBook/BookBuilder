@@ -60,17 +60,5 @@ namespace BookBuilder
             setupForm.Visible = true;
             Application.Run();
         }
-
-        /// <summary>
-        /// Parses the config file and puts it in Book
-        /// </summary>
-        /// <param name="configPath"></param>
-        public static void ParseConfig(String configPath)
-        {
-            //Clear book, we're making a new one
-            Book = new BB_Book();
-
-
-        }
     }
 }
