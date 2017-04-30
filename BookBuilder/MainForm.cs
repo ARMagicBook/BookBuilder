@@ -32,9 +32,6 @@ namespace BookBuilder
             VideoFileLabel.Text = "";
         }
 
-        //The current page number, zero-indexed as it is in the BB_Book
-        int currentPageNum = 0;
-
         /// <summary>
         /// The page currently being viewed in MainForm.
         /// </summary>
@@ -42,6 +39,9 @@ namespace BookBuilder
 
 
         private PictureBox videoPlaceholder;
+
+        //The current page number, zero-indexed as it is in the BB_Book
+        private int currentPageNum = 0;
 
         /// <summary>
         /// Runs when the main form is closed.
@@ -158,6 +158,7 @@ namespace BookBuilder
                     fileName += ".armb";
                 }
                 StaticBook.Book.CreateZipFile(folderBrowserDialog.SelectedPath,fileName);
+                StaticBook.hasBeenSaved = true;
             }
         }
 
@@ -169,7 +170,7 @@ namespace BookBuilder
             }
         }
 
-        //Clamps the input to a valid page number (assuming it's zero-indexed)
+        //Clamps the input to a valid page number (input and output is zero-indexed)
         private int ClampPageNum(int num)
         {
             if (num < 0) return 0;
@@ -204,6 +205,8 @@ namespace BookBuilder
             if (currentPage.SourcePageImageFileName != null)
             {
                 ImageFileLabel.Text = Path.GetFileName(currentPage.SourcePageImageFileName);
+                if (PagePicture.Image != null)
+                    PagePicture.Image.Dispose();
                 PagePicture.Image = Image.FromFile(currentPage.SourcePageImageFileName);
             }
             else
@@ -245,37 +248,27 @@ namespace BookBuilder
             openFileDialog.Filter = "ARMB files (*.armb)| *.armb";
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                //Extract zip into temp folder
-                String tempFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "../Local/ARMB/temp/bookbuilder/building");
-
-                if (Directory.Exists(tempFolder))
-                {
-                    //Necessary so we're not deleting an image we have open
-                    PagePicture.Image.Dispose();
-                    Directory.Delete(tempFolder, true);
-                }
-
-                Directory.CreateDirectory(tempFolder);
-                ZipFile.ExtractToDirectory(openFileDialog.FileName, tempFolder);
-                //Parse the serialized BB_Book and copy it into our book.
-                StaticBook.Book.DeserializeBook(tempFolder);
-                foreach (BB_Page p in StaticBook.Book.Pages)
-                {
-                    if (p.PageImageFileName != null && p.PageImageFileName != "")
-                    {
-                        p.SourcePageImageFileName = Path.Combine(tempFolder, "images", p.PageImageFileName);
-                    }
-                    if (p.AudioFileName != null && p.AudioFileName != "")
-                    {
-                        p.SourceAudioFileName = Path.Combine(tempFolder, "audio", p.AudioFileName);
-                    }
-                    if (p.VideoFileName != null && p.VideoFileName != "")
-                    {
-                        p.SourceVideoFileName = Path.Combine(tempFolder, "video", p.VideoFileName);
-                    }
-                }
+                StaticBook.OpenBook(openFileDialog.FileName);
                 GoToPage(0, false);
+                StaticBook.hasBeenSaved = true;
             }
+        }
+
+        /// <summary>
+        /// Disposes of the image in the picturebox if it's not null.
+        /// </summary>
+        /// <returns></returns>
+        public void DisposeImage()
+        {
+            if (PagePicture.Image != null)
+            {
+                PagePicture.Image.Dispose();
+            }
+        }
+
+        private void Save(object sender, EventArgs e)
+        {
+
         }
     }
 }

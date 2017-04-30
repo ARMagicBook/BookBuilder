@@ -130,36 +130,11 @@ namespace BookBuilder
             openFileDialog.Filter = "ARMB files (*.armb)| *.armb";
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                //Extract zip into temp folder
-                String tempFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "../Local/ARMB/temp/bookbuilder/building");
-
-                if (Directory.Exists(tempFolder))
-                {
-                    Directory.Delete(tempFolder, true);
-                }
-
-                Directory.CreateDirectory(tempFolder);
-                ZipFile.ExtractToDirectory(openFileDialog.FileName, tempFolder);
-                //Parse the serialized BB_Book and copy it into our book.
-                StaticBook.Book.DeserializeBook(tempFolder);
-                foreach (BB_Page p in StaticBook.Book.Pages)
-                {
-                    if (p.PageImageFileName != null && p.PageImageFileName != "")
-                    {
-                        p.SourcePageImageFileName = Path.Combine(tempFolder, "images", p.PageImageFileName);
-                    }
-                    if (p.AudioFileName != null && p.AudioFileName != "")
-                    {
-                        p.SourceAudioFileName = Path.Combine(tempFolder, "audio", p.AudioFileName);
-                    }
-                    if (p.VideoFileName != null && p.VideoFileName != "")
-                    {
-                        p.SourceVideoFileName = Path.Combine(tempFolder, "video", p.VideoFileName);
-                    }
-                }
+                StaticBook.OpenBook(openFileDialog.FileName);
                 StaticBook.mainForm.GoToPage(0, false);
                 this.Visible = false;
                 StaticBook.mainForm.Visible = true;
+                StaticBook.hasBeenSaved = true;            
             }
 
         }

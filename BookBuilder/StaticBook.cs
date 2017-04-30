@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +33,10 @@ namespace BookBuilder
         /// </summary>
         public static SetupForm setupForm;
 
+        /// <summary>
+        /// True if the BB_Book was opened from a file or has already been saved
+        /// </summary>
+        public static bool hasBeenSaved = false;
 
         /// <summary>
         /// Allowed audio file types.
@@ -45,6 +51,43 @@ namespace BookBuilder
         /// </summary>
         public const string videoFileFilter = "Video files (*.avi, *.mp4, *.wmv, *.m4v, *.avi)| *.avi; *.mp4; *.wmv; *.m4v; *.avi";
 
+        /// <summary>
+        /// Opens a book. Loads it into Book and opens it in mainForm.
+        /// </summary>
+        /// <param name="fileName">Name of the book to open.</param>
+        public static void OpenBook(string fileName)
+        {
+            //Extract zip into temp folder
+            String tempFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "../Local/ARMB/temp/bookbuilder/building");
+
+            if (Directory.Exists(tempFolder))
+            {
+                //Release resources being held by the imagebox so we can delete the temp folder
+                mainForm.DisposeImage();
+                Directory.Delete(tempFolder, true);
+            }
+
+            Directory.CreateDirectory(tempFolder);
+            ZipFile.ExtractToDirectory(fileName, tempFolder);
+            //Parse the serialized BB_Book and copy it into our book.
+            StaticBook.Book.DeserializeBook(tempFolder);
+            foreach (BB_Page p in StaticBook.Book.Pages)
+            {
+                if (p.PageImageFileName != null && p.PageImageFileName != "")
+                {
+                    p.SourcePageImageFileName = Path.Combine(tempFolder, "images", p.PageImageFileName);
+                }
+                if (p.AudioFileName != null && p.AudioFileName != "")
+                {
+                    p.SourceAudioFileName = Path.Combine(tempFolder, "audio", p.AudioFileName);
+                }
+                if (p.VideoFileName != null && p.VideoFileName != "")
+                {
+                    p.SourceVideoFileName = Path.Combine(tempFolder, "video", p.VideoFileName);
+                }
+            }
+        }
+        
 
         [STAThread]
         static void Main(string[] args)

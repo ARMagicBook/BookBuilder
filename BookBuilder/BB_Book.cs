@@ -142,23 +142,22 @@ namespace BookBuilder
             // of object that is being deserialized.  
             XmlSerializer serializer = new XmlSerializer(typeof(BB_Book));
             // To read the file, create a FileStream.  
-            FileStream fs = new FileStream(Path.Combine(path,"serialized"), FileMode.Open);
-            // Call the Deserialize method and cast to the object type.  
-            tempBook = (BB_Book)serializer.Deserialize(fs);
+            using (FileStream fs = new FileStream(Path.Combine(path, "serialized"), FileMode.Open))
+            {
+                // Call the Deserialize method and cast to the object type.  
+                tempBook = (BB_Book)serializer.Deserialize(fs);
 
-            //Copy tempBook to this book
-            Pages = tempBook.Pages;
-            Authors = tempBook.Authors;
-            Title = tempBook.Title;
-            CreationDate = tempBook.CreationDate;
-            Description = tempBook.Description;
-            ButtonImageName = tempBook.ButtonImageName;
-            FileVersion = tempBook.FileVersion;
-            fs.Close();
+                //Copy tempBook to this book
+                Pages = tempBook.Pages;
+                Authors = tempBook.Authors;
+                Title = tempBook.Title;
+                CreationDate = tempBook.CreationDate;
+                Description = tempBook.Description;
+                ButtonImageName = tempBook.ButtonImageName;
+                FileVersion = tempBook.FileVersion;
+            }
 
         }
-
-
 
         /// <summary>Creates a zip file of the books data (pages, videos, etc.) and config.xml.</summary>
 		public void CreateZipFile(string destDirectory,string fileName)
@@ -303,18 +302,6 @@ namespace BookBuilder
             }
 
             return bookString;
-        }
-
-
-
-
-        /// <summary>
-        /// Add a page to the book.
-        /// </summary>
-        /// <param name="p">The BB_Page to add.</param>
-        public void AddPage(BB_Page p)
-        {
-            Pages.Add(p);
         }
     }
 }
