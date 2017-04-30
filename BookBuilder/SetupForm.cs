@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -121,6 +123,50 @@ namespace BookBuilder
             
             insertRowNum++; //Next time add is pressed we insert underneath this one
             tableLayoutPanel.Visible = true;
+        }
+
+        private void OpenExistingBook(object sender, EventArgs e)
+        {
+            openFileDialog.Filter = "ARMB files (*.armb)| *.armb";
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                //Extract zip into temp folder
+                String tempFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "../Local/ARMB/temp/bookbuilder/building");
+
+                if (Directory.Exists(tempFolder))
+                {
+                    Directory.Delete(tempFolder, true);
+                }
+
+                Directory.CreateDirectory(tempFolder);
+                ZipFile.ExtractToDirectory(openFileDialog.FileName, tempFolder);
+                //Parse the serialized BB_Book and copy it into our book.
+                StaticBook.Book.DeserializeBook(tempFolder);
+                foreach (BB_Page p in StaticBook.Book.Pages)
+                {
+                    if (p.PageImageFileName != null && p.PageImageFileName != "")
+                    {
+                        p.SourcePageImageFileName = Path.Combine(tempFolder, "images", p.PageImageFileName);
+                    }
+                    if (p.AudioFileName != null && p.AudioFileName != "")
+                    {
+                        p.SourceAudioFileName = Path.Combine(tempFolder, "audio", p.AudioFileName);
+                    }
+                    if (p.VideoFileName != null && p.VideoFileName != "")
+                    {
+                        p.SourceVideoFileName = Path.Combine(tempFolder, "video", p.VideoFileName);
+                    }
+                }
+                StaticBook.mainForm.GoToPage(0, false);
+                this.Visible = false;
+                StaticBook.mainForm.Visible = true;
+            }
+
+        }
+
+        private void openFileDialog_FileOk(object sender, CancelEventArgs e)
+        {
+
         }
     }
 }

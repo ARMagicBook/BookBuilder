@@ -51,14 +51,14 @@
             this.ImageFileLabel = new System.Windows.Forms.Label();
             this.ImageLabel = new System.Windows.Forms.Label();
             this.PagePicture = new System.Windows.Forms.PictureBox();
-            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.PrevButton = new System.Windows.Forms.Button();
-            this.PageNumBox = new System.Windows.Forms.TextBox();
-            this.Nextbutton = new System.Windows.Forms.Button();
-            this.SaveAsButton = new System.Windows.Forms.Button();
             this.ControlsPanel = new System.Windows.Forms.Panel();
             this.OpenButton = new System.Windows.Forms.Button();
+            this.SaveAsButton = new System.Windows.Forms.Button();
+            this.Nextbutton = new System.Windows.Forms.Button();
+            this.PageNumBox = new System.Windows.Forms.TextBox();
+            this.PrevButton = new System.Windows.Forms.Button();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.MainLayoutPanel.SuspendLayout();
             this.BottomlayoutPanel.SuspendLayout();
             this.VideoInfoPanel.SuspendLayout();
@@ -88,7 +88,6 @@
             this.MainLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.MainLayoutPanel.Size = new System.Drawing.Size(1114, 609);
             this.MainLayoutPanel.TabIndex = 0;
-            this.MainLayoutPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
             // 
             // BottomlayoutPanel
             // 
@@ -322,50 +321,6 @@
             this.PagePicture.TabIndex = 2;
             this.PagePicture.TabStop = false;
             // 
-            // openFileDialog
-            // 
-            this.openFileDialog.FileName = "openFileDialog";
-            // 
-            // PrevButton
-            // 
-            this.PrevButton.Location = new System.Drawing.Point(3, 3);
-            this.PrevButton.Name = "PrevButton";
-            this.PrevButton.Size = new System.Drawing.Size(46, 23);
-            this.PrevButton.TabIndex = 0;
-            this.PrevButton.Text = "Prev";
-            this.PrevButton.UseVisualStyleBackColor = true;
-            this.PrevButton.Click += new System.EventHandler(this.PrevPage);
-            // 
-            // PageNumBox
-            // 
-            this.PageNumBox.Location = new System.Drawing.Point(55, 5);
-            this.PageNumBox.Name = "PageNumBox";
-            this.PageNumBox.Size = new System.Drawing.Size(31, 20);
-            this.PageNumBox.TabIndex = 1;
-            this.PageNumBox.Text = "1";
-            this.PageNumBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.PageNumBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.PageNumBoxPress);
-            // 
-            // Nextbutton
-            // 
-            this.Nextbutton.Location = new System.Drawing.Point(92, 3);
-            this.Nextbutton.Name = "Nextbutton";
-            this.Nextbutton.Size = new System.Drawing.Size(46, 23);
-            this.Nextbutton.TabIndex = 2;
-            this.Nextbutton.Text = "Next";
-            this.Nextbutton.UseVisualStyleBackColor = true;
-            this.Nextbutton.Click += new System.EventHandler(this.NextPage);
-            // 
-            // SaveAsButton
-            // 
-            this.SaveAsButton.Location = new System.Drawing.Point(144, 2);
-            this.SaveAsButton.Name = "SaveAsButton";
-            this.SaveAsButton.Size = new System.Drawing.Size(77, 23);
-            this.SaveAsButton.TabIndex = 3;
-            this.SaveAsButton.Text = "Save As...";
-            this.SaveAsButton.UseVisualStyleBackColor = true;
-            this.SaveAsButton.Click += new System.EventHandler(this.SaveAs);
-            // 
             // ControlsPanel
             // 
             this.ControlsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -389,6 +344,50 @@
             this.OpenButton.Text = "Open...";
             this.OpenButton.UseVisualStyleBackColor = true;
             this.OpenButton.Click += new System.EventHandler(this.OpenBook);
+            // 
+            // SaveAsButton
+            // 
+            this.SaveAsButton.Location = new System.Drawing.Point(144, 2);
+            this.SaveAsButton.Name = "SaveAsButton";
+            this.SaveAsButton.Size = new System.Drawing.Size(77, 23);
+            this.SaveAsButton.TabIndex = 3;
+            this.SaveAsButton.Text = "Save As...";
+            this.SaveAsButton.UseVisualStyleBackColor = true;
+            this.SaveAsButton.Click += new System.EventHandler(this.SaveAs);
+            // 
+            // Nextbutton
+            // 
+            this.Nextbutton.Location = new System.Drawing.Point(92, 3);
+            this.Nextbutton.Name = "Nextbutton";
+            this.Nextbutton.Size = new System.Drawing.Size(46, 23);
+            this.Nextbutton.TabIndex = 2;
+            this.Nextbutton.Text = "Next";
+            this.Nextbutton.UseVisualStyleBackColor = true;
+            this.Nextbutton.Click += new System.EventHandler(this.NextPage);
+            // 
+            // PageNumBox
+            // 
+            this.PageNumBox.Location = new System.Drawing.Point(55, 5);
+            this.PageNumBox.Name = "PageNumBox";
+            this.PageNumBox.Size = new System.Drawing.Size(31, 20);
+            this.PageNumBox.TabIndex = 1;
+            this.PageNumBox.Text = "1";
+            this.PageNumBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.PageNumBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.PageNumBoxPress);
+            // 
+            // PrevButton
+            // 
+            this.PrevButton.Location = new System.Drawing.Point(3, 3);
+            this.PrevButton.Name = "PrevButton";
+            this.PrevButton.Size = new System.Drawing.Size(46, 23);
+            this.PrevButton.TabIndex = 0;
+            this.PrevButton.Text = "Prev";
+            this.PrevButton.UseVisualStyleBackColor = true;
+            this.PrevButton.Click += new System.EventHandler(this.PrevPage);
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.FileName = "openFileDialog";
             // 
             // MainForm
             // 

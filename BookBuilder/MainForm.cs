@@ -30,7 +30,6 @@ namespace BookBuilder
             ImageFileLabel.Text = "";
             AudioFileLabel.Text = "";
             VideoFileLabel.Text = "";
-            isNewBook = true;
         }
 
         //The current page number, zero-indexed as it is in the BB_Book
@@ -40,8 +39,7 @@ namespace BookBuilder
         /// The page currently being viewed in MainForm.
         /// </summary>
         public BB_Page currentPage;
-        //Set this to false if this is an opened book instead of a new one
-        bool isNewBook = false;
+
 
         private PictureBox videoPlaceholder;
 
@@ -54,11 +52,6 @@ namespace BookBuilder
         private void MainFormClosed(object sender, FormClosingEventArgs e)
         {
             Application.Exit();
-        }
-
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
         }
 
         private void OpenPageImage(object sender, EventArgs e)
@@ -178,8 +171,12 @@ namespace BookBuilder
             return num;
         }
 
-        //Save the current page to the BB_Book and go to another one.
-        private void GoToPage(int pageNum, bool saveCurrent)
+        /// <summary>
+        /// Go to another page in the BB_Book.
+        /// </summary>
+        /// <param name="pageNum">Page number to go to, zero-indexed.</param>
+        /// <param name="saveCurrent">Whether the current page should be saved to the BB_Book.</param>
+        public void GoToPage(int pageNum, bool saveCurrent)
         {
 
             if (saveCurrent)
@@ -232,7 +229,12 @@ namespace BookBuilder
         }
 
         //Make sure to add prompt to save current book before opening a new one
-        private void OpenBook(object sender, EventArgs e)
+        /// <summary>
+        /// Give a prompt to open an existing book in the builder.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void OpenBook(object sender, EventArgs e)
         {
             openFileDialog.Filter = "ARMB files (*.armb)| *.armb";
             if (openFileDialog.ShowDialog() == DialogResult.OK)
