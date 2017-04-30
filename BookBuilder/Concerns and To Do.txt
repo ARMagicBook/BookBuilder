@@ -4,5 +4,4 @@
 - Don't allow the user to add an image that's not the same size as the first image
 - Allow user to remove audio file or video file from a page
 - Allow user to add or remove pages
-- Give a warning if two pages that would show at the same time both have audio.
 - Maybe prevent user from making windows too small to hold everything?
