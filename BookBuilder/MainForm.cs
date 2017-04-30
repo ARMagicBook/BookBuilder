@@ -74,6 +74,23 @@ namespace BookBuilder
             openFileDialog.Filter = StaticBook.audioFileFilter;
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
+                if (!StaticBook.Book.AudioFileCheck(currentPageNum))
+                {
+                    String errorMessage = "Warning: Page ";
+                    if (currentPageNum % 2 == 0)
+                    {
+                        errorMessage += (currentPageNum + 2);
+                    } else
+                    {
+                        errorMessage += (currentPageNum);
+                    }
+                    errorMessage += " also has an audio file. It will be open and play at the same time as this one. Add audio anyway?";
+                    DialogResult dialogResult = MessageBox.Show(errorMessage, "Audio File Warning", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.No)
+                    {
+                        return;
+                    }
+                }
                 currentPage.SourceAudioFileName = openFileDialog.FileName;
                 currentPage.AudioFileName = Path.GetFileName(openFileDialog.FileName);
                 AudioFileLabel.Text = currentPage.AudioFileName;

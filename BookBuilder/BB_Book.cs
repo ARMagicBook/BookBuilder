@@ -55,29 +55,25 @@ namespace BookBuilder
         public string FileVersion { get; set; }
 
         /// <summary>
-        /// Checks if two pages that will be open at the same time both have an audio file. 
-        /// If they do a warning is displayed to the user (for now just write to console).
+        /// Checks if two adding an audio file at fromPage will make two pages' audio play at once.
         /// </summary>
-        public bool AudioFileCheck()
+        /// <param name="fromPage">The page to check from.</param>
+        /// <returns>True if it won't cause a problem, false if it will</returns>
+        public bool AudioFileCheck(int fromPage)
         {
             if (Pages.Count < 2)
             {
                 return true; 
             }
-            for (int i = 0; i < Pages.Count; i += 2)
+
+            //If the page number is even, we check from the next page
+            if (fromPage % 2 == 0)
             {
-                BB_Page leftPage = Pages[i];
-                BB_Page rightPage = Pages[i + 1];
-                if (leftPage.AudioFileName != null && rightPage.AudioFileName != null)
-                {
-                    Console.WriteLine("Warning: Page {0} and Page {1} both have audio files and will be open at the same time",
-                                      i, i + 1);
-                    return false;
-                    //TODO: Make this a dialog box popup instead. Maybe by having AudioFileCheck return a bool, which the GUI would check
-                    //when creating the book.
-                }
+                return (fromPage == Pages.Count - 1) || Pages[fromPage + 1].AudioFileName == null;
+            } else //otherwise you check the previous page
+            {
+                return Pages[fromPage - 1].AudioFileName == null;
             }
-            return true;
         }
 
         /// <summary>
