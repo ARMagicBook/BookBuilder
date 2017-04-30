@@ -59,6 +59,7 @@
             this.PrevButton = new System.Windows.Forms.Button();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.MainLayoutPanel.SuspendLayout();
             this.BottomlayoutPanel.SuspendLayout();
             this.VideoInfoPanel.SuspendLayout();
@@ -447,5 +448,6 @@
         private System.Windows.Forms.Button Nextbutton;
         private System.Windows.Forms.TextBox PageNumBox;
         private System.Windows.Forms.Button PrevButton;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog;
     }
 }

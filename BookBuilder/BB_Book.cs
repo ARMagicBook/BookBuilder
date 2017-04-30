@@ -161,7 +161,7 @@ namespace BookBuilder
 
 
         /// <summary>Creates a zip file of the books data (pages, videos, etc.) and config.xml.</summary>
-		public void CreateZipFile(string destDirectory)
+		public void CreateZipFile(string destDirectory,string fileName)
         {
 
             string rootFolderPath = Path.Combine(destDirectory, "ARMB");
@@ -170,7 +170,7 @@ namespace BookBuilder
             string videoFolderPath = Path.Combine(rootFolderPath, "video");
             string configPath = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "config.xml");
             string configZipPath = Path.Combine(rootFolderPath, "config.xml");
-            string zipPath = Path.Combine(destDirectory, "archive.armb");
+            string zipPath = Path.Combine(destDirectory, fileName);
 
             //If there is already a zip file present delete it so a new one can be created.
             if (File.Exists(zipPath))

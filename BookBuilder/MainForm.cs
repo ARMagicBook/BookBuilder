@@ -148,10 +148,16 @@ namespace BookBuilder
         {
             //saves contents of current page to BB_Book
             GoToPage(currentPageNum, true);
-            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 XMLGenerator.GenerateXML(StaticBook.Book);
-                StaticBook.Book.CreateZipFile(folderBrowserDialog.SelectedPath);
+                String fileName = saveFileDialog.FileName;
+                //Make sure the filename ends in .armb
+                if (Path.GetExtension(fileName) != ".armb")
+                {
+                    fileName += ".armb";
+                }
+                StaticBook.Book.CreateZipFile(folderBrowserDialog.SelectedPath,fileName);
             }
         }
 
@@ -244,6 +250,8 @@ namespace BookBuilder
 
                 if (Directory.Exists(tempFolder))
                 {
+                    //Necessary so we're not deleting an image we have open
+                    PagePicture.Dispose();
                     Directory.Delete(tempFolder, true);
                 }
 
