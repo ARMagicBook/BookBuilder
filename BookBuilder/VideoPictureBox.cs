@@ -8,11 +8,11 @@ using System.Drawing;
 
 namespace BookBuilder
 {
-    class CustomPictureBox : PictureBox
+    class VideoPictureBox : PictureBox
     {
         private MainForm mainForm;
 
-        public CustomPictureBox(MainForm mainForm)
+        public VideoPictureBox(MainForm mainForm)
         {
             this.mainForm = mainForm;
             this.MouseUp += MouseUpHandler;

@@ -43,7 +43,7 @@ namespace BookBuilder
         bool isNewBook = false;
 
         //represents where the video will appear on the page.
-        private CustomPictureBox videoPlaceholder;
+        private VideoPictureBox videoPlaceholder;
 
         private void MouseUpHandler(object sender, MouseEventArgs e)
         {
@@ -98,7 +98,7 @@ namespace BookBuilder
                 currentPage.VideoFileName = Path.GetFileName(openFileDialog.FileName);
                 VideoFileLabel.Text = currentPage.VideoFileName;
 
-                videoPlaceholder = new CustomPictureBox(this);
+                videoPlaceholder = new VideoPictureBox(this);
                 videoPlaceholder.Size = new Size(150, 150);
                 videoPlaceholder.Image = Image.FromFile("../../video_source/video_placeholder.png");
                 Point centerOfPageImage = new Point(PagePicture.Location.X + PagePicture.Size.Width / 2 - videoPlaceholder.Size.Width / 2,

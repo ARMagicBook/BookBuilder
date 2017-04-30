@@ -50,7 +50,6 @@
             this.OpenImageButton = new System.Windows.Forms.Button();
             this.ImageFileLabel = new System.Windows.Forms.Label();
             this.ImageLabel = new System.Windows.Forms.Label();
-            this.PagePicture = new System.Windows.Forms.PictureBox();
             this.ControlsPanel = new System.Windows.Forms.Panel();
             this.SaveAsButton = new System.Windows.Forms.Button();
             this.Nextbutton = new System.Windows.Forms.Button();
@@ -58,13 +57,14 @@
             this.PrevButton = new System.Windows.Forms.Button();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.PagePicture = new BookBuilder.ImagePictureBox();
             this.MainLayoutPanel.SuspendLayout();
             this.BottomlayoutPanel.SuspendLayout();
             this.VideoInfoPanel.SuspendLayout();
             this.AudioInfoPanel.SuspendLayout();
             this.ImageInfoPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PagePicture)).BeginInit();
             this.ControlsPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PagePicture)).BeginInit();
             this.SuspendLayout();
             // 
             // MainLayoutPanel
@@ -77,8 +77,8 @@
             this.MainLayoutPanel.ColumnCount = 1;
             this.MainLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.MainLayoutPanel.Controls.Add(this.BottomlayoutPanel, 0, 2);
-            this.MainLayoutPanel.Controls.Add(this.PagePicture, 0, 1);
             this.MainLayoutPanel.Controls.Add(this.ControlsPanel, 0, 0);
+            this.MainLayoutPanel.Controls.Add(this.PagePicture, 0, 1);
             this.MainLayoutPanel.Location = new System.Drawing.Point(12, 11);
             this.MainLayoutPanel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MainLayoutPanel.Name = "MainLayoutPanel";
@@ -331,19 +331,6 @@
             this.ImageLabel.TabIndex = 1;
             this.ImageLabel.Text = "Page Image:";
             // 
-            // PagePicture
-            // 
-            this.PagePicture.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.PagePicture.Location = new System.Drawing.Point(6, 63);
-            this.PagePicture.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.PagePicture.Name = "PagePicture";
-            this.PagePicture.Size = new System.Drawing.Size(1659, 803);
-            this.PagePicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.PagePicture.TabIndex = 2;
-            this.PagePicture.TabStop = false;
-            // 
             // ControlsPanel
             // 
             this.ControlsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -406,6 +393,19 @@
             // 
             this.openFileDialog.FileName = "openFileDialog";
             // 
+            // PagePicture
+            // 
+            this.PagePicture.AccessibleName = "";
+            this.PagePicture.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PagePicture.Location = new System.Drawing.Point(6, 63);
+            this.PagePicture.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.PagePicture.Name = "PagePicture";
+            this.PagePicture.Size = new System.Drawing.Size(1659, 803);
+            this.PagePicture.TabIndex = 4;
+            this.PagePicture.TabStop = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -424,9 +424,9 @@
             this.AudioInfoPanel.PerformLayout();
             this.ImageInfoPanel.ResumeLayout(false);
             this.ImageInfoPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PagePicture)).EndInit();
             this.ControlsPanel.ResumeLayout(false);
             this.ControlsPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PagePicture)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -453,7 +453,6 @@
         private System.Windows.Forms.Label YPosLabel;
         private System.Windows.Forms.TextBox XPosBox;
         private System.Windows.Forms.Label XPosLabel;
-        private System.Windows.Forms.PictureBox PagePicture;
         private System.Windows.Forms.Panel ControlsPanel;
         private System.Windows.Forms.Button PrevButton;
         private System.Windows.Forms.Button Nextbutton;
@@ -464,5 +463,6 @@
         private System.Windows.Forms.Label WidthLabel;
         private System.Windows.Forms.TextBox HeightBox;
         private System.Windows.Forms.Label HeightLabel;
+        private ImagePictureBox PagePicture;
     }
 }

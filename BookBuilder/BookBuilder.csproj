@@ -53,7 +53,10 @@
   <ItemGroup>
     <Compile Include="BB_Page.cs" />
     <Compile Include="BB_Book.cs" />
-    <Compile Include="CustomPictureBox.cs">
+    <Compile Include="ImagePictureBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="VideoPictureBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="GUI.cs">
