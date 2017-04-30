@@ -52,10 +52,15 @@ namespace BookBuilder
         public const string videoFileFilter = "Video files (*.avi, *.mp4, *.wmv, *.m4v, *.avi)| *.avi; *.mp4; *.wmv; *.m4v; *.avi";
 
         /// <summary>
+        /// The path where the book is saved to or opened from.
+        /// </summary>
+        public static string savePath = "";
+
+        /// <summary>
         /// Opens a book. Loads it into Book and opens it in mainForm.
         /// </summary>
-        /// <param name="fileName">Name of the book to open.</param>
-        public static void OpenBook(string fileName)
+        /// <param name="filePath">Full path of the book to open.</param>
+        public static void OpenBook(string filePath)
         {
             //Extract zip into temp folder
             String tempFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "../Local/ARMB/temp/bookbuilder/building");
@@ -68,7 +73,7 @@ namespace BookBuilder
             }
 
             Directory.CreateDirectory(tempFolder);
-            ZipFile.ExtractToDirectory(fileName, tempFolder);
+            ZipFile.ExtractToDirectory(filePath, tempFolder);
             //Parse the serialized BB_Book and copy it into our book.
             StaticBook.Book.DeserializeBook(tempFolder);
             foreach (BB_Page p in StaticBook.Book.Pages)
@@ -88,6 +93,7 @@ namespace BookBuilder
             }
         }
         
+        //public static void SaveBook(string )
 
         [STAThread]
         static void Main(string[] args)

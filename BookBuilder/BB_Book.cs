@@ -159,22 +159,25 @@ namespace BookBuilder
 
         }
 
-        /// <summary>Creates a zip file of the books data (pages, videos, etc.) and config.xml.</summary>
-		public void CreateZipFile(string destDirectory,string fileName)
+        /// <summary>
+        /// Creates a zip file of the books data (pages, videos, etc.) and config.xml.
+        /// </summary>
+        /// <param name="filePath">The full path of the intended filename for the archive.</param>
+		public void CreateZipFile(string filePath)
         {
 
+            string destDirectory = Path.GetDirectoryName(filePath);
             string rootFolderPath = Path.Combine(destDirectory, "ARMB");
             string imagesFolderPath = Path.Combine(rootFolderPath, "images");
             string audioFolderPath = Path.Combine(rootFolderPath, "audio");
             string videoFolderPath = Path.Combine(rootFolderPath, "video");
             string configPath = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "config.xml");
             string configZipPath = Path.Combine(rootFolderPath, "config.xml");
-            string zipPath = Path.Combine(destDirectory, fileName);
 
             //If there is already a zip file present delete it so a new one can be created.
-            if (File.Exists(zipPath))
+            if (File.Exists(filePath))
             {
-                File.Delete(zipPath);
+                File.Delete(filePath);
             }
 
             //If the ARMB folder we're about to make into a .zip already exists, delete it. 
@@ -260,7 +263,7 @@ namespace BookBuilder
             try
             {
                 // Put ARMB folder in zip file, false parameter means do not include the root directory when unzipping
-                ZipFile.CreateFromDirectory(rootFolderPath, zipPath, CompressionLevel.NoCompression, false);
+                ZipFile.CreateFromDirectory(rootFolderPath, filePath, CompressionLevel.NoCompression, false);
             }
             catch (System.IO.IOException e)
             {

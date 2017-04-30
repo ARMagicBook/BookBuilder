@@ -43,6 +43,9 @@ namespace BookBuilder
         //The current page number, zero-indexed as it is in the BB_Book
         private int currentPageNum = 0;
 
+
+        
+
         /// <summary>
         /// Runs when the main form is closed.
         /// Should prompt the user to save their work before exiting. For now, it just exits the program.
@@ -146,20 +149,24 @@ namespace BookBuilder
         //Save the entire book
         private void SaveAs(object sender, EventArgs e)
         {
-            //saves contents of current page to BB_Book
             GoToPage(currentPageNum, true);
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                XMLGenerator.GenerateXML(StaticBook.Book);
-                String fileName = saveFileDialog.FileName;
-                //Make sure the filename ends in .armb
-                if (Path.GetExtension(fileName) != ".armb")
-                {
-                    fileName += ".armb";
-                }
-                StaticBook.Book.CreateZipFile(folderBrowserDialog.SelectedPath,fileName);
-                StaticBook.hasBeenSaved = true;
+                SaveBook(saveFileDialog.FileName);
+            }           
+        }
+
+        private void SaveBook(string filePath)
+        {
+            XMLGenerator.GenerateXML(StaticBook.Book);
+            //Make sure the filename ends in .armb
+            if (Path.GetExtension(filePath) != ".armb")
+            {
+                filePath += ".armb";
             }
+            StaticBook.Book.CreateZipFile(filePath);
+            StaticBook.hasBeenSaved = true;
+            StaticBook.savePath = filePath;
         }
 
         private void PageNumBoxPress(object sender, KeyPressEventArgs e)
@@ -251,6 +258,7 @@ namespace BookBuilder
                 StaticBook.OpenBook(openFileDialog.FileName);
                 GoToPage(0, false);
                 StaticBook.hasBeenSaved = true;
+                StaticBook.savePath = openFileDialog.FileName;
             }
         }
 
@@ -268,7 +276,16 @@ namespace BookBuilder
 
         private void Save(object sender, EventArgs e)
         {
-
+            GoToPage(currentPageNum, true);
+            if (StaticBook.hasBeenSaved == false)
+            {
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    SaveBook(saveFileDialog.FileName);
+                }
+            } else {
+                SaveBook(StaticBook.savePath);
+            }
         }
     }
 }

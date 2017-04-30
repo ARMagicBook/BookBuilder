@@ -52,15 +52,14 @@
             this.ImageLabel = new System.Windows.Forms.Label();
             this.PagePicture = new System.Windows.Forms.PictureBox();
             this.ControlsPanel = new System.Windows.Forms.Panel();
+            this.SaveButton = new System.Windows.Forms.Button();
             this.OpenButton = new System.Windows.Forms.Button();
             this.SaveAsButton = new System.Windows.Forms.Button();
             this.Nextbutton = new System.Windows.Forms.Button();
             this.PageNumBox = new System.Windows.Forms.TextBox();
             this.PrevButton = new System.Windows.Forms.Button();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.SaveButton = new System.Windows.Forms.Button();
             this.MainLayoutPanel.SuspendLayout();
             this.BottomlayoutPanel.SuspendLayout();
             this.VideoInfoPanel.SuspendLayout();
@@ -338,6 +337,16 @@
             this.ControlsPanel.TabIndex = 3;
             this.ControlsPanel.Click += new System.EventHandler(this.PrevPage);
             // 
+            // SaveButton
+            // 
+            this.SaveButton.Location = new System.Drawing.Point(310, 3);
+            this.SaveButton.Name = "SaveButton";
+            this.SaveButton.Size = new System.Drawing.Size(77, 23);
+            this.SaveButton.TabIndex = 5;
+            this.SaveButton.Text = "Save";
+            this.SaveButton.UseVisualStyleBackColor = true;
+            this.SaveButton.Click += new System.EventHandler(this.Save);
+            // 
             // OpenButton
             // 
             this.OpenButton.Location = new System.Drawing.Point(144, 3);
@@ -392,16 +401,6 @@
             // 
             this.openFileDialog.FileName = "openFileDialog";
             // 
-            // SaveButton
-            // 
-            this.SaveButton.Location = new System.Drawing.Point(310, 3);
-            this.SaveButton.Name = "SaveButton";
-            this.SaveButton.Size = new System.Drawing.Size(77, 23);
-            this.SaveButton.TabIndex = 5;
-            this.SaveButton.Text = "Save";
-            this.SaveButton.UseVisualStyleBackColor = true;
-            this.SaveButton.Click += new System.EventHandler(this.Save);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -449,7 +448,6 @@
         private System.Windows.Forms.TextBox XPosBox;
         private System.Windows.Forms.Label XPosLabel;
         private System.Windows.Forms.PictureBox PagePicture;
-        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
         private System.Windows.Forms.TextBox WidthBox;
         private System.Windows.Forms.Label WidthLabel;
         private System.Windows.Forms.TextBox HeightBox;

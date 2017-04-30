@@ -134,7 +134,8 @@ namespace BookBuilder
                 StaticBook.mainForm.GoToPage(0, false);
                 this.Visible = false;
                 StaticBook.mainForm.Visible = true;
-                StaticBook.hasBeenSaved = true;            
+                StaticBook.hasBeenSaved = true;
+                StaticBook.savePath = openFileDialog.FileName;        
             }
 
         }
