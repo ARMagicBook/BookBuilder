@@ -5,4 +5,3 @@
 - Allow user to remove audio file or video file from a page
 - Allow user to add or remove pages
 - Maybe prevent user from making windows too small to hold everything?
-- Make sure every page has an image
