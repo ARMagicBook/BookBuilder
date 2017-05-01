@@ -270,6 +270,22 @@ namespace BookBuilder
             Directory.Delete(rootFolderPath, true);
         }
 
+        /// <summary>
+        /// Checks if every page has an image.
+        /// </summary>
+        /// <returns>True if every page has an image</returns>
+        public bool hasAllImages()
+        {
+            foreach (BB_Page p in Pages)
+            {
+                if (p.PageImageFileName == "" || p.PageImageFileName == null)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         /// <summary>Converts information about the book to a string.</summary>
         /// <return>String of info about the book.</return>
 		public override string ToString()

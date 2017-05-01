@@ -166,11 +166,23 @@ namespace BookBuilder
         //Save the entire book
         private void SaveAs(object sender, EventArgs e)
         {
+            if (!imageCheck()) return;            
             GoToPage(currentPageNum, true);
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 SaveBook(saveFileDialog.FileName);
             }           
+        }
+
+        private bool imageCheck()
+        {
+            if (!StaticBook.Book.hasAllImages())
+            {
+                MessageBox.Show("Error: Every page must have an image.", "Missing Image Error",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            return true;
         }
 
         private void SaveBook(string filePath)
@@ -293,6 +305,7 @@ namespace BookBuilder
 
         private void Save(object sender, EventArgs e)
         {
+            if (!imageCheck()) return;
             GoToPage(currentPageNum, true);
             if (StaticBook.hasBeenSaved == false)
             {
