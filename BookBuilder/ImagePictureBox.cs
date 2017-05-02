@@ -16,5 +16,6 @@ namespace BookBuilder
             BindingFlags.NonPublic |
             BindingFlags.Instance
         );
+
     }
 }
