@@ -52,6 +52,8 @@
             this.ImageLabel = new System.Windows.Forms.Label();
             this.PagePicture = new System.Windows.Forms.PictureBox();
             this.ControlsPanel = new System.Windows.Forms.Panel();
+            this.RemoveVidButton = new System.Windows.Forms.Button();
+            this.RemoveAudioButton = new System.Windows.Forms.Button();
             this.SaveButton = new System.Windows.Forms.Button();
             this.OpenButton = new System.Windows.Forms.Button();
             this.SaveAsButton = new System.Windows.Forms.Button();
@@ -325,6 +327,8 @@
             // ControlsPanel
             // 
             this.ControlsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ControlsPanel.Controls.Add(this.RemoveVidButton);
+            this.ControlsPanel.Controls.Add(this.RemoveAudioButton);
             this.ControlsPanel.Controls.Add(this.SaveButton);
             this.ControlsPanel.Controls.Add(this.OpenButton);
             this.ControlsPanel.Controls.Add(this.SaveAsButton);
@@ -333,9 +337,29 @@
             this.ControlsPanel.Controls.Add(this.PrevButton);
             this.ControlsPanel.Location = new System.Drawing.Point(5, 5);
             this.ControlsPanel.Name = "ControlsPanel";
-            this.ControlsPanel.Size = new System.Drawing.Size(625, 29);
+            this.ControlsPanel.Size = new System.Drawing.Size(636, 29);
             this.ControlsPanel.TabIndex = 3;
             this.ControlsPanel.Click += new System.EventHandler(this.PrevPage);
+            // 
+            // RemoveVidButton
+            // 
+            this.RemoveVidButton.Location = new System.Drawing.Point(513, 3);
+            this.RemoveVidButton.Name = "RemoveVidButton";
+            this.RemoveVidButton.Size = new System.Drawing.Size(114, 23);
+            this.RemoveVidButton.TabIndex = 7;
+            this.RemoveVidButton.Text = "Remove Video";
+            this.RemoveVidButton.UseVisualStyleBackColor = true;
+            this.RemoveVidButton.Click += new System.EventHandler(this.RemoveVideo);
+            // 
+            // RemoveAudioButton
+            // 
+            this.RemoveAudioButton.Location = new System.Drawing.Point(393, 3);
+            this.RemoveAudioButton.Name = "RemoveAudioButton";
+            this.RemoveAudioButton.Size = new System.Drawing.Size(114, 23);
+            this.RemoveAudioButton.TabIndex = 6;
+            this.RemoveAudioButton.Text = "Remove Audio";
+            this.RemoveAudioButton.UseVisualStyleBackColor = true;
+            this.RemoveAudioButton.Click += new System.EventHandler(this.RemoveAudio);
             // 
             // SaveButton
             // 
@@ -460,5 +484,7 @@
         private System.Windows.Forms.Button PrevButton;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.Button SaveButton;
+        private System.Windows.Forms.Button RemoveVidButton;
+        private System.Windows.Forms.Button RemoveAudioButton;
     }
 }
