@@ -51,6 +51,8 @@ namespace BookBuilder
         /// </summary>
         public const string videoFileFilter = "Video files (*.avi, *.mp4, *.wmv, *.m4v, *.avi)| *.avi; *.mp4; *.wmv; *.m4v; *.avi";
 
+        public const string armbFilter = "ARMB files (*.armb)| *.armb";
+
         /// <summary>
         /// The path where the book is saved to or opened from.
         /// </summary>

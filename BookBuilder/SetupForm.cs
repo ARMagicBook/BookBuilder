@@ -127,7 +127,7 @@ namespace BookBuilder
 
         private void OpenExistingBook(object sender, EventArgs e)
         {
-            openFileDialog.Filter = "ARMB files (*.armb)| *.armb";
+            openFileDialog.Filter = StaticBook.armbFilter;
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 StaticBook.OpenBook(openFileDialog.FileName);

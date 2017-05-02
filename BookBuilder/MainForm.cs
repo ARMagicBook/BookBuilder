@@ -30,6 +30,7 @@ namespace BookBuilder
             ImageFileLabel.Text = "";
             AudioFileLabel.Text = "";
             VideoFileLabel.Text = "";
+            saveFileDialog.Filter = StaticBook.armbFilter;
         }
 
         /// <summary>
@@ -281,7 +282,7 @@ namespace BookBuilder
         /// <param name="e"></param>
         public void OpenBook(object sender, EventArgs e)
         {
-            openFileDialog.Filter = "ARMB files (*.armb)| *.armb";
+            openFileDialog.Filter = StaticBook.armbFilter;
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 StaticBook.OpenBook(openFileDialog.FileName);
