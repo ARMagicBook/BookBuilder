@@ -304,19 +304,5 @@ namespace BookBuilder
                 SaveBook(StaticBook.savePath);
             }
         }
-        
-        private void RemoveAudio(object sender, EventArgs e)
-        {
-            currentPage.AudioFileName = "";
-            currentPage.SourceAudioFileName = "";
-            AudioFileLabel.Text = "";
-        }
-
-        private void RemoveVideo(object sender, EventArgs e)
-        {
-            currentPage.VideoFileName = "";
-            currentPage.SourceVideoFileName = "";
-            VideoFileLabel.Text = "";
-        }
     }
 }

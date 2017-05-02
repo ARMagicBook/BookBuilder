@@ -195,7 +195,7 @@ namespace BookBuilder
 
             foreach (BB_Page page in Pages)
             {
-                if (page.SourcePageImageFileName != null && page.SourcePageImageFileName != "")
+                if (page.SourcePageImageFileName != null)
                 {
                     try
                     {
@@ -214,7 +214,7 @@ namespace BookBuilder
                     }
                 }
 
-                if (page.SourceAudioFileName != null && page.SourceAudioFileName != "")
+                if (page.SourceAudioFileName != null)
                 {
                     try
                     {
@@ -233,7 +233,7 @@ namespace BookBuilder
                     }
                 }
 
-                if (page.SourceVideoFileName != null && page.SourceVideoFileName != "")
+                if (page.SourceVideoFileName != null)
                 {
                     try
                     {
