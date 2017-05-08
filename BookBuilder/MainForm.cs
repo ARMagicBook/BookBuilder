@@ -37,6 +37,7 @@ namespace BookBuilder
             PagePicture.MouseUp += MouseUpHandler;
             videoPlaceholder = new VideoPictureBox(this);
             videoPlaceholder.setImagePictureBox(PagePicture);
+            videoPlaceholder.setTableLayoutPanel(MainLayoutPanel);
         }
         //The current page number, zero-indexed as it is in the BB_Book
         int currentPageNum = 0;
