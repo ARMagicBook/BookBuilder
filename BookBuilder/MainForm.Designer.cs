@@ -60,6 +60,8 @@
             this.PrevButton = new System.Windows.Forms.Button();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.RemoveAudioButton = new System.Windows.Forms.Button();
+            this.RemoveVideoButton = new System.Windows.Forms.Button();
             this.MainLayoutPanel.SuspendLayout();
             this.BottomlayoutPanel.SuspendLayout();
             this.VideoInfoPanel.SuspendLayout();
@@ -79,8 +81,8 @@
             this.MainLayoutPanel.ColumnCount = 1;
             this.MainLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.MainLayoutPanel.Controls.Add(this.BottomlayoutPanel, 0, 2);
-            this.MainLayoutPanel.Controls.Add(this.PagePicture, 0, 1);
             this.MainLayoutPanel.Controls.Add(this.ControlsPanel, 0, 0);
+            this.MainLayoutPanel.Controls.Add(this.PagePicture, 0, 1);
             this.MainLayoutPanel.Location = new System.Drawing.Point(8, 7);
             this.MainLayoutPanel.Name = "MainLayoutPanel";
             this.MainLayoutPanel.RowCount = 3;
@@ -325,6 +327,8 @@
             // ControlsPanel
             // 
             this.ControlsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ControlsPanel.Controls.Add(this.RemoveVideoButton);
+            this.ControlsPanel.Controls.Add(this.RemoveAudioButton);
             this.ControlsPanel.Controls.Add(this.SaveButton);
             this.ControlsPanel.Controls.Add(this.OpenButton);
             this.ControlsPanel.Controls.Add(this.SaveAsButton);
@@ -333,7 +337,7 @@
             this.ControlsPanel.Controls.Add(this.PrevButton);
             this.ControlsPanel.Location = new System.Drawing.Point(5, 5);
             this.ControlsPanel.Name = "ControlsPanel";
-            this.ControlsPanel.Size = new System.Drawing.Size(625, 29);
+            this.ControlsPanel.Size = new System.Drawing.Size(591, 29);
             this.ControlsPanel.TabIndex = 3;
             this.ControlsPanel.Click += new System.EventHandler(this.PrevPage);
             // 
@@ -353,7 +357,7 @@
             this.OpenButton.Name = "OpenButton";
             this.OpenButton.Size = new System.Drawing.Size(77, 23);
             this.OpenButton.TabIndex = 4;
-            this.OpenButton.Text = "Open...";
+            this.OpenButton.Text = "Open New";
             this.OpenButton.UseVisualStyleBackColor = true;
             this.OpenButton.Click += new System.EventHandler(this.OpenBook);
             // 
@@ -400,6 +404,26 @@
             // openFileDialog
             // 
             this.openFileDialog.FileName = "openFileDialog";
+            // 
+            // RemoveAudioButton
+            // 
+            this.RemoveAudioButton.Location = new System.Drawing.Point(393, 3);
+            this.RemoveAudioButton.Name = "RemoveAudioButton";
+            this.RemoveAudioButton.Size = new System.Drawing.Size(93, 23);
+            this.RemoveAudioButton.TabIndex = 6;
+            this.RemoveAudioButton.Text = "Remove Audio";
+            this.RemoveAudioButton.UseVisualStyleBackColor = true;
+            this.RemoveAudioButton.Click += new System.EventHandler(this.RemoveAudio);
+            // 
+            // RemoveVideoButton
+            // 
+            this.RemoveVideoButton.Location = new System.Drawing.Point(492, 3);
+            this.RemoveVideoButton.Name = "RemoveVideoButton";
+            this.RemoveVideoButton.Size = new System.Drawing.Size(93, 23);
+            this.RemoveVideoButton.TabIndex = 7;
+            this.RemoveVideoButton.Text = "Remove Video";
+            this.RemoveVideoButton.UseVisualStyleBackColor = true;
+            this.RemoveVideoButton.Click += new System.EventHandler(this.RemoveVideo);
             // 
             // MainForm
             // 
@@ -460,5 +484,7 @@
         private System.Windows.Forms.Button PrevButton;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.Button SaveButton;
+        private System.Windows.Forms.Button RemoveVideoButton;
+        private System.Windows.Forms.Button RemoveAudioButton;
     }
 }

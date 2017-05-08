@@ -63,6 +63,36 @@ namespace BookBuilder
             openFileDialog.Filter = StaticBook.imageFileFilter;
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
+                var newImg = System.Drawing.Image.FromFile(openFileDialog.FileName);
+                int newImgX = newImg.Width;
+                int newImgY = newImg.Height;
+
+                //if first page, make sure other images have same size
+                if (currentPageNum == 0 && StaticBook.Book.Pages.Count > 1)
+                {
+                    var nextPageImg = System.Drawing.Image.FromFile(StaticBook.Book.Pages[1].SourcePageImageFileName);
+                    int nextPageX = nextPageImg.Width;
+                    int nextPageY = nextPageImg.Height;
+                    if (newImgX != nextPageX || newImgY != nextPageY)
+                    {
+                        MessageBox.Show("All page images must be the same size.", "Image Size Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                } else if (currentPageNum > 0)
+                {
+                    var firstPageImg = System.Drawing.Image.FromFile(StaticBook.Book.Pages[0].SourcePageImageFileName);
+                    int firstPageX = firstPageImg.Width;
+                    int firstPageY = firstPageImg.Height;
+                    if (newImgX != firstPageX || newImgY != firstPageY)
+                    {
+                        MessageBox.Show("All page images must be the same size as the first page.", "Image Size Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+
+                //if not first page, make sure it's the same size as the first page
+
+
                 currentPage.SourcePageImageFileName = openFileDialog.FileName;
                 currentPage.PageImageFileName = Path.GetFileName(openFileDialog.FileName);
                 ImageFileLabel.Text = currentPage.PageImageFileName;
@@ -235,10 +265,7 @@ namespace BookBuilder
             currentPage = StaticBook.Book.Pages[currentPageNum];
 
             PageNumBox.Text = (currentPageNum + 1).ToString();
-            //If it's a new book, use SourcePage... filenames.
-            //Otherwise, use Page... filenames because SourcePage... filenames might be meaningless.
-            // if (isNewBook)
-            //{
+
             if (currentPage.SourcePageImageFileName != null)
             {
                 ImageFileLabel.Text = Path.GetFileName(currentPage.SourcePageImageFileName);
@@ -267,14 +294,13 @@ namespace BookBuilder
             {
                 VideoFileLabel.Text = "";
             }
-            //}
+
             XPosBox.Text = currentPage.VideoX.ToString();
             YPosBox.Text = currentPage.VideoY.ToString();
             HeightBox.Text = currentPage.VideoHeight.ToString();
             WidthBox.Text = currentPage.VideoWidth.ToString();
         }
 
-        //Make sure to add prompt to save current book before opening a new one
         /// <summary>
         /// Give a prompt to open an existing book in the builder.
         /// </summary>
@@ -317,6 +343,18 @@ namespace BookBuilder
             } else {
                 SaveBook(StaticBook.savePath);
             }
+        }
+
+        private void RemoveAudio(object sender, EventArgs e)
+        {
+            currentPage.SourceAudioFileName = null;
+            currentPage.AudioFileName = null;
+            AudioFileLabel.Text = "";
+        }
+
+        private void RemoveVideo(object sender, EventArgs e)
+        {
+            //Handle this after merge
         }
     }
 }
