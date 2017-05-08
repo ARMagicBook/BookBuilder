@@ -20,6 +20,10 @@ namespace BookBuilder
     /// </summary>
     public partial class MainForm : Form
     {
+        //represents where the video will appear on the page.
+        private VideoPictureBox videoPlaceholder;
+
+
         /// <summary>
         /// Initializes the MainForm. 
         /// </summary>
@@ -31,6 +35,8 @@ namespace BookBuilder
             VideoFileLabel.Text = "";
             isNewBook = true;
             PagePicture.MouseUp += MouseUpHandler;
+            videoPlaceholder = new VideoPictureBox(this);
+            videoPlaceholder.setImagePictureBox(PagePicture);
         }
         //The current page number, zero-indexed as it is in the BB_Book
         int currentPageNum = 0;
@@ -42,8 +48,7 @@ namespace BookBuilder
         //Set this to false if this is an opened book instead of a new one
         bool isNewBook = false;
 
-        //represents where the video will appear on the page.
-        private VideoPictureBox videoPlaceholder;
+       
 
         private void MouseUpHandler(object sender, MouseEventArgs e)
         {
@@ -98,7 +103,6 @@ namespace BookBuilder
                 currentPage.VideoFileName = Path.GetFileName(openFileDialog.FileName);
                 VideoFileLabel.Text = currentPage.VideoFileName;
 
-                videoPlaceholder = new VideoPictureBox(this);
                 videoPlaceholder.Size = new Size(150, 150);
                 videoPlaceholder.Image = Image.FromFile("../../video_source/video_placeholder.png");
                 Point centerOfPageImage = new Point(PagePicture.Location.X + PagePicture.Size.Width / 2 - videoPlaceholder.Size.Width / 2,
@@ -122,17 +126,10 @@ namespace BookBuilder
 
             if (videoPlaceholder != null)
             {
-                Debug.WriteLine("videoPl x is " + videoPlaceholder.Location.X.ToString());
-                Debug.WriteLine("pagepic x is " + PagePicture.Location.X.ToString());
-                Debug.WriteLine("videoPl y is " + videoPlaceholder.Location.Y.ToString());
-                Debug.WriteLine("pagepic y is " + PagePicture.Location.Y.ToString());
-
                 //Subract the page pictures location because the location of the video placeholder relative to the
                 //page picture is what matters.
-                //THIS IS A PROBLEM RIGHT NOW. Currently the PagePicure container stretches accross the entire screen.
-                //We need to find a way to get the coordinates of where the page image appears on the screen
-                XPosBox.Text = (videoPlaceholder.Location.X - PagePicture.Location.X).ToString();
-                YPosBox.Text = (videoPlaceholder.Location.Y - PagePicture.Location.Y).ToString();
+                XPosBox.Text = (videoPlaceholder.Location.X - PagePicture.ImageRectangle.X).ToString();
+                YPosBox.Text = (videoPlaceholder.Location.Y - PagePicture.ImageRectangle.Y).ToString();
                 WidthBox.Text = videoPlaceholder.Size.Width.ToString();
                 HeightBox.Text = videoPlaceholder.Size.Height.ToString();
             }

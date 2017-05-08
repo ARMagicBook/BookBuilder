@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Reflection;
+using System.Drawing;
 
 namespace BookBuilder
 {
@@ -16,6 +17,17 @@ namespace BookBuilder
             BindingFlags.NonPublic |
             BindingFlags.Instance
         );
+
+        /// <summary>
+        /// Gives external (read-only) access to the picture rectangle.
+        /// </summary>
+        public Rectangle ImageRectangle
+        {
+            get
+            {
+                return (Rectangle)pInfo.GetValue(this, null);
+            }
+        }
 
     }
 }

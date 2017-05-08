@@ -14,6 +14,7 @@ namespace BookBuilder
         private bool isMoving;
         private int xPos;
         private int yPos;
+        private ImagePictureBox imagePictureBox;
 
         public VideoPictureBox(MainForm mainForm)
         {
@@ -22,6 +23,10 @@ namespace BookBuilder
             this.MouseDown += MouseDownHandler;
             this.MouseMove += MouseMoveHandler;
             this.isMoving = false;
+        }
+
+        public void setImagePictureBox(ImagePictureBox imagePictureBox) {
+            this.imagePictureBox = imagePictureBox;
         }
 
 
@@ -42,12 +47,24 @@ namespace BookBuilder
         { 
             if (this.isMoving)
             {
-                this.Top = this.Top + e.Y - yPos;
-                this.Left = this.Left + e.X - xPos;
+                int newTop = this.Top + e.Y - yPos;
+                int newLeft = this.Left + e.X - xPos;
+                int imageRight = imagePictureBox.ImageRectangle.X + imagePictureBox.ImageRectangle.Width;
+                int imageBottom = imagePictureBox.ImageRectangle.Y + imagePictureBox.ImageRectangle.Height;
 
-                // USE IMAGE COORDS TO BOUND THE VIDEO TO THE IMAGE HERE
-                Console.WriteLine("left is " + this.Left);
-                Console.WriteLine("Top is " + this.Top);
+                //Bound video picture box to the images container
+                if (newTop - imagePictureBox.ImageRectangle.Y < 0)
+                    newTop = imagePictureBox.ImageRectangle.Y;
+                if (newLeft - imagePictureBox.ImageRectangle.X < 0)
+                    newLeft = imagePictureBox.ImageRectangle.X;
+                if (newTop + this.Size.Height > imageBottom)
+                    newTop = imageBottom - this.Size.Height;
+                if (newLeft + this.Size.Width > imageRight)
+                    newLeft = imageRight - this.Size.Width;
+
+                this.Top = newTop;
+                this.Left = newLeft;
+
             }
         }
 
