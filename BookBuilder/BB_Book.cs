@@ -63,14 +63,15 @@ namespace BookBuilder
         {
             if (Pages.Count < 2)
             {
-                return true; 
+                return true;
             }
 
             //If the page number is even, we check from the next page
             if (fromPage % 2 == 0)
             {
                 return (fromPage == Pages.Count - 1) || Pages[fromPage + 1].AudioFileName == null;
-            } else //otherwise you check the previous page
+            }
+            else //otherwise you check the previous page
             {
                 return Pages[fromPage - 1].AudioFileName == null;
             }
@@ -121,7 +122,7 @@ namespace BookBuilder
             // Insert code to set properties and fields of the object.  
             XmlSerializer serializer = new XmlSerializer(typeof(BB_Book));
             // To write to a file, create a StreamWriter object.  
-            StreamWriter writer = new StreamWriter(Path.Combine(path,"serialized"));
+            StreamWriter writer = new StreamWriter(Path.Combine(path, "serialized"));
             serializer.Serialize(writer, this);
             writer.Close();
 

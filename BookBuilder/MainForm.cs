@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.IO.Compression;
 
 namespace BookBuilder
 {
@@ -33,28 +34,27 @@ namespace BookBuilder
             ImageFileLabel.Text = "";
             AudioFileLabel.Text = "";
             VideoFileLabel.Text = "";
-            isNewBook = true;
+            saveFileDialog.Filter = StaticBook.armbFilter;
             PagePicture.MouseUp += MouseUpHandler;
             videoPlaceholder = new VideoPictureBox(this);
             videoPlaceholder.setImagePictureBox(PagePicture);
             videoPlaceholder.setTableLayoutPanel(MainLayoutPanel);
         }
-        //The current page number, zero-indexed as it is in the BB_Book
-        int currentPageNum = 0;
-
         /// <summary>
         /// The page currently being viewed in MainForm.
         /// </summary>
         public BB_Page currentPage;
-        //Set this to false if this is an opened book instead of a new one
-        bool isNewBook = false;
-
-       
 
         private void MouseUpHandler(object sender, MouseEventArgs e)
         {
             DisplayVideoSizeAndLocation();
         }
+
+        //The current page number, zero-indexed as it is in the BB_Book
+        private int currentPageNum = 0;
+
+
+
 
         /// <summary>
         /// Runs when the main form is closed.
@@ -67,21 +67,48 @@ namespace BookBuilder
             Application.Exit();
         }
 
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
         private void OpenPageImage(object sender, EventArgs e)
         {
             openFileDialog.Filter = StaticBook.imageFileFilter;
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
+                var newImg = System.Drawing.Image.FromFile(openFileDialog.FileName);
+                int newImgX = newImg.Width;
+                int newImgY = newImg.Height;
+
+                /*
+                                //if first page, make sure other images have same size
+                                if (currentPageNum == 0 && StaticBook.Book.Pages.Count > 1)
+                                {
+                                    var nextPageImg = System.Drawing.Image.FromFile(StaticBook.Book.Pages[1].SourcePageImageFileName);
+                                    int nextPageX = nextPageImg.Width;
+                                    int nextPageY = nextPageImg.Height;
+                                    if (newImgX != nextPageX || newImgY != nextPageY)
+                                    {
+                                        MessageBox.Show("All page images must be the same size.", "Image Size Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        return;
+                                    }
+                                } else if (currentPageNum > 0)
+                                {
+                                    var firstPageImg = System.Drawing.Image.FromFile(StaticBook.Book.Pages[0].SourcePageImageFileName);
+                                    int firstPageX = firstPageImg.Width;
+                                    int firstPageY = firstPageImg.Height;
+                                    if (newImgX != firstPageX || newImgY != firstPageY)
+                                    {
+                                        MessageBox.Show("All page images must be the same size as the first page.", "Image Size Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        return;
+                                    }
+                                }
+                */
+
+                //if not first page, make sure it's the same size as the first page
+
+
                 currentPage.SourcePageImageFileName = openFileDialog.FileName;
                 currentPage.PageImageFileName = Path.GetFileName(openFileDialog.FileName);
                 ImageFileLabel.Text = currentPage.PageImageFileName;
                 PagePicture.Image = Image.FromFile(openFileDialog.FileName);
-            } 
+            }
         }
 
         private void OpenAudio(object sender, EventArgs e)
@@ -89,6 +116,24 @@ namespace BookBuilder
             openFileDialog.Filter = StaticBook.audioFileFilter;
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
+                if (!StaticBook.Book.AudioFileCheck(currentPageNum))
+                {
+                    String errorMessage = "Warning: Page ";
+                    if (currentPageNum % 2 == 0)
+                    {
+                        errorMessage += (currentPageNum + 2);
+                    }
+                    else
+                    {
+                        errorMessage += (currentPageNum);
+                    }
+                    errorMessage += " also has an audio file. It will be open and play at the same time as this one. Add audio anyway?";
+                    DialogResult dialogResult = MessageBox.Show(errorMessage, "Audio File Warning", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.No)
+                    {
+                        return;
+                    }
+                }
                 currentPage.SourceAudioFileName = openFileDialog.FileName;
                 currentPage.AudioFileName = Path.GetFileName(openFileDialog.FileName);
                 AudioFileLabel.Text = currentPage.AudioFileName;
@@ -123,7 +168,8 @@ namespace BookBuilder
         /// Updates the X, Y, W, and H text fields in the lower righthand corner to 
         /// display the current information of the video placeholder
         /// </summary>
-        public void DisplayVideoSizeAndLocation() {
+        public void DisplayVideoSizeAndLocation()
+        {
 
             if (videoPlaceholder != null)
             {
@@ -146,89 +192,178 @@ namespace BookBuilder
 
         private void PrevPage(object sender, EventArgs e)
         {
-            GoToPage(ClampPageNum(currentPageNum - 1));
+            GoToPage(ClampPageNum(currentPageNum - 1), true);
         }
 
         private void NextPage(object sender, EventArgs e)
         {
 
-            GoToPage(ClampPageNum(currentPageNum + 1));
+            GoToPage(ClampPageNum(currentPageNum + 1), true);
         }
 
         //Save the entire book
         private void SaveAs(object sender, EventArgs e)
         {
-            //saves contents of current page to BB_Book
-            GoToPage(currentPageNum);
-            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+            if (!imageCheck()) return;
+            GoToPage(currentPageNum, true);
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                XMLGenerator.GenerateXML(StaticBook.Book);
-                StaticBook.Book.CreateZipFile(folderBrowserDialog.SelectedPath);
+                SaveBook(saveFileDialog.FileName);
             }
+        }
+
+        private bool imageCheck()
+        {
+            if (!StaticBook.Book.hasAllImages())
+            {
+                MessageBox.Show("Error: Every page must have an image.", "Missing Image Error",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            return true;
+        }
+
+        private void SaveBook(string filePath)
+        {
+            XMLGenerator.GenerateXML(StaticBook.Book);
+            //Make sure the filename ends in .armb
+            if (Path.GetExtension(filePath) != ".armb")
+            {
+                filePath += ".armb";
+            }
+            StaticBook.Book.CreateZipFile(filePath);
+            StaticBook.hasBeenSaved = true;
+            StaticBook.savePath = filePath;
         }
 
         private void PageNumBoxPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == Convert.ToChar(Keys.Return))
             {
-                GoToPage(ClampPageNum(Int32.Parse(PageNumBox.Text)-1));
+                GoToPage(ClampPageNum(Int32.Parse(PageNumBox.Text) - 1), true);
             }
         }
 
-        //Clamps the input to a valid page number (assuming it's zero-indexed)
+        //Clamps the input to a valid page number (input and output is zero-indexed)
         private int ClampPageNum(int num)
         {
             if (num < 0) return 0;
-            if (num > StaticBook.Book.Pages.Count-1) return StaticBook.Book.Pages.Count-1;
+            if (num > StaticBook.Book.Pages.Count - 1) return StaticBook.Book.Pages.Count - 1;
             return num;
         }
 
-        //Save the current page to the BB_Book and go to another one.
-        private void GoToPage(int pageNum)
+        /// <summary>
+        /// Go to another page in the BB_Book.
+        /// </summary>
+        /// <param name="pageNum">Page number to go to, zero-indexed.</param>
+        /// <param name="saveCurrent">Whether the current page should be saved to the BB_Book.</param>
+        public void GoToPage(int pageNum, bool saveCurrent)
         {
-            currentPage.VideoX = Int32.Parse(XPosBox.Text);
-            currentPage.VideoY = Int32.Parse(YPosBox.Text);
-            currentPage.VideoHeight = Int32.Parse(HeightBox.Text);
-            currentPage.VideoWidth = Int32.Parse(WidthBox.Text);
-            currentPage.PageNumber = currentPageNum;
 
+            if (saveCurrent)
+            {
+                currentPage.VideoX = Int32.Parse(XPosBox.Text);
+                currentPage.VideoY = Int32.Parse(YPosBox.Text);
+                currentPage.VideoHeight = Int32.Parse(HeightBox.Text);
+                currentPage.VideoWidth = Int32.Parse(WidthBox.Text);
+                currentPage.PageNumber = currentPageNum;
+            }
             currentPageNum = pageNum;
             currentPage = StaticBook.Book.Pages[currentPageNum];
 
             PageNumBox.Text = (currentPageNum + 1).ToString();
-            //If it's a new book, use SourcePage... filenames.
-            //Otherwise, use Page... filenames because SourcePage... filenames might be meaningless.
-            if (isNewBook)
+
+            if (currentPage.SourcePageImageFileName != null)
             {
-                if (currentPage.SourcePageImageFileName != null)
-                {
-                    ImageFileLabel.Text = Path.GetFileName(currentPage.SourcePageImageFileName);
-                    PagePicture.Image = Image.FromFile(currentPage.SourcePageImageFileName);
-                } else
-                {
-                    ImageFileLabel.Text = "";
-                    PagePicture.Image = null;
-                }
-                if (currentPage.SourceAudioFileName != null)
-                {
-                    AudioFileLabel.Text = Path.GetFileName(currentPage.SourceAudioFileName);
-                } else
-                {
-                    AudioFileLabel.Text = "";
-                }
-                if (currentPage.SourceVideoFileName != null)
-                {
-                    VideoFileLabel.Text = Path.GetFileName(currentPage.SourceVideoFileName);
-                } else
-                {
-                    VideoFileLabel.Text = "";
-                }
+                ImageFileLabel.Text = Path.GetFileName(currentPage.SourcePageImageFileName);
+                if (PagePicture.Image != null)
+                    PagePicture.Image.Dispose();
+                PagePicture.Image = Image.FromFile(currentPage.SourcePageImageFileName);
             }
+            else
+            {
+                ImageFileLabel.Text = "";
+                PagePicture.Image = null;
+            }
+            if (currentPage.SourceAudioFileName != null)
+            {
+                AudioFileLabel.Text = Path.GetFileName(currentPage.SourceAudioFileName);
+            }
+            else
+            {
+                AudioFileLabel.Text = "";
+            }
+            if (currentPage.SourceVideoFileName != null)
+            {
+                VideoFileLabel.Text = Path.GetFileName(currentPage.SourceVideoFileName);
+            }
+            else
+            {
+                VideoFileLabel.Text = "";
+            }
+
             XPosBox.Text = currentPage.VideoX.ToString();
             YPosBox.Text = currentPage.VideoY.ToString();
             HeightBox.Text = currentPage.VideoHeight.ToString();
             WidthBox.Text = currentPage.VideoWidth.ToString();
         }
 
+        /// <summary>
+        /// Give a prompt to open an existing book in the builder.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void OpenBook(object sender, EventArgs e)
+        {
+            openFileDialog.Filter = StaticBook.armbFilter;
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                StaticBook.OpenBook(openFileDialog.FileName);
+                GoToPage(0, false);
+                StaticBook.hasBeenSaved = true;
+                StaticBook.savePath = openFileDialog.FileName;
+            }
+        }
+
+        /// <summary>
+        /// Disposes of the image in the picturebox if it's not null.
+        /// </summary>
+        /// <returns></returns>
+        public void DisposeImage()
+        {
+            if (PagePicture.Image != null)
+            {
+                PagePicture.Image.Dispose();
+            }
+        }
+
+        private void Save(object sender, EventArgs e)
+        {
+            if (!imageCheck()) return;
+            GoToPage(currentPageNum, true);
+            if (StaticBook.hasBeenSaved == false)
+            {
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    SaveBook(saveFileDialog.FileName);
+                }
+            }
+            else
+            {
+                SaveBook(StaticBook.savePath);
+            }
+        }
+
+        private void RemoveAudio(object sender, EventArgs e)
+        {
+            currentPage.SourceAudioFileName = null;
+            currentPage.AudioFileName = null;
+            AudioFileLabel.Text = "";
+        }
+
+        private void RemoveVideo(object sender, EventArgs e)
+        {
+            //Handle this after merge
+        }
     }
 }
