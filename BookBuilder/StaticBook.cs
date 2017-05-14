@@ -50,6 +50,10 @@ namespace BookBuilder
         /// Allowed video file types.
         /// </summary>
         public const string videoFileFilter = "Video files (*.avi, *.mp4, *.wmv, *.m4v, *.avi)| *.avi; *.mp4; *.wmv; *.m4v; *.avi";
+        /// <summary>
+        /// Filter for ARMB file type.
+        /// </summary>
+        public const string armbFilter = "ARMB files (*.armb)| *.armb";
 
         /// <summary>
         /// The path where the book is saved to or opened from.
@@ -92,7 +96,8 @@ namespace BookBuilder
                 }
             }
         }
-        
+
+
         //public static void SaveBook(string )
 
         [STAThread]

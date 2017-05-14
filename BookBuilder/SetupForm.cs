@@ -50,12 +50,13 @@ namespace BookBuilder
             StaticBook.Book.Title = TitleBox.Text;
             StaticBook.Book.Description = DescriptionBox.Text;
 
-            for (int i=0; i < PagesBox.Value; i++)
+            for (int i = 0; i < PagesBox.Value; i++)
             {
                 StaticBook.Book.Pages.Add(new global::BookBuilder.BB_Page());
             }
 
-            foreach (TextBox Box in AuthorBoxes){
+            foreach (TextBox Box in AuthorBoxes)
+            {
                 if (Box.Text != "")
                 {
                     StaticBook.Book.Authors.Add(Box.Text);
@@ -120,14 +121,14 @@ namespace BookBuilder
             //Adjust size of layout panel and setup form to account for the new author row
             tableLayoutPanel.Size = new Size(tableLayoutPanel.Size.Width, tableLayoutPanel.Size.Height + nextAuthorBox.Size.Height + 6); //6 is padding for layout cell size
             this.Size = new Size(this.Size.Width, this.Size.Height + nextAuthorBox.Size.Height + 6);
-            
+
             insertRowNum++; //Next time add is pressed we insert underneath this one
             tableLayoutPanel.Visible = true;
         }
 
         private void OpenExistingBook(object sender, EventArgs e)
         {
-            openFileDialog.Filter = "ARMB files (*.armb)| *.armb";
+            openFileDialog.Filter = StaticBook.armbFilter;
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 StaticBook.OpenBook(openFileDialog.FileName);
@@ -135,7 +136,7 @@ namespace BookBuilder
                 this.Visible = false;
                 StaticBook.mainForm.Visible = true;
                 StaticBook.hasBeenSaved = true;
-                StaticBook.savePath = openFileDialog.FileName;        
+                StaticBook.savePath = openFileDialog.FileName;
             }
 
         }

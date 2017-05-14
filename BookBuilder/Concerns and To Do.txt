@@ -1,7 +1,6 @@
 ﻿To do:
 - Add drag and drop for videos
 - Give a "Would you like to save before exiting? [Save, Don't Save, or Cancel] dialog box when the user is about to exit."
-- Don't allow the user to add an image that's not the same size as the first image
-- Allow user to remove audio file or video file from a page
+- Allow user to remove video file from a page
 - Allow user to add or remove pages
 - Maybe prevent user from making windows too small to hold everything?
