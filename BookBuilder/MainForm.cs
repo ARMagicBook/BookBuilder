@@ -53,9 +53,6 @@ namespace BookBuilder
         //The current page number, zero-indexed as it is in the BB_Book
         private int currentPageNum = 0;
 
-
-
-
         /// <summary>
         /// Runs when the main form is closed.
         /// Should prompt the user to save their work before exiting. For now, it just exits the program.
@@ -158,7 +155,7 @@ namespace BookBuilder
 
                 Controls.Add(videoPlaceholder);
                 videoPlaceholder.BringToFront();
-
+                videoPlaceholder.Visible = true;
                 DisplayVideoSizeAndLocation();
             }
         }
@@ -296,9 +293,20 @@ namespace BookBuilder
             if (currentPage.SourceVideoFileName != null)
             {
                 VideoFileLabel.Text = Path.GetFileName(currentPage.SourceVideoFileName);
+                //replace video placeholder object w/ currentPage's one
+                
+                //need to set videoplaceholder object to the position it was in this page
+                //probably gettable from bb_page?
+                videoPlaceholder.Visible = true;
+                videoPlaceholder.Location = new Point(PagePicture.Location.X + PagePicture.Size.Width / 2 - videoPlaceholder.Size.Width / 2 + currentPage.VideoX,
+                    PagePicture.Location.Y + PagePicture.Size.Height / 2 - videoPlaceholder.Size.Height / 2 - currentPage.VideoY);
+               
+
             }
             else
             {
+                //hide video placeholder object
+                videoPlaceholder.Visible = false;
                 VideoFileLabel.Text = "";
             }
 

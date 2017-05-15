@@ -18,7 +18,7 @@ namespace BookBuilder
         private TableLayoutPanel mainLayoutPanel;
 
         /// <summary>
-        /// Initializes Video PIcture Box and sets up mouse handlers
+        /// Initializes Video Picture Box and sets up mouse handlers
         /// </summary>
         /// <param name="mainForm"></param>
         public VideoPictureBox(MainForm mainForm)
@@ -40,7 +40,7 @@ namespace BookBuilder
         }
 
         /// <summary>
-        /// Sets VIdeo Picture Box's tableLayoutPanel to the same one in MainForm
+        /// Sets Video Picture Box's tableLayoutPanel to the same one in MainForm
         /// </summary>
         /// <param name="tableLayoutPanel"></param>
         public void setTableLayoutPanel(TableLayoutPanel tableLayoutPanel)
@@ -74,7 +74,7 @@ namespace BookBuilder
         }
 
         /// <summary>
-        /// Moves the video picture box across the main form according to users mouse movement
+        /// Moves the video picture box across the main form according to user's mouse movement
         /// Bounds the video picture box to the image incase user tries to drag out of that area.
         /// </summary>
         /// <param name="sender"></param>
