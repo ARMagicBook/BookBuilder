@@ -85,6 +85,11 @@ namespace BookBuilder
 
         public const int xVideoOffset = 12;
         public const int yVideoOffset = 5;
+        public int videoXPos;
+        public int videoYPos;
+        public int videoWidth;
+        public int videoHeight;
+
 
         private void OpenPageImage(object sender, EventArgs e)
         {
@@ -191,10 +196,15 @@ namespace BookBuilder
                 //page picture is what matters.
                 double imageTop = (MainLayoutPanel.Size.Height - PagePicture.ImageRectangle.Size.Height) / 2.0;
                 double scale = ((double)PagePicture.ImageRectangle.Width / currentPage.ImageWidth);
-                XPosBox.Text = ((int)((videoPlaceholder.Location.X - PagePicture.ImageRectangle.X - xVideoOffset) / scale)).ToString();
-                YPosBox.Text = ((int)((videoPlaceholder.Location.Y - imageTop - yVideoOffset) / scale)).ToString();
-                WidthBox.Text = ((int)(videoPlaceholder.Size.Width/ scale)).ToString();
-                HeightBox.Text = ((int)(videoPlaceholder.Size.Height/ scale)).ToString();
+                videoXPos = (int)((videoPlaceholder.Location.X - PagePicture.ImageRectangle.X - xVideoOffset) / scale);
+                videoYPos = (int)((videoPlaceholder.Location.Y - imageTop - yVideoOffset) / scale);
+                videoWidth = (int)(videoPlaceholder.Size.Width / scale);
+                videoHeight = (int)(videoPlaceholder.Size.Height / scale);
+
+                XPosBox.Text = videoXPos.ToString();
+                YPosBox.Text = videoYPos.ToString();
+                WidthBox.Text = videoWidth.ToString();
+                HeightBox.Text = videoHeight.ToString();
             }
         }
 
@@ -421,6 +431,19 @@ namespace BookBuilder
         {
             //Handle this after merge
             changeMade = true;
+        }
+
+        private void formResize(object sender, EventArgs e)
+        {
+            double scale = ((double)PagePicture.ImageRectangle.Width / currentPage.ImageWidth);
+            int imageLeft = PagePicture.ImageRectangle.X;
+            double imageTop = (MainLayoutPanel.Size.Height - PagePicture.ImageRectangle.Size.Height) / 2.0;
+            int newWidth = (int)(videoWidth * scale);
+            int newHeight = (int)(videoHeight * scale);
+            int newXpos = (int)(videoXPos * scale + imageLeft);
+            int newYPos = (int)(videoYPos * scale + imageTop);
+            videoPlaceholder.Location = new Point(newXpos, newYPos);
+            videoPlaceholder.Size = new Size(newWidth, newHeight);
         }
     }
 }
