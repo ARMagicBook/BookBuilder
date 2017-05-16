@@ -89,6 +89,16 @@ namespace BookBuilder
         /// <value>The audio MD5 hash value.</value>
         public string AudioMD5 { get; set; }
 
+        /// <summary>
+        /// Gets or sets the height of the image.
+        /// </summary>
+        public int ImageHeight { get; set; }
+
+        /// <summary>
+        /// Gets or sets the width of the image.
+        /// </summary>
+        public int ImageWidth { get; set; }
+
         /// <summary>Tries to open a file and returns its MD5 hash value as a string.</summary>
         /// <param name="filename">The name of the file to be opened.</param>
         /// <returns>the MD5 hash as a string.</returns>

@@ -63,8 +63,7 @@ namespace BookBuilder
         //The current page number, zero-indexed as it is in the BB_Book
         private int currentPageNum = 0;
 
-        private int currentPageWidth = 0;
-        private int currentPageHeight = 0;
+
         /// <summary>
         /// Runs when the main form is closed.
         /// Should prompt the user to save their work before exiting. For now, it just exits the program.
@@ -84,8 +83,8 @@ namespace BookBuilder
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 var newImg = System.Drawing.Image.FromFile(openFileDialog.FileName);
-                currentPageWidth = newImg.Width;
-                currentPageHeight = newImg.Height;
+                currentPage.ImageWidth = newImg.Width;
+                currentPage.ImageHeight = newImg.Height;
                 /*
                                 //if first page, make sure other images have same size
                                 if (currentPageNum == 0 && StaticBook.Book.Pages.Count > 1)
@@ -178,7 +177,7 @@ namespace BookBuilder
             {
                 //Subract the page pictures location because the location of the video placeholder relative to the
                 //page picture is what matters.
-                double scale = (PagePicture.ImageRectangle.Width / currentPageWidth);
+                double scale = (PagePicture.ImageRectangle.Width / currentPage.ImageWidth);
                 XPosBox.Text = ((int)((videoPlaceholder.Location.X - PagePicture.ImageRectangle.X) / scale)).ToString();
                 YPosBox.Text = ((int)((videoPlaceholder.Location.Y - PagePicture.ImageRectangle.Y) / scale)).ToString();
                 WidthBox.Text = ((int)(videoPlaceholder.Size.Width/ scale)).ToString();
@@ -205,40 +204,37 @@ namespace BookBuilder
             GoToPage(ClampPageNum(currentPageNum + 1), true);
         }
 
-        //Save the entire book
-        private void SaveAs(object sender, EventArgs e)
-        {
-            if (!imageCheck()) return;
-            GoToPage(currentPageNum, true);
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                SaveBook(saveFileDialog.FileName);
-            }
-        }
 
-        private bool imageCheck()
+        private bool hasImagesCheck()
         {
             if (!StaticBook.Book.hasAllImages())
             {
-                MessageBox.Show("Error: Every page must have an image.", "Missing Image Error",
+                MessageBox.Show("Every page must have an image.", "Missing Image Error",
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             return true;
         }
 
-        private void SaveBook(string filePath)
+        private bool imageSizeCheck()
         {
-            XMLGenerator.GenerateXML(StaticBook.Book);
-            //Make sure the filename ends in .armb
-            if (Path.GetExtension(filePath) != ".armb")
+            int height = StaticBook.Book.Pages[0].ImageHeight;
+            int width = StaticBook.Book.Pages[0].ImageWidth;
+            for (int i=1; i < StaticBook.Book.Pages.Count; i++)
             {
-                filePath += ".armb";
+                int curHeight = StaticBook.Book.Pages[i].ImageHeight;
+                int curWidth = StaticBook.Book.Pages[i].ImageWidth;
+                if (curHeight != height || curWidth != width)
+                {
+                    string ErrString = String.Format("All pages must have the same dimensions.\nPage 1: Height={0} Width={1}\nPage {2}: Height={3} Width={4}", height, width, i + 1, curHeight, curWidth);
+                    MessageBox.Show(ErrString, "Image Size Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
             }
-            StaticBook.Book.CreateZipFile(filePath);
-            StaticBook.hasBeenSaved = true;
-            StaticBook.savePath = filePath;
+            return true;
         }
+
+
 
         private void PageNumBoxPress(object sender, KeyPressEventArgs e)
         {
@@ -255,6 +251,8 @@ namespace BookBuilder
             if (num > StaticBook.Book.Pages.Count - 1) return StaticBook.Book.Pages.Count - 1;
             return num;
         }
+
+
 
         /// <summary>
         /// Go to another page in the BB_Book.
@@ -283,16 +281,16 @@ namespace BookBuilder
                 if (PagePicture.Image != null)
                     PagePicture.Image.Dispose();
                 PagePicture.Image = Image.FromFile(currentPage.SourcePageImageFileName);
-                currentPageHeight = PagePicture.Image.Height;
-                currentPageWidth = PagePicture.Image.Width;
+                currentPage.ImageHeight = PagePicture.Image.Height;
+                currentPage.ImageWidth = PagePicture.Image.Width;
 
 
             }
             else
             {
                 ImageFileLabel.Text = "";
-                currentPageHeight = 0;
-                currentPageWidth = 0;
+                currentPage.ImageHeight = 0;
+                currentPage.ImageWidth = 0;
                 PagePicture.Image = null;
             }
             if (currentPage.SourceAudioFileName != null)
@@ -308,7 +306,7 @@ namespace BookBuilder
                 VideoFileLabel.Text = Path.GetFileName(currentPage.SourceVideoFileName);
                 //need to set videoplaceholder object to the position it was in this page
                 videoPlaceholder.Visible = true;
-                double scale = PagePicture.ImageRectangle.Width / currentPageWidth;
+                double scale = PagePicture.ImageRectangle.Width / currentPage.ImageWidth;
                 videoPlaceholder.Location = new Point(PagePicture.Location.X + (int)(currentPage.VideoX * scale) + PagePicture.ImageRectangle.X 
                     - videoPlaceholder.Size.Width / 2, PagePicture.Location.Y + (int)(currentPage.VideoY * scale) + PagePicture.ImageRectangle.Y 
                     - videoPlaceholder.Size.Height / 2);
@@ -357,7 +355,8 @@ namespace BookBuilder
 
         private void Save(object sender, EventArgs e)
         {
-            if (!imageCheck()) return;
+            if (!hasImagesCheck()) return;
+            if (!imageSizeCheck()) return;
             GoToPage(currentPageNum, true);
             if (StaticBook.hasBeenSaved == false)
             {
@@ -370,6 +369,31 @@ namespace BookBuilder
             {
                 SaveBook(StaticBook.savePath);
             }
+        }
+
+        private void SaveAs(object sender, EventArgs e)
+        {
+            if (!hasImagesCheck()) return;
+            if (!imageSizeCheck()) return;
+            GoToPage(currentPageNum, true);
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                SaveBook(saveFileDialog.FileName);
+            }
+        }
+
+        //General purpose save function; used by SaveAs and Save
+        private void SaveBook(string filePath)
+        {
+            XMLGenerator.GenerateXML(StaticBook.Book);
+            //Make sure the filename ends in .armb
+            if (Path.GetExtension(filePath) != ".armb")
+            {
+                filePath += ".armb";
+            }
+            StaticBook.Book.CreateZipFile(filePath);
+            StaticBook.hasBeenSaved = true;
+            StaticBook.savePath = filePath;
         }
 
         private void RemoveAudio(object sender, EventArgs e)

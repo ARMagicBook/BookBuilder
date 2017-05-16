@@ -1,10 +1,9 @@
 ﻿To do:
 Necessary:
-- Fix bug where video placeholder image stays on page after changing pages
 - Fix bug where video placeholder image doesn't show when opening a book
 - Fix bug when resizing page w/ video on it
-- Add image size check - should happen when user tries to save
 - fix nonsense video x/y, w/h values that happen when you add a page image w/o a video
+- fix innacurate x/y values when clicking and dragging a video
 
 Very helpful:
 - Give a "Would you like to save before exiting? [Save, Don't Save, or Cancel] dialog box when the user is about to exit."
