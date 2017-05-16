@@ -442,7 +442,7 @@ namespace BookBuilder
             int newHeight = (int)(videoHeight * scale);
             int newXpos = (int)(videoXPos * scale + imageLeft);
             int newYPos = (int)(videoYPos * scale + imageTop);
-            videoPlaceholder.Location = new Point(newXpos, newYPos);
+            videoPlaceholder.Location = new Point(newXpos+xVideoOffset, newYPos+yVideoOffset);
             videoPlaceholder.Size = new Size(newWidth, newHeight);
         }
     }
