@@ -63,6 +63,10 @@ namespace BookBuilder
         //The current page number, zero-indexed as it is in the BB_Book
         private int currentPageNum = 0;
 
+        /// <summary>
+        /// Whether any change has been made since the book was last saved.
+        /// </summary>
+        public bool changeMade = false;
 
         /// <summary>
         /// Runs when the main form is closed.
@@ -72,6 +76,10 @@ namespace BookBuilder
         /// <param name="e"></param>
         private void MainFormClosed(object sender, FormClosingEventArgs e)
         {
+            if (changeMade)
+            {
+                //TODO: Implement this maybe.
+            }
             Application.Exit();
         }
 
@@ -118,6 +126,7 @@ namespace BookBuilder
                 ImageFileLabel.Text = currentPage.PageImageFileName;
                 PagePicture.Image = Image.FromFile(openFileDialog.FileName);
             }
+            changeMade = true;
         }
 
         private void OpenAudio(object sender, EventArgs e)
@@ -147,6 +156,7 @@ namespace BookBuilder
                 currentPage.AudioFileName = Path.GetFileName(openFileDialog.FileName);
                 AudioFileLabel.Text = currentPage.AudioFileName;
             }
+            changeMade = true;
         }
 
         private void OpenVideo(object sender, EventArgs e)
@@ -163,6 +173,7 @@ namespace BookBuilder
                 videoPlaceholder.Visible = true;
                 DisplayVideoSizeAndLocation();
             }
+            changeMade = true;
         }
 
 
@@ -338,6 +349,7 @@ namespace BookBuilder
                 GoToPage(0, false);
                 StaticBook.hasBeenSaved = true;
                 StaticBook.savePath = openFileDialog.FileName;
+                changeMade = true;
             }
         }
 
@@ -394,6 +406,7 @@ namespace BookBuilder
             StaticBook.Book.CreateZipFile(filePath);
             StaticBook.hasBeenSaved = true;
             StaticBook.savePath = filePath;
+            changeMade = false;
         }
 
         private void RemoveAudio(object sender, EventArgs e)
@@ -401,11 +414,13 @@ namespace BookBuilder
             currentPage.SourceAudioFileName = null;
             currentPage.AudioFileName = null;
             AudioFileLabel.Text = "";
+            changeMade = true;
         }
 
         private void RemoveVideo(object sender, EventArgs e)
         {
             //Handle this after merge
+            changeMade = true;
         }
     }
 }
