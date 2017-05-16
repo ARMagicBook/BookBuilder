@@ -2,8 +2,6 @@
 Necessary:
 - Fix bug where video placeholder image doesn't show when opening a book
 - Fix bug when resizing page w/ video on it
-- fix nonsense video x/y, w/h values that happen when you add a page image w/o a video
-- fix innacurate x/y values when clicking and dragging a video
 
 Very helpful:
 - Give a "Would you like to save before exiting? [Save, Don't Save, or Cancel] dialog box when the user is about to exit."
@@ -11,3 +9,4 @@ Very helpful:
 - Allow user to add or remove pages
 Not important:
 - Maybe prevent user from making windows too small to hold everything?
+- fix nonsense video x/y, w/h values that happen when you add a page image w/o a video
