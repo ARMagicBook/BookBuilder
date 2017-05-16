@@ -28,6 +28,7 @@ namespace BookBuilder
             this.MouseDown += MouseDownHandler;
             this.MouseMove += MouseMoveHandler;
             this.isMoving = false;
+            this.Resize += ResizeHandler;
         }
 
         /// <summary>
@@ -39,6 +40,14 @@ namespace BookBuilder
             this.imagePictureBox = imagePictureBox;
         }
 
+        public void ResizeHandler(object sender, System.EventArgs e)
+        {
+            if (mainForm.currentPage != null)
+            {
+              mainForm.DisplayVideoSizeAndLocation();
+            }
+        }
+
         /// <summary>
         /// Sets Video Picture Box's tableLayoutPanel to the same one in MainForm
         /// </summary>
@@ -47,7 +56,7 @@ namespace BookBuilder
         {
             this.mainLayoutPanel = tableLayoutPanel;
         }
-
+        
 
         /// <summary>
         /// Updates the text fields in the main form based on video box's current location.
