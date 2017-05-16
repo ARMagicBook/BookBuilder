@@ -83,7 +83,8 @@ namespace BookBuilder
             Application.Exit();
         }
 
-        //Calculates x and y scale values
+        public const int xVideoOffset = 12;
+        public const int yVideoOffset = 5;
 
         private void OpenPageImage(object sender, EventArgs e)
         {
@@ -188,9 +189,10 @@ namespace BookBuilder
             {
                 //Subract the page pictures location because the location of the video placeholder relative to the
                 //page picture is what matters.
+                double imageTop = (MainLayoutPanel.Size.Height - PagePicture.ImageRectangle.Size.Height) / 2.0;
                 double scale = (PagePicture.ImageRectangle.Width / currentPage.ImageWidth);
-                XPosBox.Text = ((int)((videoPlaceholder.Location.X - PagePicture.ImageRectangle.X) / scale)).ToString();
-                YPosBox.Text = ((int)((videoPlaceholder.Location.Y - PagePicture.ImageRectangle.Y) / scale)).ToString();
+                XPosBox.Text = ((int)((videoPlaceholder.Location.X - PagePicture.ImageRectangle.X - xVideoOffset) / scale)).ToString();
+                YPosBox.Text = ((int)((videoPlaceholder.Location.Y - imageTop - yVideoOffset) / scale)).ToString();
                 WidthBox.Text = ((int)(videoPlaceholder.Size.Width/ scale)).ToString();
                 HeightBox.Text = ((int)(videoPlaceholder.Size.Height/ scale)).ToString();
             }

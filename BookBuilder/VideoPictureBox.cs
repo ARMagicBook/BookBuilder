@@ -130,9 +130,9 @@ namespace BookBuilder
                 //    newLeft = imageRight - this.Size.Width;
                 //Console.WriteLine("newTop={0} newLeft={1}\n", newTop, newLeft);
 
-                //const int offset = 8; //weird offset to correct pixel position. seems to be necessary for some reason.
-                this.Top = newTop;
-                this.Left = newLeft;
+                
+                this.Top = newTop+ MainForm.yVideoOffset;
+                this.Left = newLeft+ MainForm.xVideoOffset;
             }
         }
 
