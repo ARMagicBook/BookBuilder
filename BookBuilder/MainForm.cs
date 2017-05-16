@@ -39,6 +39,16 @@ namespace BookBuilder
             videoPlaceholder = new VideoPictureBox(this);
             videoPlaceholder.setImagePictureBox(PagePicture);
             videoPlaceholder.setTableLayoutPanel(MainLayoutPanel);
+            videoPlaceholder.Size = new Size(150, 150);
+            videoPlaceholder.Image = Image.FromFile("../../video_source/video_placeholder.png");
+            Point centerOfPageImage = new Point(PagePicture.Location.X + PagePicture.Size.Width / 2 - videoPlaceholder.Size.Width / 2,
+                PagePicture.Location.Y + PagePicture.Size.Height / 2 - videoPlaceholder.Size.Height / 2);
+            videoPlaceholder.Location = centerOfPageImage;
+            videoPlaceholder.SizeMode = PictureBoxSizeMode.StretchImage;
+
+            Controls.Add(videoPlaceholder);
+            videoPlaceholder.BringToFront();
+            videoPlaceholder.Visible = false;
         }
         /// <summary>
         /// The page currently being viewed in MainForm.
@@ -53,6 +63,8 @@ namespace BookBuilder
         //The current page number, zero-indexed as it is in the BB_Book
         private int currentPageNum = 0;
 
+        private int currentPageWidth = 0;
+        private int currentPageHeight = 0;
         /// <summary>
         /// Runs when the main form is closed.
         /// Should prompt the user to save their work before exiting. For now, it just exits the program.
@@ -64,15 +76,16 @@ namespace BookBuilder
             Application.Exit();
         }
 
+        //Calculates x and y scale values
+
         private void OpenPageImage(object sender, EventArgs e)
         {
             openFileDialog.Filter = StaticBook.imageFileFilter;
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 var newImg = System.Drawing.Image.FromFile(openFileDialog.FileName);
-                int newImgX = newImg.Width;
-                int newImgY = newImg.Height;
-
+                currentPageWidth = newImg.Width;
+                currentPageHeight = newImg.Height;
                 /*
                                 //if first page, make sure other images have same size
                                 if (currentPageNum == 0 && StaticBook.Book.Pages.Count > 1)
@@ -146,15 +159,8 @@ namespace BookBuilder
                 currentPage.VideoFileName = Path.GetFileName(openFileDialog.FileName);
                 VideoFileLabel.Text = currentPage.VideoFileName;
 
-                videoPlaceholder.Size = new Size(150, 150);
-                videoPlaceholder.Image = Image.FromFile("../../video_source/video_placeholder.png");
-                Point centerOfPageImage = new Point(PagePicture.Location.X + PagePicture.Size.Width / 2 - videoPlaceholder.Size.Width / 2,
-                    PagePicture.Location.Y + PagePicture.Size.Height / 2 - videoPlaceholder.Size.Height / 2);
-                videoPlaceholder.Location = centerOfPageImage;
-                videoPlaceholder.SizeMode = PictureBoxSizeMode.StretchImage;
-
-                Controls.Add(videoPlaceholder);
-                videoPlaceholder.BringToFront();
+                videoPlaceholder.Location = new Point(PagePicture.Location.X + PagePicture.Size.Width / 2 - videoPlaceholder.Size.Width / 2,
+                PagePicture.Location.Y + PagePicture.Size.Height / 2 - videoPlaceholder.Size.Height / 2);
                 videoPlaceholder.Visible = true;
                 DisplayVideoSizeAndLocation();
             }
@@ -172,10 +178,11 @@ namespace BookBuilder
             {
                 //Subract the page pictures location because the location of the video placeholder relative to the
                 //page picture is what matters.
-                XPosBox.Text = (videoPlaceholder.Location.X - PagePicture.ImageRectangle.X).ToString();
-                YPosBox.Text = (videoPlaceholder.Location.Y - PagePicture.ImageRectangle.Y).ToString();
-                WidthBox.Text = videoPlaceholder.Size.Width.ToString();
-                HeightBox.Text = videoPlaceholder.Size.Height.ToString();
+                double scale = (PagePicture.ImageRectangle.Width / currentPageWidth);
+                XPosBox.Text = ((int)((videoPlaceholder.Location.X - PagePicture.ImageRectangle.X) / scale)).ToString();
+                YPosBox.Text = ((int)((videoPlaceholder.Location.Y - PagePicture.ImageRectangle.Y) / scale)).ToString();
+                WidthBox.Text = ((int)(videoPlaceholder.Size.Width/ scale)).ToString();
+                HeightBox.Text = ((int)(videoPlaceholder.Size.Height/ scale)).ToString();
             }
         }
 
@@ -276,10 +283,16 @@ namespace BookBuilder
                 if (PagePicture.Image != null)
                     PagePicture.Image.Dispose();
                 PagePicture.Image = Image.FromFile(currentPage.SourcePageImageFileName);
+                currentPageHeight = PagePicture.Image.Height;
+                currentPageWidth = PagePicture.Image.Width;
+
+
             }
             else
             {
                 ImageFileLabel.Text = "";
+                currentPageHeight = 0;
+                currentPageWidth = 0;
                 PagePicture.Image = null;
             }
             if (currentPage.SourceAudioFileName != null)
@@ -293,15 +306,12 @@ namespace BookBuilder
             if (currentPage.SourceVideoFileName != null)
             {
                 VideoFileLabel.Text = Path.GetFileName(currentPage.SourceVideoFileName);
-                //replace video placeholder object w/ currentPage's one
-                
                 //need to set videoplaceholder object to the position it was in this page
-                //probably gettable from bb_page?
                 videoPlaceholder.Visible = true;
-                videoPlaceholder.Location = new Point(PagePicture.Location.X + PagePicture.Size.Width / 2 - videoPlaceholder.Size.Width / 2 + currentPage.VideoX,
-                    PagePicture.Location.Y + PagePicture.Size.Height / 2 - videoPlaceholder.Size.Height / 2 - currentPage.VideoY);
-               
-
+                double scale = PagePicture.ImageRectangle.Width / currentPageWidth;
+                videoPlaceholder.Location = new Point(PagePicture.Location.X + (int)(currentPage.VideoX * scale) + PagePicture.ImageRectangle.X 
+                    - videoPlaceholder.Size.Width / 2, PagePicture.Location.Y + (int)(currentPage.VideoY * scale) + PagePicture.ImageRectangle.Y 
+                    - videoPlaceholder.Size.Height / 2);
             }
             else
             {

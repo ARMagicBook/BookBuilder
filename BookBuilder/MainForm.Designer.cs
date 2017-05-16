@@ -59,9 +59,9 @@
             this.Nextbutton = new System.Windows.Forms.Button();
             this.PageNumBox = new System.Windows.Forms.TextBox();
             this.PrevButton = new System.Windows.Forms.Button();
+            this.PagePicture = new BookBuilder.ImagePictureBox();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.PagePicture = new BookBuilder.ImagePictureBox();
             this.MainLayoutPanel.SuspendLayout();
             this.BottomlayoutPanel.SuspendLayout();
             this.VideoInfoPanel.SuspendLayout();
@@ -409,10 +409,6 @@
             this.PrevButton.UseVisualStyleBackColor = true;
             this.PrevButton.Click += new System.EventHandler(this.PrevPage);
             // 
-            // openFileDialog
-            // 
-            this.openFileDialog.FileName = "openFileDialog";
-            // 
             // PagePicture
             // 
             this.PagePicture.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -424,6 +420,10 @@
             this.PagePicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.PagePicture.TabIndex = 4;
             this.PagePicture.TabStop = false;
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.FileName = "openFileDialog";
             // 
             // MainForm
             // 
