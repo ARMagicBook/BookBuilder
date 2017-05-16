@@ -69,6 +69,9 @@ namespace BookBuilder
         private void MouseDownHandler(object sender, MouseEventArgs e)
         {
             this.isMoving = true;
+            //e.X and e.Y are relatively to the coordinates of this VideoPictureBox
+            //(Top left = 0,0)
+            //Console.WriteLine("e.X=" + e.X + " e.Y=" + e.Y);
             xPos = e.X;
             yPos = e.Y;
         }
@@ -83,25 +86,52 @@ namespace BookBuilder
         { 
             if (this.isMoving)
             {
+             
+                /* this.Top = distance between top of placeholder and top of picturebox
+                 * this.Left = distance between left edge of placeholder and left edge of picturebox
+                 * xPos = distance between mouse click and left edge of placeholder
+                 * yPos = distance between mouse click and top edge of placeholder
+                 * e.Y = distance of mouse between top of placeholder and top of picturebox after mouse move
+                 * e.X = distance of mouse between left edge of placeholder and left edge of placeholder after move
+                 * e.Y - yPos = distance between new mouse Y pos and old one
+                 * e.X - xPos = distance between new mouse X pos and old one
+                 */
+                   
                 int newTop = this.Top + e.Y - yPos;
                 int newLeft = this.Left + e.X - xPos;
+                
                 int imageRight = imagePictureBox.ImageRectangle.X + imagePictureBox.ImageRectangle.Width;
                 double imageTop = (mainLayoutPanel.Size.Height - imagePictureBox.ImageRectangle.Size.Height) / 2.0;
                 double imageBottom = imagePictureBox.ImageRectangle.Size.Height + imageTop;
-
+                Console.WriteLine("this.Top={0} this.Left={1} e.Y={2} e.X={3} newTop={4} newLeft={5} xPos={6} yPos={7}", this.Top, this.Left, e.Y, e.X, newTop, newLeft, xPos, yPos);
+                Console.WriteLine("ImagePictureBox.ImageRectangle.Top={0} ImagePictureBox.ImageRectangle.Bottom={1} imageTop={2} imageBottom={3}", imagePictureBox.Top, imagePictureBox.Bottom, imageTop, imageBottom);
+                Console.WriteLine("ImagePictureBox.ImageRectangle.Left={0}", imagePictureBox.ImageRectangle.Left);
+                Console.WriteLine("ImagePictureBox.Top={0} ImagePictureBox.Left={1}", imagePictureBox.Top, imagePictureBox.Left);
 
                 //Bound video picture box to the images container
-                if (newTop - imageTop < 0)
-                    newTop = (int)imageTop;
+
+                //if (newTop - imageTop < 0)
+                //    newTop = (int)imageTop;
+                //if (newLeft - imagePictureBox.ImageRectangle.Left < 0)
+                //    newLeft = imagePictureBox.ImageRectangle.Left;
+                //if (newTop + this.Size.Height > imageBottom)
+                //    newTop = (int)imageBottom - this.Size.Height;
+                //if (newLeft + this.Size.Width > imageRight)
+                //    newLeft = imageRight - this.Size.Width;
+
+                if (newTop - imagePictureBox.Top < 0)
+                    newTop = imagePictureBox.ImageRectangle.Top;
                 if (newLeft - imagePictureBox.ImageRectangle.Left < 0)
                     newLeft = imagePictureBox.ImageRectangle.Left;
-                if (newTop + this.Size.Height > imageBottom)
-                    newTop = (int)imageBottom - this.Size.Height;
+                if (newTop + this.Size.Height > imagePictureBox.ImageRectangle.Bottom)
+                    newTop = imagePictureBox.ImageRectangle.Bottom - this.Size.Height;
                 if (newLeft + this.Size.Width > imageRight)
                     newLeft = imageRight - this.Size.Width;
+                Console.WriteLine("newTop={0} newLeft={1}\n", newTop, newLeft);
 
-                this.Top = newTop;
-                this.Left = newLeft;
+                //const int offset = 8; //weird offset to correct pixel position. seems to be necessary for some reason.
+                this.Top = newTop + imagePictureBox.Top;
+                this.Left = newLeft + imagePictureBox.Left;
 
             }
         }
