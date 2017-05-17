@@ -14,6 +14,19 @@ using System.IO.Compression;
 namespace BookBuilder
 {
     /// <summary>
+    /// Contains all the ratios needed to figure out where and how large to display the video placeholder 
+    /// when the window is resized.
+    /// </summary>
+    public class Ratios
+    {
+        public double widthRatio;
+        public double heightRatio;
+        public double xCoordRatio;
+        public double yCoordRatio;
+        public int pageID;
+    }
+
+    /// <summary>
     /// The main BookBuilder GUI form. 
     /// Top third of tableLayoutPanel: next page/previous page/etc controlls
     /// Middle third: the page image
@@ -24,6 +37,7 @@ namespace BookBuilder
         //represents where the video will appear on the page.
         private VideoPictureBox videoPlaceholder;
 
+        private List<Ratios> ratioList;
 
         /// <summary>
         /// Initializes the MainForm. 
@@ -49,6 +63,7 @@ namespace BookBuilder
             Controls.Add(videoPlaceholder);
             videoPlaceholder.BringToFront();
             videoPlaceholder.Visible = false;
+            ratioList = new List<Ratios>();
         }
         /// <summary>
         /// The page currently being viewed in MainForm.
@@ -99,6 +114,7 @@ namespace BookBuilder
                 var newImg = System.Drawing.Image.FromFile(openFileDialog.FileName);
                 currentPage.ImageWidth = newImg.Width;
                 currentPage.ImageHeight = newImg.Height;
+
                 /*
                                 //if first page, make sure other images have same size
                                 if (currentPageNum == 0 && StaticBook.Book.Pages.Count > 1)
@@ -178,10 +194,80 @@ namespace BookBuilder
                 PagePicture.Location.Y + PagePicture.Size.Height / 2 - videoPlaceholder.Size.Height / 2);
                 videoPlaceholder.Visible = true;
                 DisplayVideoSizeAndLocation();
+
+
+                //Check if this page already has a Ratio struct, if not create a new one
+                bool ratioExists = false;
+                foreach (Ratios ratio in ratioList)
+                {
+                    if (ratio.pageID == currentPageNum)
+                    {
+                        ratioExists = true;
+                        break;
+                    }
+                }
+
+                if (!ratioExists)
+                {
+                    Ratios ratio = new Ratios();
+                    ratio.pageID = currentPageNum;
+                    ratioList.Add(ratio);
+                    UpdateCurrentRatio();
+                
+                    /*
+                    Console.WriteLine("\n\nWidth ratio is {0}", ratio.widthRatio);
+                    Console.WriteLine("Height ratio is {0}", ratio.heightRatio);
+                    Console.WriteLine("x coord ratio is {0}", ratio.xCoordRatio);
+                    Console.WriteLine("y coord ratio is {0}", ratio.yCoordRatio);
+                    */
+
+                    Debug.WriteLine("Added a new ratio with page id {0}", ratio.pageID);
+                }
+                else
+                {
+                    Debug.WriteLine("Ratio for this page already exists");
+                }
+
             }
             changeMade = true;
         }
 
+        public void UpdateCurrentRatio()
+        {
+            Ratios ratio = new Ratios();
+            ratio.pageID = -1;  //dummy page ID
+            foreach (Ratios currentRatio in ratioList)
+            {
+                if (currentRatio.pageID == currentPageNum)
+                {
+                    ratio = currentRatio;
+                    break;
+                }
+            }
+
+            if (ratio.pageID == -1)
+                return;
+
+            double imageTop = (MainLayoutPanel.Size.Height - PagePicture.ImageRectangle.Size.Height) / 2.0;
+            double widthRatio = (double)videoPlaceholder.Size.Width / PagePicture.ImageRectangle.Size.Width;
+            double heightRatio = (double)videoPlaceholder.Size.Height / PagePicture.ImageRectangle.Size.Height;
+
+            double xCoordRatio = (double)(videoPlaceholder.Location.X - PagePicture.ImageRectangle.Location.X - xVideoOffset) / PagePicture.ImageRectangle.Size.Width;
+            //Trying to subtract yVideoOffset from this results in a negative number when video is all the way at the top...
+            double yCoordRatio = (double)(videoPlaceholder.Location.Y - imageTop /* - yVideoOffset */) / PagePicture.ImageRectangle.Size.Height;
+            
+            /*
+            Console.WriteLine("Width ratio is {0}", widthRatio);
+            Console.WriteLine("Height ratio is {0}", heightRatio);
+            Console.WriteLine("x coord ratio is {0}", xCoordRatio);
+            Console.WriteLine("y coord ratio is {0}", yCoordRatio);
+            */
+            
+            ratio.widthRatio = widthRatio;
+            ratio.heightRatio = heightRatio;
+            ratio.xCoordRatio = xCoordRatio;
+            ratio.yCoordRatio = yCoordRatio;
+        }
 
         /// <summary>
         /// Updates the X, Y, W, and H text fields in the lower righthand corner to 
@@ -435,15 +521,42 @@ namespace BookBuilder
 
         private void formResize(object sender, EventArgs e)
         {
+            Ratios ratio = new Ratios();
+            ratio.pageID = -1;  //dummy page ID
+            foreach (Ratios currentRatio in ratioList)
+            {
+                if (currentRatio.pageID == currentPageNum)
+                {
+                    ratio = currentRatio;
+                    break;
+                }
+            }
+
+            //This page has no video to be resized, return
+            if (ratio.pageID == -1)
+                return;
+
+            double imageTop = (MainLayoutPanel.Size.Height - PagePicture.ImageRectangle.Size.Height) / 2.0;
+            int newWidth = (int)(PagePicture.ImageRectangle.Size.Width * ratio.widthRatio);
+            int newHeight = (int)(PagePicture.ImageRectangle.Size.Height * ratio.heightRatio);
+            int newXPos = (int)(PagePicture.ImageRectangle.Location.X + PagePicture.ImageRectangle.Size.Width * ratio.xCoordRatio);
+            int newYPos = (int)(imageTop + PagePicture.ImageRectangle.Size.Height * ratio.yCoordRatio);
+            videoPlaceholder.Location = new Point(newXPos + xVideoOffset, newYPos);
+            videoPlaceholder.Size = new Size(newWidth, newHeight);
+
+            /*
             double scale = ((double)PagePicture.ImageRectangle.Width / currentPage.ImageWidth);
             int imageLeft = PagePicture.ImageRectangle.X;
             double imageTop = (MainLayoutPanel.Size.Height - PagePicture.ImageRectangle.Size.Height) / 2.0;
             int newWidth = (int)(videoWidth * scale);
             int newHeight = (int)(videoHeight * scale);
             int newXpos = (int)(videoXPos * scale + imageLeft);
+            Console.WriteLine("new x is {0}", newXpos);
+            Console.WriteLine("video width is {0}", videoWidth);
             int newYPos = (int)(videoYPos * scale + imageTop);
             videoPlaceholder.Location = new Point(newXpos+xVideoOffset, newYPos+yVideoOffset);
             videoPlaceholder.Size = new Size(newWidth, newHeight);
+            */
         }
     }
 }

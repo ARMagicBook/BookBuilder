@@ -44,7 +44,8 @@ namespace BookBuilder
         {
             if (mainForm.currentPage != null)
             {
-              mainForm.DisplayVideoSizeAndLocation();
+                mainForm.DisplayVideoSizeAndLocation();
+                mainForm.UpdateCurrentRatio();
             }
         }
 
@@ -68,6 +69,7 @@ namespace BookBuilder
             this.isMoving = false;
             mainForm.changeMade = true;
             mainForm.DisplayVideoSizeAndLocation();  //Re-update size and location of video when user is done resizing.
+            mainForm.UpdateCurrentRatio();
         }
 
         /// <summary>
