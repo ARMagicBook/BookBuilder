@@ -189,12 +189,12 @@ namespace BookBuilder
                 currentPage.SourceVideoFileName = openFileDialog.FileName;
                 currentPage.VideoFileName = Path.GetFileName(openFileDialog.FileName);
                 VideoFileLabel.Text = currentPage.VideoFileName;
-
                 videoPlaceholder.Location = new Point(PagePicture.Location.X + PagePicture.Size.Width / 2 - videoPlaceholder.Size.Width / 2,
                 PagePicture.Location.Y + PagePicture.Size.Height / 2 - videoPlaceholder.Size.Height / 2);
+                videoPlaceholder.Size = new Size(150,150);
                 videoPlaceholder.Visible = true;
                 DisplayVideoSizeAndLocation();
-
+                
 
                 //Check if this page already has a Ratio struct, if not create a new one
                 bool ratioExists = false;
@@ -413,10 +413,20 @@ namespace BookBuilder
                 VideoFileLabel.Text = Path.GetFileName(currentPage.SourceVideoFileName);
                 //need to set videoplaceholder object to the position it was in this page
                 videoPlaceholder.Visible = true;
+                /*
                 double scale = PagePicture.ImageRectangle.Width / currentPage.ImageWidth;
                 videoPlaceholder.Location = new Point(PagePicture.Location.X + (int)(currentPage.VideoX * scale) + PagePicture.ImageRectangle.X 
                     - videoPlaceholder.Size.Width / 2, PagePicture.Location.Y + (int)(currentPage.VideoY * scale) + PagePicture.ImageRectangle.Y 
                     - videoPlaceholder.Size.Height / 2);
+                */
+
+                double scale = ((double)PagePicture.ImageRectangle.Width / currentPage.ImageWidth);
+                double imageTop = (MainLayoutPanel.Size.Height - PagePicture.ImageRectangle.Size.Height) / 2.0;
+                int xCoord = (int)(currentPage.VideoX * scale) + PagePicture.ImageRectangle.X + xVideoOffset;
+                int yCoord = (int)(currentPage.VideoY * scale + imageTop) + yVideoOffset;
+
+                videoPlaceholder.Location = new Point(xCoord, yCoord);
+                videoPlaceholder.Size = new Size((int)(currentPage.VideoWidth * scale), (int)(currentPage.VideoHeight * scale));
             }
             else
             {
@@ -531,6 +541,7 @@ namespace BookBuilder
                     break;
                 }
             }
+            Console.WriteLine("Resetting size..");
 
             //This page has no video to be resized, return
             if (ratio.pageID == -1)
