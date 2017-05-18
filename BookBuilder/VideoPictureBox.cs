@@ -17,6 +17,8 @@ namespace BookBuilder
         private ImagePictureBox imagePictureBox;
         private TableLayoutPanel mainLayoutPanel;
 
+        public bool MainFormResize { get; set; }
+
         /// <summary>
         /// Initializes Video Picture Box and sets up mouse handlers
         /// </summary>
@@ -29,6 +31,11 @@ namespace BookBuilder
             this.MouseMove += MouseMoveHandler;
             this.isMoving = false;
             this.Resize += ResizeHandler;
+            /*
+            Size minSize = this.DefaultMinimumSize;
+            Console.WriteLine("width is {0} and height is {1}", minSize.Width, minSize.Height);
+            */
+            MainFormResize = false;
         }
 
         /// <summary>
@@ -40,12 +47,16 @@ namespace BookBuilder
             this.imagePictureBox = imagePictureBox;
         }
 
+
         public void ResizeHandler(object sender, System.EventArgs e)
         {
             if (mainForm.currentPage != null)
             {
                 mainForm.DisplayVideoSizeAndLocation();
-                mainForm.UpdateCurrentRatio();
+                if (!MainFormResize)
+                {
+                    mainForm.UpdateCurrentRatio();
+                }
             }
         }
 

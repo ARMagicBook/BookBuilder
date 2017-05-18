@@ -60,15 +60,28 @@ namespace BookBuilder
             videoPlaceholder.Location = centerOfPageImage;
             videoPlaceholder.SizeMode = PictureBoxSizeMode.StretchImage;
 
+            //Size minSize = videoPlaceholder.
+
             Controls.Add(videoPlaceholder);
             videoPlaceholder.BringToFront();
             videoPlaceholder.Visible = false;
             ratioList = new List<Ratios>();
+
+            //this.Resize += ResizeHandler;
         }
+
         /// <summary>
         /// The page currently being viewed in MainForm.
         /// </summary>
         public BB_Page currentPage;
+
+     /*   
+        public void ResizeHandler(object sender, System.EventArgs e)
+        {
+            Console.WriteLine("getting called");
+            UpdateCurrentRatio();
+        }
+     */
 
         private void MouseUpHandler(object sender, MouseEventArgs e)
         {
@@ -234,6 +247,7 @@ namespace BookBuilder
 
         public void UpdateCurrentRatio()
         {
+            Console.WriteLine("Update called");
             Ratios ratio = new Ratios();
             ratio.pageID = -1;  //dummy page ID
             foreach (Ratios currentRatio in ratioList)
@@ -284,6 +298,7 @@ namespace BookBuilder
                 double scale = ((double)PagePicture.ImageRectangle.Width / currentPage.ImageWidth);
                 videoXPos = (int)((videoPlaceholder.Location.X - PagePicture.ImageRectangle.X - xVideoOffset) / scale);
                 videoYPos = (int)((videoPlaceholder.Location.Y - imageTop - yVideoOffset) / scale);
+
                 videoWidth = (int)(videoPlaceholder.Size.Width / scale);
                 videoHeight = (int)(videoPlaceholder.Size.Height / scale);
 
@@ -541,7 +556,6 @@ namespace BookBuilder
                     break;
                 }
             }
-            Console.WriteLine("Resetting size..");
 
             //This page has no video to be resized, return
             if (ratio.pageID == -1)
@@ -552,8 +566,12 @@ namespace BookBuilder
             int newHeight = (int)(PagePicture.ImageRectangle.Size.Height * ratio.heightRatio);
             int newXPos = (int)(PagePicture.ImageRectangle.Location.X + PagePicture.ImageRectangle.Size.Width * ratio.xCoordRatio);
             int newYPos = (int)(imageTop + PagePicture.ImageRectangle.Size.Height * ratio.yCoordRatio);
+
             videoPlaceholder.Location = new Point(newXPos + xVideoOffset, newYPos);
+
+            videoPlaceholder.MainFormResize = true;
             videoPlaceholder.Size = new Size(newWidth, newHeight);
+            videoPlaceholder.MainFormResize = false;
 
             /*
             double scale = ((double)PagePicture.ImageRectangle.Width / currentPage.ImageWidth);
