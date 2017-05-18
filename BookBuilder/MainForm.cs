@@ -60,7 +60,10 @@ namespace BookBuilder
             videoPlaceholder.Location = centerOfPageImage;
             videoPlaceholder.SizeMode = PictureBoxSizeMode.StretchImage;
 
-            //Size minSize = videoPlaceholder.
+            //Set the minimum size to the default min size
+            //No practical use in allowing the editor to become smaller then this and it
+            //invites strange sizing behavior with the video placeholder.
+            this.MinimumSize = this.Size;
 
             Controls.Add(videoPlaceholder);
             videoPlaceholder.BringToFront();
