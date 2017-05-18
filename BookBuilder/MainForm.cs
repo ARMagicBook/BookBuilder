@@ -19,10 +19,32 @@ namespace BookBuilder
     /// </summary>
     public class Ratios
     {
+        /// <summary>
+        /// Ratio of the width of the video placeholder to the width of the page image
+        /// </summary>
         public double widthRatio;
+
+        /// <summary>
+        /// Ratio of the height of the video placeholder to the height of the page image
+        /// </summary>
         public double heightRatio;
+
+        /// <summary>
+        /// Ratio of the distance between the left side of the page image and the left side of the 
+        /// video placeholder to the width of the page image.
+        /// </summary>
         public double xCoordRatio;
+
+        /// <summary>
+        /// Ratio of the distance between the top of the page image and the top of the 
+        /// video placeholder to the height of the page image.
+        /// </summary>
         public double yCoordRatio;
+
+        /// <summary>
+        /// The page number this Ratios struct pertains to
+        /// This number should be unique
+        /// </summary>
         public int pageID;
     }
 
@@ -78,14 +100,12 @@ namespace BookBuilder
         /// </summary>
         public BB_Page currentPage;
 
-     /*   
-        public void ResizeHandler(object sender, System.EventArgs e)
-        {
-            Console.WriteLine("getting called");
-            UpdateCurrentRatio();
-        }
-     */
-
+        /// <summary>
+        /// Display the new size and coordinates of the video placeholder when user releases the mouse after clicking 
+        /// on the video placeholder.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MouseUpHandler(object sender, MouseEventArgs e)
         {
             DisplayVideoSizeAndLocation();
@@ -114,14 +134,45 @@ namespace BookBuilder
             Application.Exit();
         }
 
+        /// <summary>
+        /// The results of the ImageRectangle.X seem to be slightly off
+        /// this is the adjustment.
+        /// </summary>
         public const int xVideoOffset = 12;
+
+        /// <summary>
+        /// The results of the ImageRectangle.Y seem to be slightly off
+        /// this is the adjustment
+        /// </summary>
         public const int yVideoOffset = 5;
+
+        /// <summary>
+        /// The scaled x coordinate of the video.
+        /// </summary>
         public int videoXPos;
+
+        /// <summary>
+        /// The scaled y coordinate of the video.
+        /// </summary>
         public int videoYPos;
+
+        /// <summary>
+        /// The scaled width of the video.
+        /// </summary>
         public int videoWidth;
+
+        /// <summary>
+        /// The scaled height of the video.
+        /// </summary>
         public int videoHeight;
 
 
+        /// <summary>
+        /// Open up the page image file and display it
+        /// Sets the page image in the BB_Page object
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OpenPageImage(object sender, EventArgs e)
         {
             openFileDialog.Filter = StaticBook.imageFileFilter;
@@ -131,34 +182,6 @@ namespace BookBuilder
                 currentPage.ImageWidth = newImg.Width;
                 currentPage.ImageHeight = newImg.Height;
 
-                /*
-                                //if first page, make sure other images have same size
-                                if (currentPageNum == 0 && StaticBook.Book.Pages.Count > 1)
-                                {
-                                    var nextPageImg = System.Drawing.Image.FromFile(StaticBook.Book.Pages[1].SourcePageImageFileName);
-                                    int nextPageX = nextPageImg.Width;
-                                    int nextPageY = nextPageImg.Height;
-                                    if (newImgX != nextPageX || newImgY != nextPageY)
-                                    {
-                                        MessageBox.Show("All page images must be the same size.", "Image Size Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                        return;
-                                    }
-                                } else if (currentPageNum > 0)
-                                {
-                                    var firstPageImg = System.Drawing.Image.FromFile(StaticBook.Book.Pages[0].SourcePageImageFileName);
-                                    int firstPageX = firstPageImg.Width;
-                                    int firstPageY = firstPageImg.Height;
-                                    if (newImgX != firstPageX || newImgY != firstPageY)
-                                    {
-                                        MessageBox.Show("All page images must be the same size as the first page.", "Image Size Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                        return;
-                                    }
-                                }
-                */
-
-                //if not first page, make sure it's the same size as the first page
-
-
                 currentPage.SourcePageImageFileName = openFileDialog.FileName;
                 currentPage.PageImageFileName = Path.GetFileName(openFileDialog.FileName);
                 ImageFileLabel.Text = currentPage.PageImageFileName;
@@ -167,6 +190,12 @@ namespace BookBuilder
             changeMade = true;
         }
 
+        /// <summary>
+        /// Set the audio file in the BB_Page
+        /// Checks to make sure two pages both open at the same time don't both have an audio file
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OpenAudio(object sender, EventArgs e)
         {
             openFileDialog.Filter = StaticBook.audioFileFilter;
@@ -197,6 +226,11 @@ namespace BookBuilder
             changeMade = true;
         }
 
+        /// <summary>
+        /// Set the video file in the BB_Page and display the video placeholder image
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OpenVideo(object sender, EventArgs e)
         {
             openFileDialog.Filter = StaticBook.videoFileFilter;
@@ -229,14 +263,6 @@ namespace BookBuilder
                     ratio.pageID = currentPageNum;
                     ratioList.Add(ratio);
                     UpdateCurrentRatio();
-                
-                    /*
-                    Console.WriteLine("\n\nWidth ratio is {0}", ratio.widthRatio);
-                    Console.WriteLine("Height ratio is {0}", ratio.heightRatio);
-                    Console.WriteLine("x coord ratio is {0}", ratio.xCoordRatio);
-                    Console.WriteLine("y coord ratio is {0}", ratio.yCoordRatio);
-                    */
-
                     Debug.WriteLine("Added a new ratio with page id {0}", ratio.pageID);
                 }
                 else
@@ -248,6 +274,9 @@ namespace BookBuilder
             changeMade = true;
         }
 
+        /// <summary>
+        /// Update the Ratios struct according to the new position and size of the videoplaceholder and mainform 
+        /// </summary>
         public void UpdateCurrentRatio()
         {
             Console.WriteLine("Update called");
@@ -272,13 +301,6 @@ namespace BookBuilder
             double xCoordRatio = (double)(videoPlaceholder.Location.X - PagePicture.ImageRectangle.Location.X - xVideoOffset) / PagePicture.ImageRectangle.Size.Width;
             //Trying to subtract yVideoOffset from this results in a negative number when video is all the way at the top...
             double yCoordRatio = (double)(videoPlaceholder.Location.Y - imageTop /* - yVideoOffset */) / PagePicture.ImageRectangle.Size.Height;
-            
-            /*
-            Console.WriteLine("Width ratio is {0}", widthRatio);
-            Console.WriteLine("Height ratio is {0}", heightRatio);
-            Console.WriteLine("x coord ratio is {0}", xCoordRatio);
-            Console.WriteLine("y coord ratio is {0}", yCoordRatio);
-            */
             
             ratio.widthRatio = widthRatio;
             ratio.heightRatio = heightRatio;
@@ -547,6 +569,12 @@ namespace BookBuilder
             changeMade = true;
         }
 
+
+        /// <summary>
+        /// Scale the videoplaceholder size and position according to how the mainform has grown or shrunk
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void formResize(object sender, EventArgs e)
         {
             Ratios ratio = new Ratios();
@@ -575,20 +603,6 @@ namespace BookBuilder
             videoPlaceholder.MainFormResize = true;
             videoPlaceholder.Size = new Size(newWidth, newHeight);
             videoPlaceholder.MainFormResize = false;
-
-            /*
-            double scale = ((double)PagePicture.ImageRectangle.Width / currentPage.ImageWidth);
-            int imageLeft = PagePicture.ImageRectangle.X;
-            double imageTop = (MainLayoutPanel.Size.Height - PagePicture.ImageRectangle.Size.Height) / 2.0;
-            int newWidth = (int)(videoWidth * scale);
-            int newHeight = (int)(videoHeight * scale);
-            int newXpos = (int)(videoXPos * scale + imageLeft);
-            Console.WriteLine("new x is {0}", newXpos);
-            Console.WriteLine("video width is {0}", videoWidth);
-            int newYPos = (int)(videoYPos * scale + imageTop);
-            videoPlaceholder.Location = new Point(newXpos+xVideoOffset, newYPos+yVideoOffset);
-            videoPlaceholder.Size = new Size(newWidth, newHeight);
-            */
         }
     }
 }

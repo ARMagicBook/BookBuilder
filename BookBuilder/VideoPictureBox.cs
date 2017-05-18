@@ -47,7 +47,13 @@ namespace BookBuilder
             this.imagePictureBox = imagePictureBox;
         }
 
-
+        /// <summary>
+        /// When video placeholder is being resized update the size and location display on Mainform
+        /// and if it is resized as a result of the user clicking an dragging it (not from mainform expanding or shrinking)
+        /// update the Ratios struct as well.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void ResizeHandler(object sender, System.EventArgs e)
         {
             if (mainForm.currentPage != null)
@@ -126,13 +132,8 @@ namespace BookBuilder
                 int imageRight = imagePictureBox.ImageRectangle.X + imagePictureBox.ImageRectangle.Width;
                 double imageTop = (mainLayoutPanel.Size.Height - imagePictureBox.ImageRectangle.Size.Height) / 2.0;
                 double imageBottom = imagePictureBox.ImageRectangle.Size.Height + imageTop;
-                //Console.WriteLine("this.Top={0} this.Left={1} e.Y={2} e.X={3} newTop={4} newLeft={5} xPos={6} yPos={7}", this.Top, this.Left, e.Y, e.X, newTop, newLeft, xPos, yPos);
-                //Console.WriteLine("ImagePictureBox.ImageRectangle.Top={0} ImagePictureBox.ImageRectangle.Bottom={1} imageTop={2} imageBottom={3}", imagePictureBox.Top, imagePictureBox.Bottom, imageTop, imageBottom);
-                //Console.WriteLine("ImagePictureBox.ImageRectangle.Left={0}", imagePictureBox.ImageRectangle.Left);
-                //Console.WriteLine("ImagePictureBox.Top={0} ImagePictureBox.Left={1}", imagePictureBox.Top, imagePictureBox.Left);
-
+               
                 //Bound video picture box to the images container
-
                 if (newTop - imageTop < 0)
                     newTop = (int)imageTop;
                 if (newLeft - imagePictureBox.ImageRectangle.Left < 0)
@@ -141,17 +142,6 @@ namespace BookBuilder
                     newTop = (int)imageBottom - this.Size.Height;
                 if (newLeft + this.Size.Width > imageRight)
                     newLeft = imageRight - this.Size.Width;
-
-                //if (newTop - imagePictureBox.Top < 0)
-                //    newTop = imagePictureBox.ImageRectangle.Top;
-                //if (newLeft - imagePictureBox.ImageRectangle.Left < 0)
-                //    newLeft = imagePictureBox.ImageRectangle.Left;
-                //if (newTop + this.Size.Height > imagePictureBox.ImageRectangle.Bottom)
-                //    newTop = imagePictureBox.ImageRectangle.Bottom - this.Size.Height;
-                //if (newLeft + this.Size.Width > imageRight)
-                //    newLeft = imageRight - this.Size.Width;
-                //Console.WriteLine("newTop={0} newLeft={1}\n", newTop, newLeft);
-
                 
                 this.Top = newTop+ MainForm.yVideoOffset;
                 this.Left = newLeft+ MainForm.xVideoOffset;
