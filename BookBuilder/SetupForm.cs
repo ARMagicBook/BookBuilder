@@ -49,6 +49,7 @@ namespace BookBuilder
             }
             StaticBook.Book.Title = TitleBox.Text;
             StaticBook.Book.Description = DescriptionBox.Text;
+            StaticBook.Book.FileVersion = "1.0";
 
             for (int i = 0; i < PagesBox.Value; i++)
             {

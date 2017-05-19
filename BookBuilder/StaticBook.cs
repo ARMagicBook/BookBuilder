@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace BookBuilder
 {
@@ -80,6 +81,7 @@ namespace BookBuilder
             ZipFile.ExtractToDirectory(filePath, tempFolder);
             //Parse the serialized BB_Book and copy it into our book.
             StaticBook.Book.DeserializeBook(tempFolder);
+            ParseBook(Path.Combine(tempFolder,"config.xml"));
             foreach (BB_Page p in StaticBook.Book.Pages)
             {
                 if (p.PageImageFileName != null && p.PageImageFileName != "")
@@ -95,6 +97,54 @@ namespace BookBuilder
                     p.SourceVideoFileName = Path.Combine(tempFolder, "video", p.VideoFileName);
                 }
             }
+        }
+
+        //Returns true if config.xml was successfully parsed
+        static bool ParseBook(String fileName)
+        {
+            XmlDocument config = new XmlDocument();
+            try
+            {
+                config.Load(fileName);
+            }
+            catch
+            {
+                return false;
+            }
+            XmlNodeList bookNodeList = config.GetElementsByTagName("book");
+            XmlNode bookNode = null;
+            foreach (XmlNode n in bookNodeList)//there should only be one
+            {
+                bookNode = n;
+            }
+            XmlAttribute fileVersionAttr = null;
+            foreach (XmlAttribute attr in bookNode.Attributes)//should only be one
+            {
+                fileVersionAttr = attr;
+            }
+
+            Book.FileVersion = fileVersionAttr.Value;
+
+            XmlElement titleElement = bookNode["title"];
+            Book.Title = titleElement.InnerText;
+
+            //Iterate over child nodes
+            foreach (XmlNode n in bookNode.ChildNodes)
+            {
+                
+                if (n.Name == "author")
+                {
+                    Book.Authors.Add(n.InnerText);
+                } else if (n.Name == "creation_date")
+                {
+                    Book.CreationDate = n.InnerText;
+                } else if (n.Name == "Description")
+                {
+                    Book.Description = n..InnerText;
+                }
+            }
+
+            return true;
         }
 
 
