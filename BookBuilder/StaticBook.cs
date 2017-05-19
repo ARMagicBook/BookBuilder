@@ -80,21 +80,24 @@ namespace BookBuilder
             Directory.CreateDirectory(tempFolder);
             ZipFile.ExtractToDirectory(filePath, tempFolder);
             //Parse the serialized BB_Book and copy it into our book.
-            StaticBook.Book.DeserializeBook(tempFolder);
-            ParseBook(Path.Combine(tempFolder,"config.xml"));
+            //StaticBook.Book.DeserializeBook(tempFolder);
+            if (!ParseBook(Path.Combine(tempFolder, "config.xml")))
+            {
+                Console.WriteLine("Could not open book.");
+            }
             foreach (BB_Page p in StaticBook.Book.Pages)
             {
                 if (p.PageImageFileName != null && p.PageImageFileName != "")
                 {
-                    p.SourcePageImageFileName = Path.Combine(tempFolder, "images", p.PageImageFileName);
+                    p.SourcePageImageFileName = Path.Combine(tempFolder, "images",p.PageImageFileName);
                 }
                 if (p.AudioFileName != null && p.AudioFileName != "")
                 {
-                    p.SourceAudioFileName = Path.Combine(tempFolder, "audio", p.AudioFileName);
+                    p.SourceAudioFileName = Path.Combine(tempFolder, "audio",p.AudioFileName);
                 }
                 if (p.VideoFileName != null && p.VideoFileName != "")
                 {
-                    p.SourceVideoFileName = Path.Combine(tempFolder, "video", p.VideoFileName);
+                    p.SourceVideoFileName = Path.Combine(tempFolder, "video",p.VideoFileName);
                 }
             }
         }
@@ -127,7 +130,6 @@ namespace BookBuilder
 
             XmlElement titleElement = bookNode["title"];
             Book.Title = titleElement.InnerText;
-
             //Iterate over child nodes
             foreach (XmlNode n in bookNode.ChildNodes)
             {
@@ -138,17 +140,113 @@ namespace BookBuilder
                 } else if (n.Name == "creation_date")
                 {
                     Book.CreationDate = n.InnerText;
-                } else if (n.Name == "Description")
+                } else if (n.Name == "description")
                 {
-                    Book.Description = n..InnerText;
+                    Book.Description = n.InnerText;
+                } else if (n.Name == "pages")
+                {
+                    int pageNum = -1;
+                    foreach (XmlNode p in n.ChildNodes)
+                    {
+                        Book.Pages.Add(new BB_Page());
+                    }
+                    //Iterate over children of page
+                    foreach (XmlNode pageNode in n.ChildNodes)
+                    {
+                            foreach (XmlAttribute attr in pageNode.Attributes)//should only get pagenum attribute
+                            {
+                                pageNum = Int32.Parse(attr.Value);
+                            }
+                        
+                        
+                            foreach (XmlNode pChild in pageNode.ChildNodes)
+                            {
+                                if (pChild.Name == "page_image")
+                                {
+                                    Book.Pages[pageNum].PageImageFileName = Path.GetFileName(pChild.InnerText);
+                                }
+                                else if (pChild.Name == "audio")
+                                {
+                                    foreach (XmlNode aChild in pChild.ChildNodes)
+                                    {
+                                        if (aChild.Name == "audio_file")
+                                        {
+                                            Book.Pages[pageNum].AudioFileName = Path.GetFileName(aChild.InnerText);
+                                        }
+                                        else if (aChild.Name == "md5_checksum")
+                                        {
+                                            Book.Pages[pageNum].AudioMD5 = aChild.InnerText;
+                                        }
+                                    }
+                                }
+                                else if (pChild.Name == "video")
+                                {
+                                    foreach (XmlNode vChild in pChild.ChildNodes)
+                                    {
+                                        if (vChild.Name == "video_file")
+                                        {
+                                            Book.Pages[pageNum].VideoFileName = Path.GetFileName(vChild.InnerText);
+                                        }
+                                        else if (vChild.Name == "md5_checksum")
+                                        {
+                                            Book.Pages[pageNum].VideoMD5 = vChild.InnerText;
+                                        }
+                                        else if (vChild.Name == "size")
+                                        {
+                                            foreach (XmlNode sChild in vChild.ChildNodes)
+                                            {
+                                                if (sChild.Name == "width")
+                                                {
+                                                    Book.Pages[pageNum].VideoWidth = Int32.Parse(sChild.InnerText);
+                                                }
+                                                else if (sChild.Name == "height")
+                                                {
+                                                    Book.Pages[pageNum].VideoHeight = Int32.Parse(sChild.InnerText);
+                                                }
+                                            }
+                                        }
+                                        else if (vChild.Name == "coord")
+                                        {
+                                            foreach (XmlNode cChild in vChild.ChildNodes)
+                                            {
+                                                if (cChild.Name == "x")
+                                                {
+                                                    Book.Pages[pageNum].VideoX = Int32.Parse(cChild.InnerText);
+                                                }
+                                                else if (cChild.Name == "y")
+                                                {
+                                                    Book.Pages[pageNum].VideoY = Int32.Parse(cChild.InnerText);
+                                                }
+                                            }
+                                        }
+                                    
+                                }
+                            }
+                        }                       
+                    }
+                    pageNum = -1;
                 }
             }
-
             return true;
         }
 
-
-        //public static void SaveBook(string )
+        /// <summary>
+        /// Calculate MD5 hashes for all audio and video files, save them in the BB_Book
+        /// </summary>
+        public static void CalculateMD5s()
+        {
+            foreach(BB_Page p in Book.Pages)
+            {
+                if (p.SourceAudioFileName != null)
+                {
+                    p.AudioMD5 = BB_Page.GetMD5(p.SourceAudioFileName);
+                }
+                if (p.SourceVideoFileName != null)
+                {
+                    p.VideoMD5 = BB_Page.GetMD5(p.SourceVideoFileName);
+                }
+            }
+        }
 
         [STAThread]
         static void Main(string[] args)

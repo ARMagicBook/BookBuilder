@@ -543,6 +543,7 @@ namespace BookBuilder
         //General purpose save function; used by SaveAs and Save
         private void SaveBook(string filePath)
         {
+            StaticBook.CalculateMD5s();
             XMLGenerator.GenerateXML(StaticBook.Book);
             //Make sure the filename ends in .armb
             if (Path.GetExtension(filePath) != ".armb")

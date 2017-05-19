@@ -192,7 +192,7 @@ namespace BookBuilder
             File.Copy(configPath, configZipPath);
 
             //Serialize book
-            SerializeBook(rootFolderPath);
+            //SerializeBook(rootFolderPath);
 
             foreach (BB_Page page in Pages)
             {

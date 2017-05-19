@@ -1,6 +1,6 @@
 ﻿To do:
 Necessary:
-- Calculate md5 for video and audio
+- Fix bug where saving a book before viewing all pages gives "pages aren't same size" error.
 
 Very helpful:
 - Give a "Would you like to save before exiting? [Save, Don't Save, or Cancel] dialog box when the user is about to exit."

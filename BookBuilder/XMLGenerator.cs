@@ -70,7 +70,7 @@ namespace BookBuilder
                 pageNum.Value = currentPage.PageNumber.ToString();
                 page.Attributes.SetNamedItem(pageNum);
 
-                XmlElement pageImage = xmlDoc.CreateElement("image");
+                XmlElement pageImage = xmlDoc.CreateElement("page_image");
                 XmlText imageLoc = xmlDoc.CreateTextNode("images/" + currentPage.PageImageFileName);
                 pageImage.AppendChild(imageLoc);
                 page.AppendChild(pageImage);
