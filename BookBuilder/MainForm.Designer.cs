@@ -51,7 +51,6 @@
             this.ImageFileLabel = new System.Windows.Forms.Label();
             this.ImageLabel = new System.Windows.Forms.Label();
             this.ControlsPanel = new System.Windows.Forms.Panel();
-            this.RemoveVideoButton = new System.Windows.Forms.Button();
             this.RemoveAudioButton = new System.Windows.Forms.Button();
             this.SaveButton = new System.Windows.Forms.Button();
             this.OpenButton = new System.Windows.Forms.Button();
@@ -315,7 +314,6 @@
             // ControlsPanel
             // 
             this.ControlsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ControlsPanel.Controls.Add(this.RemoveVideoButton);
             this.ControlsPanel.Controls.Add(this.RemoveAudioButton);
             this.ControlsPanel.Controls.Add(this.SaveButton);
             this.ControlsPanel.Controls.Add(this.OpenButton);
@@ -325,19 +323,9 @@
             this.ControlsPanel.Controls.Add(this.PrevButton);
             this.ControlsPanel.Location = new System.Drawing.Point(5, 5);
             this.ControlsPanel.Name = "ControlsPanel";
-            this.ControlsPanel.Size = new System.Drawing.Size(591, 29);
+            this.ControlsPanel.Size = new System.Drawing.Size(492, 29);
             this.ControlsPanel.TabIndex = 3;
             this.ControlsPanel.Click += new System.EventHandler(this.PrevPage);
-            // 
-            // RemoveVideoButton
-            // 
-            this.RemoveVideoButton.Location = new System.Drawing.Point(492, 3);
-            this.RemoveVideoButton.Name = "RemoveVideoButton";
-            this.RemoveVideoButton.Size = new System.Drawing.Size(93, 23);
-            this.RemoveVideoButton.TabIndex = 7;
-            this.RemoveVideoButton.Text = "Remove Video";
-            this.RemoveVideoButton.UseVisualStyleBackColor = true;
-            this.RemoveVideoButton.Click += new System.EventHandler(this.RemoveVideo);
             // 
             // RemoveAudioButton
             // 
@@ -484,7 +472,6 @@
         private System.Windows.Forms.Button PrevButton;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.Button SaveButton;
-        private System.Windows.Forms.Button RemoveVideoButton;
         private System.Windows.Forms.Button RemoveAudioButton;
         private ImagePictureBox PagePicture;
     }

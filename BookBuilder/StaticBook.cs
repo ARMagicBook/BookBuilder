@@ -98,7 +98,13 @@ namespace BookBuilder
                 if (p.VideoFileName != null && p.VideoFileName != "")
                 {
                     p.SourceVideoFileName = Path.Combine(tempFolder, "video",p.VideoFileName);
+
                 }
+            }
+            //This is an easy way to set the image height and image width for every page without opening it.
+            for (int i = 0; i < Book.Pages.Count; i++)
+            {
+                mainForm.GoToPage(i, false);
             }
         }
 

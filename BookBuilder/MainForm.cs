@@ -14,41 +14,6 @@ using System.IO.Compression;
 namespace BookBuilder
 {
     /// <summary>
-    /// Contains all the ratios needed to figure out where and how large to display the video placeholder 
-    /// when the window is resized.
-    /// </summary>
-    public class Ratios
-    {
-        /// <summary>
-        /// Ratio of the width of the video placeholder to the width of the page image
-        /// </summary>
-        public double widthRatio;
-
-        /// <summary>
-        /// Ratio of the height of the video placeholder to the height of the page image
-        /// </summary>
-        public double heightRatio;
-
-        /// <summary>
-        /// Ratio of the distance between the left side of the page image and the left side of the 
-        /// video placeholder to the width of the page image.
-        /// </summary>
-        public double xCoordRatio;
-
-        /// <summary>
-        /// Ratio of the distance between the top of the page image and the top of the 
-        /// video placeholder to the height of the page image.
-        /// </summary>
-        public double yCoordRatio;
-
-        /// <summary>
-        /// The page number this Ratios struct pertains to
-        /// This number should be unique
-        /// </summary>
-        public int pageID;
-    }
-
-    /// <summary>
     /// The main BookBuilder GUI form. 
     /// Top third of tableLayoutPanel: next page/previous page/etc controlls
     /// Middle third: the page image
@@ -492,7 +457,6 @@ namespace BookBuilder
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 StaticBook.OpenBook(openFileDialog.FileName);
-                GoToPage(0, false);
                 StaticBook.hasBeenSaved = true;
                 StaticBook.savePath = openFileDialog.FileName;
                 changeMade = true;
@@ -605,5 +569,39 @@ namespace BookBuilder
             videoPlaceholder.Size = new Size(newWidth, newHeight);
             videoPlaceholder.MainFormResize = false;
         }
+    }
+    /// <summary>
+    /// Contains all the ratios needed to figure out where and how large to display the video placeholder 
+    /// when the window is resized.
+    /// </summary>
+    public class Ratios
+    {
+        /// <summary>
+        /// Ratio of the width of the video placeholder to the width of the page image
+        /// </summary>
+        public double widthRatio;
+
+        /// <summary>
+        /// Ratio of the height of the video placeholder to the height of the page image
+        /// </summary>
+        public double heightRatio;
+
+        /// <summary>
+        /// Ratio of the distance between the left side of the page image and the left side of the 
+        /// video placeholder to the width of the page image.
+        /// </summary>
+        public double xCoordRatio;
+
+        /// <summary>
+        /// Ratio of the distance between the top of the page image and the top of the 
+        /// video placeholder to the height of the page image.
+        /// </summary>
+        public double yCoordRatio;
+
+        /// <summary>
+        /// The page number this Ratios struct pertains to
+        /// This number should be unique
+        /// </summary>
+        public int pageID;
     }
 }
